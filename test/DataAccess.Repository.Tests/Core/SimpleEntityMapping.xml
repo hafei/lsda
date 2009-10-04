@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Database Name="SimpleEntity" xmlns="http://schemas.microsoft.com/linqtosql/mapping/2007">
+  <Table Name="dbo.SimpleEntities">
+    <Type Name="LogicSoftware.DataAccess.Repository.Tests.Core.SimpleEntity">
+      <Column Name="Id" Member="Id" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" UpdateCheck="Never"/>
+      <Column Name="StringField" Member="StringField" CanBeNull="false" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ClassA">
+    <Type Name="LogicSoftware.DataAccess.Repository.Tests.Core.ClassA">
+      <Column Name="Id" Member="Id" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" UpdateCheck="Never"/>
+
+      <Association ThisKey="Id" OtherKey="ClassAId" Member="ClassBs" IsForeignKey="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ClassB">
+    <Type Name="LogicSoftware.DataAccess.Repository.Tests.Core.ClassB">
+      <Column Name="Id" Member="Id" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" UpdateCheck="Never"/>
+      <Column Name="ClassAId" Member="ClassAId" UpdateCheck="Never" />
+      <Column Name="Name" Member="Name" UpdateCheck="Never" />
+
+      <Association ThisKey="ClassAId" OtherKey="Id" Member="ClassA" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ClassC">
+    <Type Name="LogicSoftware.DataAccess.Repository.Tests.Core.ClassC">
+      <Column Name="Id" Member="Id" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" UpdateCheck="Never"/>
+      <Column Name="ClassBId" Member="ClassBId" UpdateCheck="Never" />
+      
+      <Association ThisKey="ClassBId" OtherKey="Id" Member="ClassB" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ClassWithGeneratedFields">
+    <Type Name="LogicSoftware.DataAccess.Repository.Tests.Core.ClassWithGeneratedFields">
+      <Column Name="Id" Member="Id" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" UpdateCheck="Never"/>
+      <Column Name="GuidRowId" Member="GuidRowId" IsDbGenerated="true" AutoSync="OnInsert" UpdateCheck="Never"/>
+      <Column Name="IntIdentity" Member="IntIdentity" IsDbGenerated="true" AutoSync="OnInsert" UpdateCheck="Never"/>
+    </Type>
+  </Table>
+
+  <Table Name="dbo.ClassG1">
+    <Type Name="LogicSoftware.DataAccess.Repository.Tests.Core.ClassG1">
+      <Column Name="RowId" Member="RowId" IsPrimaryKey="true" IsDbGenerated="false" AutoSync="OnInsert" UpdateCheck="Never" CanBeNull="true"/>
+
+      <Association ThisKey="RowId" OtherKey="RowIdRef" Member="ClassG2s" IsForeignKey="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ClassG2">
+    <Type Name="LogicSoftware.DataAccess.Repository.Tests.Core.ClassG2">
+      <Column Name="Id" Member="Id" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" UpdateCheck="Never"/>
+      
+      <Column Name="RowIdRef" Member="RowIdRef" UpdateCheck="Never" />
+      
+      <Association ThisKey="RowIdRef" OtherKey="RowId" Member="ClassG1" IsForeignKey="true" />
+    </Type>
+  </Table>
+
+</Database>
