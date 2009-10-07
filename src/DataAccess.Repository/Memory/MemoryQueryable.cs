@@ -21,7 +21,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
     /// <typeparam name="T">
     /// Entity type
     /// </typeparam>
-    internal class MemoryQueryable<T> : IQueryable<T>
+    internal class MemoryQueryable<T> : IOrderedQueryable<T>
     {
         #region Constructors and Destructors
 

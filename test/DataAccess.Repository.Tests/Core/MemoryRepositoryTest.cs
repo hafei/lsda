@@ -15,7 +15,7 @@ namespace LogicSoftware.DataAccess.Repository.Tests.Core
     using Basic;
 
     /// <summary>
-    /// Summary description for UnitTest1
+    /// MemoryRepositoryTest tests.
     /// </summary>
     [TestClass]
     public class MemoryRepositoryTest
@@ -50,6 +50,21 @@ namespace LogicSoftware.DataAccess.Repository.Tests.Core
             IRepository repository = new MemoryRepository(new CoreTestsMappingSourceManager());
 
             var allEntities = repository.All<SimpleEntity>();
+
+            Assert.IsNotNull(allEntities);
+
+            var list = allEntities.ToList();
+
+            Assert.AreEqual(0, list.Count);
+        }
+
+        [TestMethod]
+        public void Select_SimpleEntities_Ordered()
+        {
+            IRepository repository = new MemoryRepository(new CoreTestsMappingSourceManager());
+
+            var allEntities = repository.All<SimpleEntity>()
+                .OrderBy(se => se.StringField);
 
             Assert.IsNotNull(allEntities);
 
