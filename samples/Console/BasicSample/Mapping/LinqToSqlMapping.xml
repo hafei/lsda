@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="SampleDatabase" xmlns="http://schemas.microsoft.com/linqtosql/mapping/2007">
+    <Table Name="dbo.Customers" Member="Customers">
+        <Type Name="BasicSample.Entities.Customer">
+          <Column Name="CustomerId" Member="CustomerId" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" UpdateCheck="Never" />
+          <Column Name="Name" Member="Name" UpdateCheck="Never" />
+          <Column Name="Email" Member="Email" UpdateCheck="Never" />
+
+          <Association Name="Customer_Projects" IsForeignKey="false" Member="Projects" ThisKey="CustomerId" OtherKey="CustomerId" />
+        </Type>
+		</Table>
+
+    <Table Name="dbo.Projects" Member="Projects">
+      <Type Name="BasicSample.Entities.Project">
+        <Column Name="ProjectId" Member="ProjectId" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" UpdateCheck="Never" />
+        <Column Name="CustomerId" Member="CustomerId" UpdateCheck="Never" />
+        <Column Name="Title" Member="Title" UpdateCheck="Never" />
+        <Column Name="Description" Member="Description" UpdateCheck="Never" />
+
+        <Association Name="Project_Tasks" IsForeignKey="false" Member="Tasks" ThisKey="ProjectId" OtherKey="ProjectId" />
+        <Association Name="Project_Customer" IsForeignKey="true" Member="Customer" ThisKey="CustomerId" OtherKey="CustomerId" />
+      </Type>
+    </Table>
+
+    <Table Name="dbo.Tasks" Member="Tasks">
+      <Type Name="BasicSample.Entities.Task">
+        <Column Name="TaskId" Member="TaskId" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" UpdateCheck="Never" />
+        <Column Name="ProjectId" Member="ProjectId" UpdateCheck="Never" />
+        
+        <Column Name="Title" Member="Title" UpdateCheck="Never" />
+        <Column Name="Description" Member="Description" UpdateCheck="Never" />
+
+        <Association Name="Task_Project" IsForeignKey="true" Member="Project" ThisKey="ProjectId" OtherKey="ProjectId" />
+      </Type>
+    </Table>
+</Database>
