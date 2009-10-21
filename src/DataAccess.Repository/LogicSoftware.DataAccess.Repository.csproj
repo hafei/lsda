@@ -24,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <DocumentationFile>bin\Debug\LogicSoftware.DataAccess.Repository.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -92,6 +93,7 @@
     </Compile>
     <Compile Include="Extended\IExtendedQueryExecutor.cs" />
     <Compile Include="Extended\IExtendedRepository.cs" />
+    <Compile Include="Extended\Interceptors\Common\ExpressionExpanderQueryInterceptor.cs" />
     <Compile Include="Extended\Interceptors\Common\LoadWithQueryInterceptor.cs" />
     <Compile Include="Extended\Attributes\InterceptVisitAttribute.cs" />
     <Compile Include="Extended\Interceptors\Common\ViewQueryInterceptor.cs" />

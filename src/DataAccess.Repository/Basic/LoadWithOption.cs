@@ -98,12 +98,12 @@ namespace LogicSoftware.DataAccess.Repository.Basic
             #region Properties
 
             /// <summary>
-            /// Gets or sets association expression.
+            /// Gets association expression.
             /// </summary>
             public LambdaExpression AssociationExpression { get; private set; }
 
             /// <summary>
-            /// Gets or sets the member expression.
+            /// Gets the member expression.
             /// </summary>
             public LambdaExpression MemberExpression { get; private set; }
 

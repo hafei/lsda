@@ -12,7 +12,6 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
     using System;
     using System.Collections.Generic;
     using System.Data.Linq;
-    using System.Data.Linq.Mapping;
 
     using Mapping;
 
@@ -69,17 +68,14 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         #region Methods
 
         /// <summary>
-        /// Creates the data context with provided mapping source.
+        /// Creates the read only data context.
         /// </summary>
-        /// <param name="mappingSource">
-        /// The mapping source.
-        /// </param>
         /// <returns>
-        /// New DataContext.
+        /// The read only data context.
         /// </returns>
-        protected override DataContext CreateDataContext(MappingSource mappingSource)
+        protected override DataContext CreateReadOnlyDataContext()
         {
-            var context = base.CreateDataContext(mappingSource);
+            var context = base.CreateReadOnlyDataContext();
 
             this.CreatedDataContexts.Add(context);
 

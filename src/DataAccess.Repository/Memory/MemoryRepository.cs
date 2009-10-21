@@ -42,6 +42,11 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         /// </summary>
         private static readonly MethodInfo AllMethod = typeof(MemoryRepository).GetMethod("All", new[] { typeof(LoadOptions) });
 
+        /// <summary>
+        /// The data lock object.
+        /// </summary>
+        private readonly object DataLockObject = new object();
+
         #endregion
 
         #region Constructors and Destructors
@@ -621,7 +626,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
 
                 DataView associatedEntityData = this.Data.Tables[association.OtherType.Type.FullName].DefaultView;
                 associatedEntityData.RowFilter = rowFilter.ToString();
-                switch (association.DeleteRule.ToUpperInvariant())
+                switch (association.DeleteRule != null ? association.DeleteRule.ToUpperInvariant() : null)
                 {
                     case "CASCADE":
                         foreach (DataRowView row in associatedEntityData)
@@ -730,12 +735,22 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         private DataTable FindTable(Type entityType)
         {
             string tableName = entityType.FullName;
-            if (!this.Data.Tables.Contains(tableName))
+
+            DataTable table;
+
+            lock (this.DataLockObject)
             {
-                this.Data.Tables.Add(this.CreateTable(entityType, tableName));
+                table = this.Data.Tables[tableName];
+
+                if (table == null)
+            {
+                    table = this.CreateTable(entityType, tableName);
+
+                    this.Data.Tables.Add(table);
+                }
             }
 
-            return this.Data.Tables[tableName];
+            return table;
         }
 
         /// <summary>

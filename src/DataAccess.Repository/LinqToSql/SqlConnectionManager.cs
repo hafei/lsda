@@ -273,17 +273,17 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
             #region Properties
 
             /// <summary>
-            /// Gets or sets the sql connection.
+            /// Gets the sql connection.
             /// </summary>
             public SqlConnection SqlConnection { get; private set; }
 
             /// <summary>
-            /// Gets or sets the sql transaction.
+            /// Gets the sql transaction.
             /// </summary>
             public SqlTransaction SqlTransaction { get; private set; }
 
             /// <summary>
-            /// Gets or sets the transaction local identifier.
+            /// Gets the transaction local identifier.
             /// </summary>
             public string TransactionLocalIdentifier { get; private set; }
 

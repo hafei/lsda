@@ -71,7 +71,9 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 
                     if (expressionAttribute != null)
                     {
-                        var expressionMethodInfo = resultElementType.GetMethod(
+                        var declaringType = expressionAttribute.DeclaringType ?? resultElementType;
+
+                        var expressionMethodInfo = declaringType.GetMethod(
                             expressionAttribute.MethodName,
                             BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy);
 
@@ -83,7 +85,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                         var customBindingExpression = (LambdaExpression) expressionMethodInfo.Invoke(null, new object[] { this.Scope });
 
                         // localize expression (replace its parameter with local entityParameter)
-                        var localizedcustomBindingExpression = new ExpressionParameterReplacer(customBindingExpression.Parameters[0], entityParameter)
+                        var localizedcustomBindingExpression = new ExpressionParameterReplacer(customBindingExpression.Parameters.Single(), entityParameter)
                             .Visit(customBindingExpression.Body);
 
                         bindings.Add(Expression.Bind(property, localizedcustomBindingExpression));

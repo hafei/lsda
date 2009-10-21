@@ -232,7 +232,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         /// <returns>
         /// New DataContext.
         /// </returns>
-        protected virtual DataContext CreateDataContext(MappingSource mappingSource)
+        protected DataContext CreateDataContext(MappingSource mappingSource)
         {
             var sqlContext = this.ConnectionManager.GetConnection();
 
@@ -252,7 +252,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         /// <returns>
         /// The data context without association support
         /// </returns>
-        protected DataContext CreateNoAssociationsDataContext()
+        protected virtual DataContext CreateNoAssociationsDataContext()
         {
             return this.CreateDataContext(this.MappingSourceManager.NoAssociationsMappingSource);
         }
@@ -263,7 +263,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         /// <returns>
         /// The read only data context.
         /// </returns>
-        protected DataContext CreateReadOnlyDataContext()
+        protected virtual DataContext CreateReadOnlyDataContext()
         {
             var context = this.CreateDataContext(this.MappingSourceManager.MappingSource);
             context.ObjectTrackingEnabled = false;
