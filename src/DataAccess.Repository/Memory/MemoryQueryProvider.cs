@@ -17,8 +17,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
     using System.Reflection;
 
     using Infrastructure.Helpers;
-
-    using LogicSoftware.Infrastructure.Linq;
+    using Infrastructure.Linq;
 
     /// <summary>
     /// Query provider for memory repository results
@@ -28,13 +27,26 @@ namespace LogicSoftware.DataAccess.Repository.Memory
     /// </typeparam>
     internal class MemoryQueryProvider<T> : ExpressionVisitor, IQueryProvider
     {
+        #region Constants and Fields
+
+        /// <summary>
+        /// Lock object for Execute method serialization
+        /// </summary>
+        private readonly object executionLockObject = new object();
+
+        #endregion
+
         #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MemoryQueryProvider&lt;T&gt;"/> class.
         /// </summary>
-        /// <param name="innerQuery">The inner query.</param>
-        /// <param name="repository">The repository.</param>
+        /// <param name="innerQuery">
+        /// The inner query.
+        /// </param>
+        /// <param name="repository">
+        /// The repository.
+        /// </param>
         public MemoryQueryProvider(IQueryable<T> innerQuery, MemoryRepository repository)
         {
             this.InnerQuery = innerQuery;
@@ -44,6 +56,12 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the indexes cache.
+        /// </summary>
+        /// <value>The indexes cache.</value>
+        protected object IndexesCache { get; set; }
 
         /// <summary>
         /// Gets or sets the inner query.
@@ -87,7 +105,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                 throw new ArgumentException("Invalid type expression", "expression");
             }
 
-            return (IQueryable)Activator.CreateInstance(typeof(MemoryQueryable<>).MakeGenericType(elementType), new object[] { this, expression });
+            return (IQueryable) Activator.CreateInstance(typeof(MemoryQueryable<>).MakeGenericType(elementType), new object[] { this, expression });
         }
 
         /// <summary>
@@ -141,20 +159,41 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         /// </exception>
         public TResult Execute<TResult>(Expression expression)
         {
-            Expression convertedExpression = this.Visit(expression);
+            // lock to avoid cross-thread cache usage
+            lock (this.executionLockObject)
+            {
+                try
+                {
+                    this.IndexesCache = new QueryIndexesCache(this.Repository);
+                    Expression convertedExpression = this.Visit(expression);
 
-            var innerProvider = this.InnerQuery.Provider;
+                    var innerProvider = this.InnerQuery.Provider;
 
-            return innerProvider.Execute<TResult>(convertedExpression);
+                    return innerProvider.Execute<TResult>(convertedExpression);
+                }
+                finally
+                {
+                    this.IndexesCache = null;
+                }
+            }
         }
+
         #endregion
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Analyzes the constant expression provided as parameter and
         /// returns an appropiated constant expression.
         /// </summary>
-        /// <param name="constant">The constant expression to analyze.</param>
-        /// <returns>A System.Linq.Expressions.Expression.</returns>
+        /// <param name="constant">
+        /// The constant expression to analyze.
+        /// </param>
+        /// <returns>
+        /// A System.Linq.Expressions.Expression.
+        /// </returns>
         protected override Expression VisitConstant(ConstantExpression constant)
         {
             if (constant.Value is MemoryQueryable<T>)
@@ -169,8 +208,12 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         /// Analyzes the member access expression provided as parameter and
         /// returns an appropiated member access.
         /// </summary>
-        /// <param name="member">The member access to analyze.</param>
-        /// <returns>A System.Linq.Expressions.Expression.</returns>
+        /// <param name="member">
+        /// The member access to analyze.
+        /// </param>
+        /// <returns>
+        /// A System.Linq.Expressions.Expression.
+        /// </returns>
         protected override Expression VisitMemberAccess(MemberExpression member)
         {
             Type memberType = member.Type;
@@ -187,13 +230,15 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                 {
                     if (memberMetaType.Table != null)
                     {
-                        MethodInfo selector = this.Repository.GetType().GetMethod("GetSingleByPropertyValue", BindingFlags.Instance | BindingFlags.NonPublic)
+                        // old implementation
+                        MethodInfo selector = this.IndexesCache.GetType().GetMethod("GetSingleByPropertyValue", BindingFlags.Instance | BindingFlags.NonPublic)
                             .MakeGenericMethod(memberType);
 
                         return this.CreateExplicitJoinMethodCall(member, objectMetaType, selector);
                     }
                     else
                     {
+                        // replace with join on associated table [grouped by fk], to grouping key
                         var listInterface = memberType.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IList<>)).SingleOrDefault();
 
                         if (listInterface != null)
@@ -204,7 +249,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
 
                             if (listElementMetaType.Table != null)
                             {
-                                MethodInfo selector = this.Repository.GetType().GetMethod("GetAllByPropertyValue", BindingFlags.Instance | BindingFlags.NonPublic)
+                                MethodInfo selector = this.IndexesCache.GetType().GetMethod("GetAllByPropertyValue", BindingFlags.Instance | BindingFlags.NonPublic)
                                     .MakeGenericMethod(listElementType);
 
                                 return this.CreateExplicitJoinMethodCall(member, objectMetaType, selector);
@@ -213,22 +258,30 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                     }
                 }
             }
-        
+
             return base.VisitMemberAccess(member);
         }
 
         /// <summary>
         /// Creates the explicit join method call.
         /// </summary>
-        /// <param name="member">The member.</param>
-        /// <param name="objectMetaType">Type of the object meta.</param>
-        /// <param name="selector">The selector.</param>
-        /// <returns>Explicit join method call expression</returns>
+        /// <param name="member">
+        /// The member.
+        /// </param>
+        /// <param name="objectMetaType">
+        /// Type of the object meta.
+        /// </param>
+        /// <param name="selector">
+        /// The selector.
+        /// </param>
+        /// <returns>
+        /// Explicit join method call expression
+        /// </returns>
         private Expression CreateExplicitJoinMethodCall(MemberExpression member, MetaType objectMetaType, MethodInfo selector)
         {
             MetaAssociation association = objectMetaType.Associations.Where(a => a.ThisMember.Member == member.Member).SingleOrDefault();
 
-            Expression visitedMemberExpression = Visit(member.Expression);
+            Expression visitedMemberExpression = this.Visit(member.Expression);
 
             var thisSideKeyExpression =
                 Expression.Convert(
@@ -237,7 +290,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
 
             var thisPropertyExpression = Expression.Constant(association.OtherKey.Single().Member, typeof(PropertyInfo));
 
-            var repositoryConst = Expression.Constant(this.Repository);
+            var repositoryConst = Expression.Constant(this.IndexesCache);
 
             var explicitJoinMethodCallExpression = Expression.Call(repositoryConst, selector, thisPropertyExpression, thisSideKeyExpression);
 

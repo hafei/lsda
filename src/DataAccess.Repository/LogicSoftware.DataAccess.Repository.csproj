@@ -126,6 +126,9 @@
     <Compile Include="Basic\LoadOptions.cs" />
     <Compile Include="Memory\MemoryRepositoryMethodEventArgs.cs" />
     <Compile Include="Memory\MemoryRepositoryStatusEventArgs.cs" />
+    <Compile Include="Memory\QueryIndexesCache.cs" />
+    <Compile Include="Memory\TableIndexes.cs" />
+    <Compile Include="Memory\TableIndex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mapping\XmlMappingSourceManager.cs" />
   </ItemGroup>
