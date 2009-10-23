@@ -45,6 +45,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// </param>
         public override void OnMethodCallVisit(MethodCallVisitEventArgs e)
         {
+            if (e == null)
+            {
+                throw new ArgumentNullException("e");
+            }
+
             if (e.MethodCall.Method.IsGenericMethod &&
                 e.MethodCall.Method.GetGenericMethodDefinition() == ExpandMethod)
             {
@@ -60,6 +65,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// </param>
         public override void OnPreExecute(PreExecuteEventArgs e)
         {
+            if (e == null)
+            {
+                throw new ArgumentNullException("e");
+            }
+
             e.Expression = this.Visit(e.Expression);
         }
 
@@ -79,6 +89,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// </returns>
         protected override Expression VisitMethodCall(MethodCallExpression methodCall)
         {
+            if (methodCall == null)
+            {
+                throw new ArgumentNullException("methodCall");
+            }
+
             // todo: add cache
 
             // checking that method is extension method with one argument (todo: maybe better check?)

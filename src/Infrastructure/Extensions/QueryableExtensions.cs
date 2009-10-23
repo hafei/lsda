@@ -119,6 +119,11 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// </returns>
         public static IQueryable Where(this IQueryable source, LambdaExpression predicate)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
             return source.Provider.CreateQuery(source.Expression.Where(predicate));
         }
 

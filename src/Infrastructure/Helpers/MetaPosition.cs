@@ -9,12 +9,13 @@
 
 namespace LogicSoftware.Infrastructure.Helpers
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
     using System.Runtime.InteropServices;
-
+    
     /// <summary>
     /// The meta position.
     /// </summary>
@@ -34,11 +35,12 @@ namespace LogicSoftware.Infrastructure.Helpers
         /// <summary>
         /// Initializes a new instance of the <see cref="MetaPosition"/> struct.
         /// </summary>
-        /// <param name="mi">
+        /// <param name="memberInfo">
         /// The mnember info.
         /// </param>
-        public MetaPosition(MemberInfo mi)
-            : this(mi.DeclaringType.Assembly, mi.MetadataToken)
+        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "passed to another constructor, no way to validate")]
+        public MetaPosition(MemberInfo memberInfo)
+            : this(memberInfo.DeclaringType.Assembly, memberInfo.MetadataToken)
         {
         }
 
@@ -111,6 +113,16 @@ namespace LogicSoftware.Infrastructure.Helpers
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "By design.")]
         public static bool AreSameMember(MemberInfo x, MemberInfo y)
         {
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
             return (x.MetadataToken == y.MetadataToken) && (x.DeclaringType.Assembly == y.DeclaringType.Assembly);
         }
 
@@ -153,10 +165,10 @@ namespace LogicSoftware.Infrastructure.Helpers
         /// Determines whether the specified objects are equal.
         /// </summary>
         /// <param name="x">
-        /// The first object of type <paramref name="T"/> to compare.
+        /// The first object of type <see cref="MetaPosition"/> to compare.
         /// </param>
         /// <param name="y">
-        /// The second object of type <paramref name="T"/> to compare.
+        /// The second object of type <see cref="MetaPosition"/> to compare.
         /// </param>
         /// <returns>
         /// true if the specified objects are equal; otherwise, false.

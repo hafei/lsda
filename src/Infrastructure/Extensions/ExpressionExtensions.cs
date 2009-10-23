@@ -56,6 +56,11 @@ namespace LogicSoftware.Infrastructure.Extensions
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Any() MethodCall requires lambda as predicate.")]
         public static MethodCallExpression Any(this Expression source, LambdaExpression predicate)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
             var elementType = TypeSystem.GetElementType(source.Type);
 
             // todo: add cache?
@@ -82,6 +87,11 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// </remarks>
         public static MethodCallExpression AsEnumerable(this Expression source)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
             // todo: add cache?
             MethodInfo asEnumerableMethod = TypeSystem.FindExtensionMethod("AsEnumerable", source.Type, null, null);
 
@@ -119,6 +129,16 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// </returns>
         public static Expression FixupCollectionType(this Expression expression, Type collectionType)
         {
+            if (expression == null)
+            {
+                throw new ArgumentNullException("expression");
+            }
+
+            if (collectionType == null)
+            {
+                throw new ArgumentNullException("collectionType");
+            }
+
             if (!collectionType.IsAssignableFrom(expression.Type))
             {
                 // todo: refactor to IsAssignableFrom, but will work if List<T> descendants are not used
@@ -302,6 +322,16 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// </returns>
         public static MethodCallExpression Select(this Expression source, LambdaExpression selector)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            if (selector == null)
+            {
+                throw new ArgumentNullException("selector");
+            }
+
             var elementType = TypeSystem.GetElementType(source.Type);
             var resultType = TypeSystem.GetElementType(selector.Body.Type);
 
@@ -329,6 +359,11 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// </remarks>
         public static MethodCallExpression ToArray(this Expression source)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
             // todo: add cache?
             MethodInfo toArrayMethod = TypeSystem.FindExtensionMethod("ToArray", source.Type, null, null);
 
@@ -388,6 +423,11 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// </remarks>
         public static MethodCallExpression ToList(this Expression source)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
             // todo: add cache?
             MethodInfo toListMethod = TypeSystem.FindExtensionMethod("ToList", source.Type, null, null);
 
@@ -409,6 +449,11 @@ namespace LogicSoftware.Infrastructure.Extensions
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Where() MethodCall requires lambda as predicate.")]
         public static MethodCallExpression Where(this Expression source, LambdaExpression predicate)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
             var elementType = TypeSystem.GetElementType(source.Type);
 
             // todo: add cache?

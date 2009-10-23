@@ -396,23 +396,28 @@ namespace LogicSoftware.DataAccess.Repository.Tests.Core
             // Arrange
             var repository = new MemoryRepository(new CoreTestsMappingSourceManager());
 
-            repository.Insert(new ClassA());
-            repository.Insert(new ClassA());
-            repository.Insert(new ClassA());
+            for (int i = 0; i < 100; i++)
+            {
+                repository.Insert(new ClassA());
+                repository.Insert(new ClassA());
+                repository.Insert(new ClassA());
+            }
 
-            repository.Insert(new ClassB() { ClassAId = 1 });
-            repository.Insert(new ClassB() { ClassAId = 1 });
-            repository.Insert(new ClassB() { ClassAId = 2 });
-
+            for (int i = 0; i < 100; i++)
+            {
+                repository.Insert(new ClassB() { ClassAId = 1 });
+                repository.Insert(new ClassB() { ClassAId = 1 });
+                repository.Insert(new ClassB() { ClassAId = 2 });
+            }
             // Act
             var classAwithClassBs = repository.All<ClassA>().Select(a => new { a, a.ClassBs.Count }).ToList();
 
             // Assert
-            Assert.AreEqual(3, classAwithClassBs.Count);
+            Assert.AreEqual(300, classAwithClassBs.Count);
 
             // make sure that references was not loaded
             Assert.IsTrue(classAwithClassBs.All(p => p.a.ClassBs == null));
-            Assert.AreEqual(3, classAwithClassBs.Select(p => p.Count).Sum());
+            Assert.AreEqual(300, classAwithClassBs.Select(p => p.Count).Sum());
         }
 
         [TestMethod]

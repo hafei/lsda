@@ -48,6 +48,11 @@ namespace LogicSoftware.Infrastructure.Extensions
         public static IQueryable<TNew> AddToNewQuery<T, TNew>(
             this MethodBase methodBase, IQueryable<T> query, params Expression[] arguments)
         {
+            if (methodBase == null)
+            {
+                throw new ArgumentNullException("methodBase");
+            }
+
             if (!methodBase.IsStatic)
             {
                 throw new InvalidOperationException("Only for static extension methods.");
@@ -56,6 +61,11 @@ namespace LogicSoftware.Infrastructure.Extensions
             if (!methodBase.IsGenericMethod)
             {
                 throw new InvalidOperationException("Only for generic methods.");
+            }
+
+            if (query == null)
+            {
+                throw new ArgumentNullException("query");
             }
 
             // todo: other checks (generic arguments count and type, first parameter type, etc.)
@@ -92,6 +102,11 @@ namespace LogicSoftware.Infrastructure.Extensions
         public static IQueryable<T> AddToQuery<T>(
             this MethodBase methodBase, IQueryable<T> query, params Expression[] arguments)
         {
+            if (methodBase == null)
+            {
+                throw new ArgumentNullException("methodBase");
+            }
+
             if (!methodBase.IsStatic)
             {
                 throw new InvalidOperationException("Only for static extension methods.");
@@ -100,6 +115,11 @@ namespace LogicSoftware.Infrastructure.Extensions
             if (!methodBase.IsGenericMethod)
             {
                 throw new InvalidOperationException("Only for generic methods.");
+            }
+
+            if (query == null)
+            {
+                throw new ArgumentNullException("query");
             }
 
             // todo: other checks (generic arguments count and type, first parameter type, etc.)
@@ -141,6 +161,11 @@ namespace LogicSoftware.Infrastructure.Extensions
         public static IQueryable<T> AddToQuery<T, TParent>(
             this MethodBase methodBase, IQueryable<T> query, params Expression[] arguments)
         {
+            if (methodBase == null)
+            {
+                throw new ArgumentNullException("methodBase");
+            }
+
             if (!methodBase.IsStatic)
             {
                 throw new InvalidOperationException("Only for static extension methods.");
@@ -149,6 +174,11 @@ namespace LogicSoftware.Infrastructure.Extensions
             if (!methodBase.IsGenericMethod)
             {
                 throw new InvalidOperationException("Only for generic methods.");
+            }
+
+            if (query == null)
+            {
+                throw new ArgumentNullException("query");
             }
 
             // todo: other checks (generic arguments count and type, first parameter type, etc.)
@@ -201,6 +231,11 @@ namespace LogicSoftware.Infrastructure.Extensions
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "By design.")]
         public static T[] GetCustomAttributes<T>(this MethodInfo methodInfo, bool inherit) where T : Attribute
         {
+            if (methodInfo == null)
+            {
+                throw new ArgumentNullException("methodInfo");
+            }
+
             return methodInfo.GetCustomAttributes(typeof(T), inherit).Cast<T>().ToArray();
         }
 

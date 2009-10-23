@@ -10,6 +10,7 @@
 namespace LogicSoftware.DataAccess.Repository.Mapping
 {
     using System.Data.Linq.Mapping;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Reflection;
     using System.Xml;
@@ -30,12 +31,13 @@ namespace LogicSoftware.DataAccess.Repository.Mapping
         /// </param>
         public XmlMappingSourceManager(Stream mappingStream)
         {
-            MemoryStream memoryStream = ReadAllToMemoryStream(mappingStream);
+            using (MemoryStream memoryStream = ReadAllToMemoryStream(mappingStream))
+            {
+                this.NoAssociationsMappingSource = CreateNoAssociationsMappingSource(memoryStream);
+                memoryStream.Position = 0;
 
-            this.NoAssociationsMappingSource = CreateNoAssociationsMappingSource(memoryStream);
-            memoryStream.Position = 0;
-
-            this.MappingSource = XmlMappingSource.FromStream(memoryStream);
+                this.MappingSource = XmlMappingSource.FromStream(memoryStream);
+            }
         }
 
         #endregion
@@ -81,16 +83,17 @@ namespace LogicSoftware.DataAccess.Repository.Mapping
                 stripAssociationsTransform.Load(sheetReader);
             }
 
-            var buffer = new MemoryStream();
-
-            using (XmlReader mappingReader = XmlReader.Create(mappingStream))
+            using (var buffer = new MemoryStream())
             {
-                stripAssociationsTransform.Transform(mappingReader, new XsltArgumentList(), buffer);
+                using (XmlReader mappingReader = XmlReader.Create(mappingStream))
+                {
+                    stripAssociationsTransform.Transform(mappingReader, new XsltArgumentList(), buffer);
+                }
+
+                buffer.Position = 0;
+
+                return XmlMappingSource.FromStream(buffer);
             }
-
-            buffer.Position = 0;
-
-            return XmlMappingSource.FromStream(buffer);
         }
 
         /// <summary>
@@ -102,6 +105,7 @@ namespace LogicSoftware.DataAccess.Repository.Mapping
         /// <returns>
         /// Memory stream.
         /// </returns>
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposed by caller.")]
         private static MemoryStream ReadAllToMemoryStream(Stream mappingStream)
         {
             var memoryStream = new MemoryStream();

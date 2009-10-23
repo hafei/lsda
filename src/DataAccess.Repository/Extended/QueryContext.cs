@@ -34,6 +34,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// </param>
         public QueryContext(IQueryable rootQuery, Expression expression)
         {
+            if (rootQuery == null)
+            {
+                throw new ArgumentNullException("rootQuery");
+            }
+
             this.RootQuery = rootQuery;
             this.ElementType = rootQuery.ElementType;
             this.Expression = expression;

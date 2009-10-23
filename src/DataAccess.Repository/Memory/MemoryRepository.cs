@@ -33,6 +33,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
     /// <summary>
     /// In-Memory Entities Repository
     /// </summary>
+    [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "To be refactored :(")]
     public class MemoryRepository : IRepository
     {
         #region Constants and Fields
@@ -60,6 +61,11 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         public MemoryRepository(IMappingSourceManager mappingSourceManager)
             : this()
         {
+            if (mappingSourceManager == null)
+            {
+                throw new ArgumentNullException("mappingSourceManager");
+            }
+
             this.MappingSource = mappingSourceManager.MappingSource;
         }
 
@@ -531,6 +537,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         /// <returns>
         /// The table to store entities data
         /// </returns>
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Factory Method, TODO: dispose later")]
         private DataTable CreateTable(Type entityType, string tableName)
         {
             var table = new DataTable(tableName);

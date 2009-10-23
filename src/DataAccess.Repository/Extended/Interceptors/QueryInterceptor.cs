@@ -59,6 +59,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors
         /// </remarks>
         public virtual void Initialize(QueryContext queryContext, IScope scope)
         {
+            if (scope == null)
+            {
+                throw new ArgumentNullException("scope");
+            }
+
             if (!(scope is TScope))
             {
                 throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "Argument scope is expected to be of type {0}, but was of type {1}.", typeof(TScope).Name, scope.GetType().Name), "scope");

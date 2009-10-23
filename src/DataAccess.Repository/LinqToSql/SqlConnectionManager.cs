@@ -13,6 +13,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
     using System.Collections.Generic;
     using System.Data;
     using System.Data.SqlClient;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Transactions;
 
@@ -196,6 +197,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         /// <returns>
         /// SqlConnectionEnlistment if current transaction exists.
         /// </returns>
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "On cleanup.")]
         private SqlConnectionEnlistment TryEnlistConnection()
         {
             if (Transaction.Current == null)
@@ -301,6 +303,11 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
             /// </param>
             public void Commit(Enlistment enlistment)
             {
+                if (enlistment == null)
+                {
+                    throw new ArgumentNullException("enlistment");
+                }
+
                 try
                 {
                     this.SqlTransaction.Commit();
@@ -323,6 +330,11 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
             /// </param>
             public void InDoubt(Enlistment enlistment)
             {
+                if (enlistment == null)
+                {
+                    throw new ArgumentNullException("enlistment");
+                }
+
                 enlistment.Done();
             }
 
@@ -334,6 +346,11 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
             /// </param>
             public void Prepare(PreparingEnlistment preparingEnlistment)
             {
+                if (preparingEnlistment == null)
+                {
+                    throw new ArgumentNullException("preparingEnlistment");
+                }
+
                 preparingEnlistment.Prepared();
             }
 
@@ -345,6 +362,11 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
             /// </param>
             public void Rollback(Enlistment enlistment)
             {
+                if (enlistment == null)
+                {
+                    throw new ArgumentNullException("enlistment");
+                }
+
                 try
                 {
                     this.SqlTransaction.Rollback();

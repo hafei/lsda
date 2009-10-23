@@ -9,6 +9,7 @@
 
 namespace LogicSoftware.Infrastructure.Linq
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq.Expressions;
@@ -85,6 +86,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected override Expression VisitConstant(ConstantExpression constant)
         {
+            if (constant == null)
+            {
+                throw new ArgumentNullException("constant");
+            }
+
             Expression replacement;
             return this.ReplacementDictionary.TryGetValue(constant.Value, out replacement)
                        ? replacement

@@ -141,6 +141,11 @@ namespace LogicSoftware.Infrastructure.Helpers
         /// </returns>
         public static MethodInfo FindSequenceMethod(string name, IEnumerable sequence)
         {
+            if (sequence == null)
+            {
+                throw new ArgumentNullException("sequence");
+            }
+
             return FindSequenceMethod(name, new[] { sequence.GetType() }, new[] { GetElementType(sequence.GetType()) });
         }
 
@@ -200,6 +205,11 @@ namespace LogicSoftware.Infrastructure.Helpers
         /// </returns>
         public static MethodInfo FindStaticMethod(Type type, string name, Type[] args, params Type[] typeArgs)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
             MethodInfo info = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static).FirstOrDefault<MethodInfo>(delegate(MethodInfo m) { return (m.Name == name) && ArgsMatchExact(m, args, typeArgs); });
             if (info == null)
             {
@@ -363,9 +373,14 @@ namespace LogicSoftware.Infrastructure.Helpers
         /// </returns>
         public static Type GetNonNullableType(Type type)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
             if (IsNullableType(type))
             {
-                return type.GetGenericArguments().Single();
+                 return type.GetGenericArguments().Single();
             }
 
             return type;
@@ -438,6 +453,11 @@ namespace LogicSoftware.Infrastructure.Helpers
         /// </returns>
         public static bool IsNullAssignable(Type type)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
             if (type.IsValueType)
             {
                 return IsNullableType(type);
@@ -457,6 +477,11 @@ namespace LogicSoftware.Infrastructure.Helpers
         /// </returns>
         public static bool IsQueryableExtension(MethodBase method)
         {
+            if (method == null)
+            {
+                throw new ArgumentNullException("method");
+            }
+
             // todo: for standard extensions simple 'method.DeclaringType == typeof(Queryable)' is enough
             if (method.IsStatic)
             {
@@ -497,6 +522,11 @@ namespace LogicSoftware.Infrastructure.Helpers
         /// </returns>
         public static bool IsSimpleType(Type type)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
             if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(Nullable<>)))
             {
                 type = type.GetGenericArguments().Single();

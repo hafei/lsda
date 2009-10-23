@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Dictionary>
+  <Words>
+    <Recognized>
+      <Word>IList</Word>
+      <Word>LoadWith</Word>
+      <Word>MemberExpression</Word>
+    </Recognized>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>IList</Acronym>
+      <Acronym>LoadWith</Acronym>
+      <Acronym>MemberExpression</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

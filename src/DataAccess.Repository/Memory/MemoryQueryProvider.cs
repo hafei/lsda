@@ -196,6 +196,11 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         /// </returns>
         protected override Expression VisitConstant(ConstantExpression constant)
         {
+            if (constant == null)
+            {
+                throw new ArgumentNullException("constant");
+            }
+
             if (constant.Value is MemoryQueryable<T>)
             {
                 return Expression.Constant(this.InnerQuery);
@@ -216,6 +221,11 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         /// </returns>
         protected override Expression VisitMemberAccess(MemberExpression member)
         {
+            if (member == null)
+            {
+                throw new ArgumentNullException("member");
+            }
+
             Type memberType = member.Type;
             if (member.Expression != null)
             {

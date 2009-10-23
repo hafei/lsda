@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LogicSoftware.DataAccess.Repository.Tests
 {
+    [TestClass]
     public class UnitTestBase
     {
         protected IUnityContainer Container { get; set; }

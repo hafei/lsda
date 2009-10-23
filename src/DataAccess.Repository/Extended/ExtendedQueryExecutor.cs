@@ -9,6 +9,7 @@
 
 namespace LogicSoftware.DataAccess.Repository.Extended
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
@@ -76,6 +77,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "TResult is the type of the result of the query.")]
         public TResult Execute<TResult>(QueryContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             this.ExtensionsProvider.InitializeQueryContext(context);
 
             // first pass. processing all extension-specific method calls only 
@@ -137,6 +143,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "TResult is the type of the result of the query.")]
         protected virtual TResult ExecuteCore<TResult>(IQueryable query, QueryContext context, Expression expression)
         {
+            if (query == null)
+            {
+                throw new ArgumentNullException("query");
+            }
+
             return query.Provider.Execute<TResult>(expression);
         }
 

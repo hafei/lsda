@@ -212,6 +212,16 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         /// </param>
         protected virtual void ApplyLoadOptions(DataLoadOptions dataContextLoadOptions, LoadOptions loadOptions)
         {
+            if (dataContextLoadOptions == null)
+            {
+                throw new ArgumentNullException("dataContextLoadOptions");
+            }
+
+            if (loadOptions == null)
+            {
+                throw new ArgumentNullException("loadOptions");
+            }
+
             foreach (LoadWithOption o in loadOptions.LoadWithOptions)
             {
                 dataContextLoadOptions.LoadWith(o.Member);
@@ -232,6 +242,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         /// <returns>
         /// New DataContext.
         /// </returns>
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposed by user.")]
         protected DataContext CreateDataContext(MappingSource mappingSource)
         {
             var sqlContext = this.ConnectionManager.GetConnection();

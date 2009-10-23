@@ -9,6 +9,7 @@
 
 namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
@@ -73,6 +74,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// </param>
         public override void OnLoadOptionsCreating(LoadOptionsCreatingEventArgs e)
         {
+            if (e == null)
+            {
+                throw new ArgumentNullException("e");
+            }
+
             // getting all LoadWith expressions from tree and removing all LoadWith method calls
             e.Expression = this.Visit(e.Expression);
 
@@ -98,6 +104,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// </returns>
         protected override Expression VisitMethodCall(MethodCallExpression methodCall)
         {
+            if (methodCall == null)
+            {
+                throw new ArgumentNullException("methodCall");
+            }
+
             if (methodCall.Method.IsGenericMethod && 
                 (methodCall.Method.GetGenericMethodDefinition() == LoadWithMethod ||
                  methodCall.Method.GetGenericMethodDefinition() == LoadWithParentMethod))

@@ -34,6 +34,16 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// </param>
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
+            if (enumerable == null)
+            {
+                throw new ArgumentNullException("enumerable");
+            }
+
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
+
             foreach (T item in enumerable)
             {
                 action(item);

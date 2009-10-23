@@ -97,6 +97,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// </param>
         public void InitializeQueryContext(QueryContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             // fill type interceptors according to T
             // todo: add caching?
             IEnumerable<InterceptAttribute> interceptQueryAttributes = context.ElementType.GetCustomAttributes<InterceptAttribute>(true)
@@ -127,6 +132,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// </returns>
         public bool OnLoadOptionsCreating(LoadOptionsCreatingEventArgs e, QueryContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             // no suitable interceptors found
             if (context.Interceptors.Count == 0)
             {
@@ -153,6 +163,16 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// </returns>
         public bool OnMethodCallVisit(MethodCallVisitEventArgs e, QueryContext context)
         {
+            if (e == null)
+            {
+                throw new ArgumentNullException("e");
+            }
+
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             // checking if this method call visit must be intercepted
 
             // getting interceptor that subscibed to this method call visit
@@ -192,6 +212,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// </returns>
         public bool OnPreExecute(PreExecuteEventArgs e, QueryContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             // no suitable interceptors found
             if (context.Interceptors.Count == 0)
             {
@@ -218,6 +243,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// </returns>
         public bool OnQueryCreated(QueryCreatedEventArgs e, QueryContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             // no suitable interceptors found
             if (context.Interceptors.Count == 0)
             {
@@ -244,6 +274,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// </returns>
         public bool OnQueryCreating(QueryCreatingEventArgs e, QueryContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             // no suitable interceptors found
             if (context.Interceptors.Count == 0)
             {

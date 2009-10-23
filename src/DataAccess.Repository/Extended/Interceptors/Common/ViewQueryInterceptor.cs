@@ -48,6 +48,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// </param>
         public override void OnMethodCallVisit(MethodCallVisitEventArgs e)
         {
+            if (e == null)
+            {
+                throw new ArgumentNullException("e");
+            }
+
             if (e.MethodCall.Method.IsGenericMethod &&
                 e.MethodCall.Method.GetGenericMethodDefinition() == SelectViewMethod)
             {

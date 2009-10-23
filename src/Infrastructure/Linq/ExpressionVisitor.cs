@@ -142,6 +142,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual Expression VisitBinary(BinaryExpression binary)
         {
+            if (binary == null)
+            {
+                throw new ArgumentNullException("binary");
+            }
+
             Expression left = this.Visit(binary.Left);
             Expression right = this.Visit(binary.Right);
             Expression conversion = this.Visit(binary.Conversion);
@@ -171,6 +176,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual MemberBinding VisitBinding(MemberBinding binding)
         {
+            if (binding == null)
+            {
+                throw new ArgumentNullException("binding");
+            }
+
             switch (binding.BindingType)
             {
                 case MemberBindingType.Assignment:
@@ -199,6 +209,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual IEnumerable<MemberBinding> VisitBindingList(ReadOnlyCollection<MemberBinding> original)
         {
+            if (original == null)
+            {
+                throw new ArgumentNullException("original");
+            }
+
             List<MemberBinding> list = null;
 
             for (int num = 0, capacity = original.Count; num < capacity; num++)
@@ -242,6 +257,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual Expression VisitConditional(ConditionalExpression conditional)
         {
+            if (conditional == null)
+            {
+                throw new ArgumentNullException("conditional");
+            }
+
             Expression test = this.Visit(conditional.Test);
             Expression ifTrue = this.Visit(conditional.IfTrue);
             Expression ifFalse = this.Visit(conditional.IfFalse);
@@ -281,6 +301,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual ElementInit VisitElementInitializer(ElementInit initializer)
         {
+            if (initializer == null)
+            {
+                throw new ArgumentNullException("initializer");
+            }
+
             ReadOnlyCollection<Expression> arguments = this.VisitExpressionList(initializer.Arguments);
 
             if (arguments == initializer.Arguments)
@@ -303,6 +328,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual IEnumerable<ElementInit> VisitElementInitializerList(ReadOnlyCollection<ElementInit> original)
         {
+            if (original == null)
+            {
+                throw new ArgumentNullException("original");
+            }
+
             List<ElementInit> list = null;
 
             for (int num = 0, capacity = original.Count; num < capacity; num++)
@@ -346,6 +376,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual ReadOnlyCollection<Expression> VisitExpressionList(ReadOnlyCollection<Expression> original)
         {
+            if (original == null)
+            {
+                throw new ArgumentNullException("original");
+            }
+
             List<Expression> sequence = null;
 
             for (int num = 0, capacity = original.Count; num < capacity; num++)
@@ -389,6 +424,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual Expression VisitInvocation(InvocationExpression iv)
         {
+            if (iv == null)
+            {
+                throw new ArgumentNullException("iv");
+            }
+
             IEnumerable<Expression> arguments = this.VisitExpressionList(iv.Arguments);
             Expression expression = this.Visit(iv.Expression);
 
@@ -412,6 +452,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual Expression VisitLambda(LambdaExpression lambda)
         {
+            if (lambda == null)
+            {
+                throw new ArgumentNullException("lambda");
+            }
+
             Expression body = this.Visit(lambda.Body);
 
             if (body == lambda.Body)
@@ -434,6 +479,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual Expression VisitListInit(ListInitExpression init)
         {
+            if (init == null)
+            {
+                throw new ArgumentNullException("init");
+            }
+
             NewExpression newExpression = this.VisitNew(init.NewExpression);
             IEnumerable<ElementInit> initializers = this.VisitElementInitializerList(init.Initializers);
 
@@ -457,6 +507,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual Expression VisitMemberAccess(MemberExpression member)
         {
+            if (member == null)
+            {
+                throw new ArgumentNullException("member");
+            }
+
             Expression expression = this.Visit(member.Expression);
 
             if (expression == member.Expression)
@@ -479,6 +534,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual MemberAssignment VisitMemberAssignment(MemberAssignment assignment)
         {
+            if (assignment == null)
+            {
+                throw new ArgumentNullException("assignment");
+            }
+
             Expression expression = this.Visit(assignment.Expression);
 
             if (expression == assignment.Expression)
@@ -501,6 +561,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual Expression VisitMemberInit(MemberInitExpression init)
         {
+            if (init == null)
+            {
+                throw new ArgumentNullException("init");
+            }
+
             NewExpression newExpression = this.VisitNew(init.NewExpression);
             IEnumerable<MemberBinding> bindings = this.VisitBindingList(init.Bindings);
 
@@ -524,6 +589,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual MemberListBinding VisitMemberListBinding(MemberListBinding binding)
         {
+            if (binding == null)
+            {
+                throw new ArgumentNullException("binding");
+            }
+
             IEnumerable<ElementInit> initializers = this.VisitElementInitializerList(binding.Initializers);
 
             if (initializers == binding.Initializers)
@@ -546,6 +616,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding binding)
         {
+            if (binding == null)
+            {
+                throw new ArgumentNullException("binding");
+            }
+
             IEnumerable<MemberBinding> bindings = this.VisitBindingList(binding.Bindings);
 
             if (bindings == binding.Bindings)
@@ -568,6 +643,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual Expression VisitMethodCall(MethodCallExpression methodCall)
         {
+            if (methodCall == null)
+            {
+                throw new ArgumentNullException("methodCall");
+            }
+
             Expression instance = this.Visit(methodCall.Object);
             IEnumerable<Expression> arguments = this.VisitExpressionList(methodCall.Arguments);
 
@@ -592,6 +672,11 @@ namespace LogicSoftware.Infrastructure.Linq
         [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", Justification = "By design.")]
         protected virtual NewExpression VisitNew(NewExpression newExpression)
         {
+            if (newExpression == null)
+            {
+                throw new ArgumentNullException("newExpression");
+            }
+
             IEnumerable<Expression> arguments = this.VisitExpressionList(newExpression.Arguments);
 
             if (arguments == newExpression.Arguments)
@@ -619,6 +704,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual Expression VisitNewArray(NewArrayExpression na)
         {
+            if (na == null)
+            {
+                throw new ArgumentNullException("na");
+            }
+
             IEnumerable<Expression> initializers = this.VisitExpressionList(na.Expressions);
 
             if (initializers == na.Expressions)
@@ -661,6 +751,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual Expression VisitTypeIs(TypeBinaryExpression typeBinary)
         {
+            if (typeBinary == null)
+            {
+                throw new ArgumentNullException("typeBinary");
+            }
+
             Expression expression = this.Visit(typeBinary.Expression);
 
             if (expression == typeBinary.Expression)
@@ -683,6 +778,11 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         protected virtual Expression VisitUnary(UnaryExpression unary)
         {
+            if (unary == null)
+            {
+                throw new ArgumentNullException("unary");
+            }
+
             Expression operand = this.Visit(unary.Operand);
 
             if (operand == unary.Operand)

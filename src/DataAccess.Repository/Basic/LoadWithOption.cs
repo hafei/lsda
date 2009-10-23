@@ -31,6 +31,11 @@ namespace LogicSoftware.DataAccess.Repository.Basic
         /// </param>
         public LoadWithOption(LambdaExpression expression)
         {
+            if (expression == null)
+            {
+                throw new ArgumentNullException("expression");
+            }
+
             // checking for simple case - LoadWith without filtering
             var bodyAsMemberExpression = expression.Body as MemberExpression;
             if (bodyAsMemberExpression != null && bodyAsMemberExpression.Expression == expression.Parameters.Single())
@@ -147,6 +152,11 @@ namespace LogicSoftware.DataAccess.Repository.Basic
             /// </returns>
             protected override Expression VisitMemberAccess(MemberExpression member)
             {
+                if (member == null)
+                {
+                    throw new ArgumentNullException("member");
+                }
+
                 // checking if we've reached first level property
                 if (member.Expression == this.EntityParameter)
                 {
@@ -173,6 +183,11 @@ namespace LogicSoftware.DataAccess.Repository.Basic
             /// </returns>
             protected override Expression VisitMethodCall(MethodCallExpression methodCall)
             {
+                if (methodCall == null)
+                {
+                    throw new ArgumentNullException("methodCall");
+                }
+
                 // todo: maybe better way and place exists
                 if (methodCall.Method.IsGenericMethod &&
                     (methodCall.Method.GetGenericMethodDefinition() == ToListMethod ||
