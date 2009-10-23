@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace LogicSoftware.DataAccess.Repository.LinqToSql
 {
     using System;
@@ -22,7 +24,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
     /// <summary>
     /// Repository that uses Linq To SQL to store entity data
     /// </summary>
-    public class LinqToSqlRepository : IRepository
+    public class LinqToSqlRepository : IRepository, IDisposable
     {
         #region Constructors and Destructors
 
@@ -39,6 +41,16 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         {
             this.ConnectionManager = connectionManager;
             this.MappingSourceManager = mappingSourceManager;
+            this.CreatedDataContexts = new List<WeakReference>();
+        }
+
+        /// <summary>
+        /// Releases unmanaged resources and performs other cleanup operations before the
+        /// <see cref="LinqToSqlRepository"/> is reclaimed by garbage collection.
+        /// </summary>
+        ~LinqToSqlRepository()
+        {
+            this.Dispose(false);
         }
 
         #endregion
@@ -56,9 +68,27 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         /// <value>The mapping source manager.</value>
         protected IMappingSourceManager MappingSourceManager { get; private set; }
 
+        /// <summary>
+        /// Gets or sets CreatedDataContexts.
+        /// </summary>
+        private List<WeakReference> CreatedDataContexts { get; set; }
+
         #endregion
 
         #region Implemented Interfaces (Methods)
+
+        #region IDisposable methods
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
 
         #region IRepository methods
 
@@ -301,7 +331,33 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
                 context.LoadOptions = this.GetDataContextLoadOptions(loadOptions);
             }
 
+            this.CreatedDataContexts.Add(new WeakReference(context));
+
             return context;
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing">
+        /// <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                foreach (var dataContextReference in this.CreatedDataContexts)
+                {
+                    var dataContext = dataContextReference.Target as DataContext;
+                    
+                    if (dataContext != null)
+                    {
+                        dataContext.Dispose();
+                    }
+                }
+
+                this.CreatedDataContexts.Clear();
+            }
         }
 
         /// <summary>

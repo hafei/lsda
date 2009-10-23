@@ -110,7 +110,6 @@
     <Compile Include="Extended\RepositoryExtensionsProvider.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LinqToSql\ConfigurationConnectionString.cs" />
-    <Compile Include="LinqToSql\DisposableLinqToSqlRepository.cs" />
     <Compile Include="LinqToSql\IConnectionString.cs" />
     <Compile Include="Basic\LoadWithOption.cs" />
     <Compile Include="LinqToSql\ISqlConnectionManager.cs" />
@@ -148,10 +147,8 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  
   <!-- uncomment next line to enable StyleCop on build -->
   <!--<Import Project="$(ProgramFiles)\MSBuild\Microsoft\StyleCop\v4.3\Microsoft.StyleCop.targets" />-->
-
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
