@@ -1,0 +1,1904 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LogicSoftware.Infrastructure</name>
+    </assembly>
+    <members>
+        <member name="T:LogicSoftware.Infrastructure.Linq.ExpressionReplacer">
+            <summary>
+            Class used to replace expressions in a expression tree.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.Infrastructure.Linq.ExpressionVisitor">
+            <summary>
+            Base for the expression tree visitor pattern implementation.
+            ExpressionVisitor is part of System.Query namespace, but is marked as internal,
+            so this implementation was extracted using Reflector.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.Visit(System.Linq.Expressions.Expression)">
+            <summary>
+            Analyzes the expression and returns it converted to the
+            appropiated type.
+            </summary>
+            <param name="exp">
+            The expression to be analyzed.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression of the real expression type.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitBinary(System.Linq.Expressions.BinaryExpression)">
+            <summary>
+            Analyzes the binary expression provided as parameter and
+            returns an appropiated binary expression.
+            </summary>
+            <param name="binary">
+            The binary expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitBinding(System.Linq.Expressions.MemberBinding)">
+            <summary>
+            Analyzes the member binding provided as parameter and calls
+            the appropiated visitor according to the definition type.
+            </summary>
+            <param name="binding">
+            The binding to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.MemberBinding.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitBindingList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.MemberBinding})">
+            <summary>
+            Analyzes the binding expression list provided as parameter and returns
+            the analyzed expressions.
+            </summary>
+            <param name="original">
+            The expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitConditional(System.Linq.Expressions.ConditionalExpression)">
+            <summary>
+            Analyzes the conditional expression provided as parameter and
+            returns an appropiated binary expression.
+            </summary>
+            <param name="conditional">
+            The conditional expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitConstant(System.Linq.Expressions.ConstantExpression)">
+            <summary>
+            Analyzes the constant expression provided as parameter and
+            returns an appropiated constant expression.
+            </summary>
+            <param name="constant">
+            The constant expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitElementInitializer(System.Linq.Expressions.ElementInit)">
+            <summary>
+            Analyzes the element initializer provided as parameter and calls
+            the appropiated visitor according to the definition type.
+            </summary>
+            <param name="initializer">
+            The initializer to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.ElementInit.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitElementInitializerList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.ElementInit})">
+            <summary>
+            Analyzes element initializer list expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="original">
+            The expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitExpressionList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.Expression})">
+            <summary>
+            Analyzes many expressions provided as parameter and returns
+            the collection of the analyzed expressions.
+            </summary>
+            <param name="original">
+            The expressions to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitInvocation(System.Linq.Expressions.InvocationExpression)">
+            <summary>
+            Analyzes invocation expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="iv">
+            The expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitLambda(System.Linq.Expressions.LambdaExpression)">
+            <summary>
+            Analyzes labda expression expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="lambda">
+            The expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitListInit(System.Linq.Expressions.ListInitExpression)">
+            <summary>
+            Analyzes list initialization expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="init">
+            The expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitMemberAccess(System.Linq.Expressions.MemberExpression)">
+            <summary>
+            Analyzes the member access expression provided as parameter and
+            returns an appropiated member access.
+            </summary>
+            <param name="member">
+            The member access to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitMemberAssignment(System.Linq.Expressions.MemberAssignment)">
+            <summary>
+            Analyzes member assignment expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="assignment">
+            The expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitMemberInit(System.Linq.Expressions.MemberInitExpression)">
+            <summary>
+            Analyzes member initialization expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="init">
+            The expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitMemberListBinding(System.Linq.Expressions.MemberListBinding)">
+            <summary>
+            Analyzes member binding expressions provided as parameter and returns
+            the analyzed expressions.
+            </summary>
+            <param name="binding">
+            The expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitMemberMemberBinding(System.Linq.Expressions.MemberMemberBinding)">
+            <summary>
+            Analyzes member member binding expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="binding">
+            The expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)">
+            <summary>
+            Analyzes the method call expression provided as parameter and
+            returns an appropiated member access.
+            </summary>
+            <param name="methodCall">
+            The method call to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitNew(System.Linq.Expressions.NewExpression)">
+            <summary>
+            Analyzes new expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="newExpression">
+            The expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitNewArray(System.Linq.Expressions.NewArrayExpression)">
+            <summary>
+            Analyzes new array expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="na">
+            The expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitParameter(System.Linq.Expressions.ParameterExpression)">
+            <summary>
+            Analyzes the parameter expression provided as parameter and
+            returns an appropiated parameter expression.
+            </summary>
+            <param name="parameter">
+            The parameter expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitTypeIs(System.Linq.Expressions.TypeBinaryExpression)">
+            <summary>
+            Analyzes the type binary expression provided as parameter and
+            returns an appropiated type binary expression.
+            </summary>
+            <param name="typeBinary">
+            The type binary expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionVisitor.VisitUnary(System.Linq.Expressions.UnaryExpression)">
+            <summary>
+            Analyzes the unary expression provided as parameter and
+            returns an appropiated unariy expression.
+            </summary>
+            <param name="unary">
+            The unary expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionReplacer.#ctor(System.Linq.Expressions.Expression,System.Linq.Expressions.Expression)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.Infrastructure.Linq.ExpressionReplacer"/> class for replacement of single expression. 
+            </summary>
+            <param name="expressionToSearch">
+            Expression to be replaced.
+            </param>
+            <param name="expressionToReplace">
+            Expression that replaces.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionReplacer.#ctor(System.Collections.Generic.Dictionary{System.Linq.Expressions.Expression,System.Linq.Expressions.Expression})">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.Infrastructure.Linq.ExpressionReplacer"/> class for replacement of multiple constants. 
+            </summary>
+            <param name="replacementDictionary">
+            Dictionary of replacement pairs (key is expression to be replaced, value is expression that replaces).
+            </param>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionReplacer.Visit(System.Linq.Expressions.Expression)">
+            <summary>
+            Analyzes the expression and returns it converted to the
+            appropiated type.
+            </summary>
+            <param name="exp">
+            The expression to be analyzed.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression of the real expression type.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.Infrastructure.Linq.ExpressionReplacer.ReplacementDictionary">
+            <summary>
+            Gets or sets replacement pairs list.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.Infrastructure.Helpers.MetaPosition">
+            <summary>
+            The meta position.
+            </summary>
+        </member>
+        <member name="F:LogicSoftware.Infrastructure.Helpers.MetaPosition.metadataToken">
+            <summary>
+            The metadata token.
+            </summary>
+        </member>
+        <member name="F:LogicSoftware.Infrastructure.Helpers.MetaPosition.assembly">
+            <summary>
+            The assembly.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.MetaPosition.#ctor(System.Reflection.MemberInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.Infrastructure.Helpers.MetaPosition"/> struct.
+            </summary>
+            <param name="mi">
+            The mnember info.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.MetaPosition.#ctor(System.Reflection.Assembly,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.Infrastructure.Helpers.MetaPosition"/> struct.
+            </summary>
+            <param name="assembly">
+            The assembly.
+            </param>
+            <param name="metadataToken">
+            The metadata token.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.MetaPosition.op_Equality(LogicSoftware.Infrastructure.Helpers.MetaPosition,LogicSoftware.Infrastructure.Helpers.MetaPosition)">
+            <summary>
+            Implements the operator ==.
+            </summary>
+            <param name="x">
+            The first object.
+            </param>
+            <param name="y">
+            The second object.
+            </param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.MetaPosition.op_Inequality(LogicSoftware.Infrastructure.Helpers.MetaPosition,LogicSoftware.Infrastructure.Helpers.MetaPosition)">
+            <summary>
+            Implements the operator !=.
+            </summary>
+            <param name="x">
+            The first object.
+            </param>
+            <param name="y">
+            The second object.
+            </param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.MetaPosition.AreSameMember(System.Reflection.MemberInfo,System.Reflection.MemberInfo)">
+            <summary>
+            Ares the same member.
+            </summary>
+            <param name="x">
+            The first object.
+            </param>
+            <param name="y">
+            The second object.
+            </param>
+            <returns>
+            The are same member.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.MetaPosition.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="obj">
+            The <see cref="T:System.Object"/> to compare with this instance.
+            </param>
+            <returns>
+            <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.MetaPosition.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.MetaPosition.Equals(LogicSoftware.Infrastructure.Helpers.MetaPosition,LogicSoftware.Infrastructure.Helpers.MetaPosition)">
+            <summary>
+            Determines whether the specified objects are equal.
+            </summary>
+            <param name="x">
+            The first object of type <paramref name="T"/> to compare.
+            </param>
+            <param name="y">
+            The second object of type <paramref name="T"/> to compare.
+            </param>
+            <returns>
+            true if the specified objects are equal; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.MetaPosition.GetHashCode(LogicSoftware.Infrastructure.Helpers.MetaPosition)">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <param name="obj">
+            The object.
+            </param>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.
+            </exception>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.MetaPosition.System#Collections#IEqualityComparer#Equals(System.Object,System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="x">
+            The <see cref="T:System.Object"/> to compare with this instance.
+            </param>
+            <param name="y">
+            The second object.
+            </param>
+            <returns>
+            <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+            <exception cref="T:System.ArgumentException">
+            <paramref name="x"/> and <paramref name="y"/> are of different types and neither one can handle comparisons with the other.
+            </exception>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.MetaPosition.System#Collections#IEqualityComparer#GetHashCode(System.Object)">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <param name="obj">
+            The object.
+            </param>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.
+            </exception>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.MetaPosition.AreEqual(LogicSoftware.Infrastructure.Helpers.MetaPosition,LogicSoftware.Infrastructure.Helpers.MetaPosition)">
+            <summary>
+            Checks whether objects are equal.
+            </summary>
+            <param name="x">
+            The first object.
+            </param>
+            <param name="y">
+            The second object.
+            </param>
+            <returns>
+            True if equal.
+            </returns>
+        </member>
+        <member name="T:LogicSoftware.Infrastructure.Exceptions.DataAccessException">
+            <summary>
+            The data access exception.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Exceptions.DataAccessException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.Infrastructure.Exceptions.DataAccessException"/> class.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Exceptions.DataAccessException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.Infrastructure.Exceptions.DataAccessException"/> class.
+            </summary>
+            <param name="message">
+            The message.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Exceptions.DataAccessException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.Infrastructure.Exceptions.DataAccessException"/> class.
+            </summary>
+            <param name="message">
+            The message.
+            </param>
+            <param name="inner">
+            The inner.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Exceptions.DataAccessException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.Infrastructure.Exceptions.DataAccessException"/> class.
+            </summary>
+            <param name="info">
+            The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.
+            </param>
+            <param name="context">
+            The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            The <paramref name="info"/> parameter is null.
+            </exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">
+            The class name is null or <see cref="P:System.Exception.HResult"/> is zero (0).
+            </exception>
+        </member>
+        <member name="T:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions">
+            <summary>
+            Expression extensions.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.And(System.Linq.Expressions.Expression,System.Linq.Expressions.Expression)">
+            <summary>
+            Ands the specified left.
+            </summary>
+            <param name="left">
+            The left expression.
+            </param>
+            <param name="right">
+            The right expression.
+            </param>
+            <returns>
+            New BinaryExpression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.Any(System.Linq.Expressions.Expression,System.Linq.Expressions.LambdaExpression)">
+            <summary>
+            Non-typed Any method call.
+            </summary>
+            <param name="source">
+            The source sequence expression.
+            </param>
+            <param name="predicate">
+            The predicate.
+            </param>
+            <returns>
+            New sequence with Any method call.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.AsEnumerable(System.Linq.Expressions.Expression)">
+            <summary>
+            Non-typed AsEnumerable method call.
+            </summary>
+            <param name="source">
+            The source sequence expression.
+            </param>
+            <returns>
+            New sequence with AsEnumerable method call.
+            </returns>
+            <remarks>
+            It should be used only with IEnumerable sequences.
+            AsEnumerable MethodCall for IQueryable makes no sense and should throw exception (FindExtensionMethod will return null). 
+            </remarks>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.Equal(System.Linq.Expressions.Expression,System.Object)">
+            <summary>
+            Equals the specified member.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+            <param name="value">
+            The value.
+            </param>
+            <returns>
+            New BinaryExpression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.FixupCollectionType(System.Linq.Expressions.Expression,System.Type)">
+            <summary>
+            Method needed to generate type-correct expressions.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+            <param name="collectionType">
+            The collection type.
+            </param>
+            <returns>
+            New expression of provided type.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.GreaterThan(System.Linq.Expressions.Expression,System.Object)">
+            <summary>
+            Greaters the than.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+            <param name="value">
+            The value.
+            </param>
+            <returns>
+            New BinaryExpression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.GreaterThanOrEqual(System.Linq.Expressions.Expression,System.Object)">
+            <summary>
+            Greaters the than or equal.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+            <param name="value">
+            The value.
+            </param>
+            <returns>
+            New BinaryExpression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.LessThan(System.Linq.Expressions.Expression,System.Object)">
+            <summary>
+            Lesses the than.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+            <param name="value">
+            The value.
+            </param>
+            <returns>
+            New BinaryExpression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.LessThanOrEqual(System.Linq.Expressions.Expression,System.Object)">
+            <summary>
+            Lesses the than or equal.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+            <param name="value">
+            The value.
+            </param>
+            <returns>
+            New BinaryExpression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.Or(System.Linq.Expressions.Expression,System.Linq.Expressions.Expression)">
+            <summary>
+            Ors the specified left.
+            </summary>
+            <param name="left">
+            The left expression.
+            </param>
+            <param name="right">
+            The right expression.
+            </param>
+            <returns>
+            New BinaryExpression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.Property(System.Linq.Expressions.Expression,System.String)">
+            <summary>
+            Properties the specified parameter.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+            <param name="propertyName">
+            Name of the property.
+            </param>
+            <returns>
+            New MemberExpression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.Property(System.Linq.Expressions.Expression,System.Reflection.PropertyInfo)">
+            <summary>
+            Properties the specified parameter.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+            <param name="propertyInfo">
+            PropertyInfo of the property.
+            </param>
+            <returns>
+            New MemberExpression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.PropertyPath(System.Linq.Expressions.Expression,System.String)">
+            <summary>
+            Gets MemberExpression by path.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+            <param name="memberPath">
+            The member property path.
+            </param>
+            <returns>
+            New MemberExpression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.Select(System.Linq.Expressions.Expression,System.Linq.Expressions.LambdaExpression)">
+            <summary>
+            Non-typed Select method call.
+            </summary>
+            <param name="source">
+            The source sequence expression.
+            </param>
+            <param name="selector">
+            The selector.
+            </param>
+            <returns>
+            New sequence with Select method call.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.ToArray(System.Linq.Expressions.Expression)">
+            <summary>
+            Non-typed ToArray method call.
+            </summary>
+            <param name="source">
+            The source sequence expression.
+            </param>
+            <returns>
+            New sequence with ToArray method call.
+            </returns>
+            <remarks>
+            It should be used only with IEnumerable sequences.
+            ToArray MethodCall for IQueryable makes no sense and should throw exception (FindExtensionMethod will return null). 
+            </remarks>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.ToLambda``1(System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.Expression)">
+            <summary>
+            Gets the lambda expression.
+            </summary>
+            <typeparam name="TDelegate">
+            The type of the delegate.
+            </typeparam>
+            <param name="parameter">
+            The parameter expression.
+            </param>
+            <param name="body">
+            The body expression.
+            </param>
+            <returns>
+            New LambdaExpression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.ToLambda(System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.Expression)">
+            <summary>
+            Gets the lambda expression.
+            </summary>
+            <param name="parameter">
+            The parameter expression.
+            </param>
+            <param name="body">
+            The body expression.
+            </param>
+            <returns>
+            New LambdaExpression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.ToList(System.Linq.Expressions.Expression)">
+            <summary>
+            Non-typed ToList method call.
+            </summary>
+            <param name="source">
+            The source sequence expression.
+            </param>
+            <returns>
+            New sequence with ToList method call        /// 
+            </returns>
+            <remarks>
+            It should be used only with IEnumerable sequences.
+            ToList MethodCall for IQueryable makes no sense and should throw exception (FindExtensionMethod will return null). 
+            </remarks>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.ExpressionExtensions.Where(System.Linq.Expressions.Expression,System.Linq.Expressions.LambdaExpression)">
+            <summary>
+            Non-typed Where method call.
+            </summary>
+            <param name="source">
+            The source sequence expression.
+            </param>
+            <param name="predicate">
+            The predicate.
+            </param>
+            <returns>
+            New sequence with Where method call.
+            </returns>
+        </member>
+        <member name="T:LogicSoftware.Infrastructure.Extensions.QueryableExtensions">
+            <summary>
+            The queryable extensions.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.QueryableExtensions.OrderByMany``1(System.Linq.IQueryable{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Object}}[])">
+            <summary>
+            OrderBy extension method to apply multiple OrderBy/ThenBy's to query.
+            </summary>
+            <param name="source">
+            The source query.
+            </param>
+            <param name="sortExpressions">
+            The sort expressions.
+            </param>
+            <typeparam name="T">
+            The entity type.
+            </typeparam>
+            <returns>
+            Ordered query.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.QueryableExtensions.SafeOrderBy``1(System.Linq.IQueryable{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+            <summary>
+            The safe order by.
+            </summary>
+            <param name="query">
+            The query.
+            </param>
+            <param name="sortExpression">
+            The sort expression.
+            </param>
+            <typeparam name="T">
+            Type of the query
+            </typeparam>
+            <returns>
+            IQueryable with applied order expression
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.QueryableExtensions.SafeWhere``1(System.Linq.IQueryable{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            The safe where.
+            </summary>
+            <param name="query">
+            The query.
+            </param>
+            <param name="filterExpression">
+            The filter expression.
+            </param>
+            <typeparam name="T">
+            Type of the query
+            </typeparam>
+            <returns>
+            IQueryable with applied filter expression
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.QueryableExtensions.Where(System.Linq.IQueryable,System.Linq.Expressions.LambdaExpression)">
+            <summary>
+            Non-typed Where method call.
+            </summary>
+            <param name="source">
+            The source query.
+            </param>
+            <param name="predicate">
+            The predicate.
+            </param>
+            <returns>
+            New query with Where method call.
+            </returns>
+        </member>
+        <member name="T:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1">
+            <summary>
+            Base for the expression tree visitor pattern implementation.
+            ExpressionVisitor is part of System.Query namespace, but is marked as internal,
+            so this implementation was extracted using Reflector.
+            </summary>
+            <typeparam name="TContext">
+            The type of the context.
+            </typeparam>
+            <remarks>
+            Context-aware modification.
+            </remarks>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.Visit(System.Linq.Expressions.Expression,`0)">
+            <summary>
+            Analyzes the expression and returns it converted to the
+            appropiated type.
+            </summary>
+            <param name="exp">
+            The expression to be analyzed.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression of the real expression type.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitBinary(System.Linq.Expressions.BinaryExpression,`0)">
+            <summary>
+            Analyzes the binary expression provided as parameter and
+            returns an appropiated binary expression.
+            </summary>
+            <param name="binary">
+            The binary expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitBinding(System.Linq.Expressions.MemberBinding,`0)">
+            <summary>
+            Analyzes the member binding provided as parameter and calls
+            the appropiated visitor according to the definition type.
+            </summary>
+            <param name="binding">
+            The binding to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.MemberBinding.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitBindingList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.MemberBinding},`0)">
+            <summary>
+            Analyzes the binding expression list provided as parameter and returns
+            the analyzed expressions.
+            </summary>
+            <param name="original">
+            The expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitConditional(System.Linq.Expressions.ConditionalExpression,`0)">
+            <summary>
+            Analyzes the conditional expression provided as parameter and
+            returns an appropiated binary expression.
+            </summary>
+            <param name="conditional">
+            The conditional expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitConstant(System.Linq.Expressions.ConstantExpression,`0)">
+            <summary>
+            Analyzes the constant expression provided as parameter and
+            returns an appropiated constant expression.
+            </summary>
+            <param name="constant">
+            The constant expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitElementInitializer(System.Linq.Expressions.ElementInit,`0)">
+            <summary>
+            Analyzes the element initializer provided as parameter and calls
+            the appropiated visitor according to the definition type.
+            </summary>
+            <param name="initializer">
+            The initializer to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.ElementInit.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitElementInitializerList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.ElementInit},`0)">
+            <summary>
+            Analyzes element initializer list expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="original">
+            The expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitExpressionList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.Expression},`0)">
+            <summary>
+            Analyzes many expressions provided as parameter and returns
+            the collection of the analyzed expressions.
+            </summary>
+            <param name="original">
+            The expressions to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitInvocation(System.Linq.Expressions.InvocationExpression,`0)">
+            <summary>
+            Analyzes invocation expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="iv">
+            The expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitLambda(System.Linq.Expressions.LambdaExpression,`0)">
+            <summary>
+            Analyzes labda expression expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="lambda">
+            The expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitListInit(System.Linq.Expressions.ListInitExpression,`0)">
+            <summary>
+            Analyzes list initialization expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="init">
+            The expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitMemberAccess(System.Linq.Expressions.MemberExpression,`0)">
+            <summary>
+            Analyzes the member access expression provided as parameter and
+            returns an appropiated member access.
+            </summary>
+            <param name="member">
+            The member access to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitMemberAssignment(System.Linq.Expressions.MemberAssignment,`0)">
+            <summary>
+            Analyzes member assignment expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="assignment">
+            The expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitMemberInit(System.Linq.Expressions.MemberInitExpression,`0)">
+            <summary>
+            Analyzes member initialization expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="init">
+            The expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitMemberListBinding(System.Linq.Expressions.MemberListBinding,`0)">
+            <summary>
+            Analyzes member binding expressions provided as parameter and returns
+            the analyzed expressions.
+            </summary>
+            <param name="binding">
+            The expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitMemberMemberBinding(System.Linq.Expressions.MemberMemberBinding,`0)">
+            <summary>
+            Analyzes member member binding expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="binding">
+            The expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitMethodCall(System.Linq.Expressions.MethodCallExpression,`0)">
+            <summary>
+            Analyzes the method call expression provided as parameter and
+            returns an appropiated member access.
+            </summary>
+            <param name="methodCall">
+            The method call to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitNew(System.Linq.Expressions.NewExpression,`0)">
+            <summary>
+            Analyzes new expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="newExpression">
+            The expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitNewArray(System.Linq.Expressions.NewArrayExpression,`0)">
+            <summary>
+            Analyzes new array expression provided as parameter and returns
+            the analyzed expression.
+            </summary>
+            <param name="na">
+            The expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitParameter(System.Linq.Expressions.ParameterExpression,`0)">
+            <summary>
+            Analyzes the parameter expression provided as parameter and
+            returns an appropiated parameter expression.
+            </summary>
+            <param name="parameter">
+            The parameter expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitTypeIs(System.Linq.Expressions.TypeBinaryExpression,`0)">
+            <summary>
+            Analyzes the type binary expression provided as parameter and
+            returns an appropiated type binary expression.
+            </summary>
+            <param name="typeBinary">
+            The type binary expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ContextExpressionVisitor`1.VisitUnary(System.Linq.Expressions.UnaryExpression,`0)">
+            <summary>
+            Analyzes the unary expression provided as parameter and
+            returns an appropiated unariy expression.
+            </summary>
+            <param name="unary">
+            The unary expression to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="T:LogicSoftware.Infrastructure.Helpers.BeginTransaction">
+            <summary>
+            The TransactionScope helper.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.BeginTransaction.ReadCommitted">
+            <summary>
+            Starts transaction with ReadCommitted isolation level.
+            </summary>
+            <returns>
+            New TransactionScope.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.BeginTransaction.ReadUncommitted">
+            <summary>
+            Starts transaction with ReadUncommitted isolation level.
+            </summary>
+            <returns>
+            New TransactionScope.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.BeginTransaction.RepeatableRead">
+            <summary>
+            Starts transaction with RepeatableRead isolation level.
+            </summary>
+            <returns>
+            New TransactionScope.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.BeginTransaction.Serializable">
+            <summary>
+            Starts transaction with Serializable isolation level.
+            </summary>
+            <returns>
+            New TransactionScope.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.BeginTransaction.Snapshot">
+            <summary>
+            Starts transaction with Snapshot isolation level.
+            </summary>
+            <returns>
+            New TransactionScope.
+            </returns>
+        </member>
+        <member name="T:LogicSoftware.Infrastructure.Linq.ExpressionParameterReplacer">
+            <summary>
+            Class used to replace parameters in a expression.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionParameterReplacer.#ctor(System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.Expression)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.Infrastructure.Linq.ExpressionParameterReplacer"/> class for replacement of single parameter.
+            </summary>
+            <param name="parameterToSearch">
+            Parameter to be replaced.
+            </param>
+            <param name="expressionToReplace">
+            Expression that replaces.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionParameterReplacer.#ctor(System.Collections.Generic.Dictionary{System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.Expression})">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.Infrastructure.Linq.ExpressionParameterReplacer"/> class for replacement of multiple parameters.
+            </summary>
+            <param name="replacementDictionary">
+            Dictionary of replacement pairs (key is parameter to be replaced, value is expression that replaces).
+            </param>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionParameterReplacer.VisitParameter(System.Linq.Expressions.ParameterExpression)">
+            <summary>
+            Analyzes the parameter expression provided as parameter and
+            returns an appropiated parameter expression.
+            </summary>
+            <param name="parameter">
+            The parameter expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.Infrastructure.Linq.ExpressionParameterReplacer.ReplacementDictionary">
+            <summary>
+            Gets or sets replacement pairs list.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.Infrastructure.Helpers.TypeSystem">
+            <summary>
+            Helper class decompiled using Reflector from System.Data.Linq assembly.
+            </summary>
+        </member>
+        <member name="F:LogicSoftware.Infrastructure.Helpers.TypeSystem.queryMethods">
+            <summary>
+            The query methods.
+            </summary>
+        </member>
+        <member name="F:LogicSoftware.Infrastructure.Helpers.TypeSystem.sequenceMethods">
+            <summary>
+            The sequence methods.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.FindExtensionMethod(System.String,System.Type,System.Type[],System.Type[])">
+            <summary>
+            Finds the proper extension method.
+            </summary>
+            <param name="name">
+            The name of the method.
+            </param>
+            <param name="collectionType">
+            The type of the collection.
+            </param>
+            <param name="otherArgs">
+            The other args.
+            </param>
+            <param name="otherTypeArgs">
+            The other type args.
+            </param>
+            <returns>
+            MethodInfo of found method.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.FindQueryableMethod(System.String,System.Type[],System.Type[])">
+            <summary>
+            Finds the queryable method.
+            </summary>
+            <param name="name">
+            The name of the method.
+            </param>
+            <param name="args">
+            The arguments of the method.
+            </param>
+            <param name="typeArgs">
+            The type arguments of generic method.
+            </param>
+            <returns>
+            MethodInfo of found method.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.FindSequenceMethod(System.String,System.Collections.IEnumerable)">
+            <summary>
+            Finds the sequence method.
+            </summary>
+            <param name="name">
+            The name of the method.
+            </param>
+            <param name="sequence">
+            The sequence.
+            </param>
+            <returns>
+            MethodInfo of found method.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.FindSequenceMethod(System.String,System.Type[],System.Type[])">
+            <summary>
+            Finds the sequence method.
+            </summary>
+            <param name="name">
+            The name of the method.
+            </param>
+            <param name="args">
+            The arguments of the method.
+            </param>
+            <param name="typeArgs">
+            The type arguments of generic method.
+            </param>
+            <returns>
+            MethodInfo of found method.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.FindStaticMethod(System.Type,System.String,System.Type[],System.Type[])">
+            <summary>
+            Finds the static method.
+            </summary>
+            <param name="type">
+            The declaring type.
+            </param>
+            <param name="name">
+            The name of the method.
+            </param>
+            <param name="args">
+            The arguments of the method.
+            </param>
+            <param name="typeArgs">
+            The type arguments of generic method.
+            </param>
+            <returns>
+            MethodInfo of found method.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.GetAllFields(System.Type,System.Reflection.BindingFlags)">
+            <summary>
+            Gets all fields.
+            </summary>
+            <param name="type">
+            The declaring type.
+            </param>
+            <param name="bindingAttributes">
+            The binding attributes.
+            </param>
+            <returns>
+            IEnumerable of fields.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.GetAllProperties(System.Type,System.Reflection.BindingFlags)">
+            <summary>
+            Gets all properties.
+            </summary>
+            <param name="type">
+            The declaring type.
+            </param>
+            <param name="bindingAttributes">
+            The binding attributes.
+            </param>
+            <returns>
+            The IEnumerable of properties.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.GetElementType(System.Type)">
+            <summary>
+            Gets the type of the element.
+            </summary>
+            <param name="seqType">
+            Type of the sequence.
+            </param>
+            <returns>
+            The type of element.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.GetFlatSequenceType(System.Type)">
+            <summary>
+            Gets the type of the flat sequence.
+            </summary>
+            <param name="elementType">
+            Type of the element.
+            </param>
+            <returns>
+            Gets IEnumerable of element type.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.GetMemberType(System.Reflection.MemberInfo)">
+            <summary>
+            Gets the type of the member.
+            </summary>
+            <param name="mi">
+            The MemberInfo.
+            </param>
+            <returns>
+            Type of the member.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.GetNonNullableType(System.Type)">
+            <summary>
+            Gets the type of the non nullable.
+            </summary>
+            <param name="type">
+            The input type.
+            </param>
+            <returns>
+            The type of nullable. 
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.GetSequenceType(System.Type)">
+            <summary>
+            Gets the type of the sequence.
+            </summary>
+            <param name="elementType">
+            Type of the element.
+            </param>
+            <returns>
+            IEnumerable of element type.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.HasIEnumerable(System.Type)">
+            <summary>
+            Determines whether [has I enumerable] [the specified seq type].
+            </summary>
+            <param name="seqType">
+            Type of the seq.
+            </param>
+            <returns>
+            <c>true</c> if [has I enumerable] [the specified seq type]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.HasIQueryable(System.Type)">
+            <summary>
+            Determines whether the specified sequence type is IQueryable.
+            </summary>
+            <param name="sequenceType">
+            Type of the sequence.
+            </param>
+            <returns>
+            <c>true</c> if the specified sequence type is IQueryable; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.IsNullableType(System.Type)">
+            <summary>
+            Determines whether [is nullable type] [the specified type].
+            </summary>
+            <param name="type">
+            The input type.
+            </param>
+            <returns>
+            <c>true</c> if [is nullable type] [the specified type]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.IsNullAssignable(System.Type)">
+            <summary>
+            Determines whether [is null assignable] [the specified type].
+            </summary>
+            <param name="type">
+            The input type.
+            </param>
+            <returns>
+            <c>true</c> if [is null assignable] [the specified type]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.IsQueryableExtension(System.Reflection.MethodBase)">
+            <summary>
+            Determines whether the specified method is IQueryable extension.
+            </summary>
+            <param name="method">
+            The method.
+            </param>
+            <returns>
+            <c>true</c> if the specified method is IQueryable extension; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.IsSequenceType(System.Type)">
+            <summary>
+            Determines whether [is sequence type] [the specified seq type].
+            </summary>
+            <param name="seqType">
+            Type of the seq.
+            </param>
+            <returns>
+            <c>true</c> if [is sequence type] [the specified seq type]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.IsSimpleType(System.Type)">
+            <summary>
+            Determines whether [is simple type] [the specified type].
+            </summary>
+            <param name="type">
+            The input type.
+            </param>
+            <returns>
+            <c>true</c> if [is simple type] [the specified type]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.TryGetElementType(System.Type,System.Type@)">
+            <summary>
+            Tries to gets the type of the element.
+            </summary>
+            <param name="sequenceType">
+            Type of the sequence.
+            </param>
+            <param name="elementType">
+            Type of the element.
+            </param>
+            <returns>
+            True if sequence is provided, otherwise false.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.ArgsMatchExact(System.Reflection.MethodInfo,System.Type[],System.Type[])">
+            <summary>
+            Checks whether arguments match exactly.
+            </summary>
+            <param name="m">
+            The MethodInfo.
+            </param>
+            <param name="argTypes">
+            The argument types.
+            </param>
+            <param name="typeArgs">
+            The type arguments.
+            </param>
+            <returns>
+            True if arguments match exactly.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.FindIEnumerable(System.Type)">
+            <summary>
+            Finds IEnumerable.
+            </summary>
+            <param name="sequenceType">
+            The sequence type.
+            </param>
+            <returns>
+            Found IEnumerable.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.FindIQueryable(System.Type)">
+            <summary>
+            Finds IQueryable.
+            </summary>
+            <param name="sequenceType">
+            The sequence type.
+            </param>
+            <returns>
+            Found IQueryable.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Helpers.TypeSystem.IsPrivate(System.Reflection.PropertyInfo)">
+            <summary>
+            Checks if property is private.
+            </summary>
+            <param name="pi">
+            The PropertyInfo.
+            </param>
+            <returns>
+            True if private.
+            </returns>
+        </member>
+        <member name="T:LogicSoftware.Infrastructure.Extensions.MethodInfoExtensions">
+            <summary>
+            The method info extensions.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.MethodInfoExtensions.AddToNewQuery``2(System.Reflection.MethodBase,System.Linq.IQueryable{``0},System.Linq.Expressions.Expression[])">
+            <summary>
+            Adds MethodCall to query.
+            </summary>
+            <typeparam name="T">
+            Type of the element.
+            </typeparam>
+            <typeparam name="TNew">
+            Type of the element of new IQueryable.
+            </typeparam>
+            <param name="methodBase">
+            The method base.
+            </param>
+            <param name="query">
+            The query.
+            </param>
+            <param name="arguments">
+            The arguments.
+            </param>
+            <returns>
+            IQueryable of type T with MethodCall added.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.MethodInfoExtensions.AddToQuery``1(System.Reflection.MethodBase,System.Linq.IQueryable{``0},System.Linq.Expressions.Expression[])">
+            <summary>
+            Adds MethodCall to query.
+            </summary>
+            <typeparam name="T">
+            Type of the element.
+            </typeparam>
+            <param name="methodBase">
+            The method base.
+            </param>
+            <param name="query">
+            The query.
+            </param>
+            <param name="arguments">
+            The arguments.
+            </param>
+            <returns>
+            IQueryable of type T with MethodCall added.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.MethodInfoExtensions.AddToQuery``2(System.Reflection.MethodBase,System.Linq.IQueryable{``0},System.Linq.Expressions.Expression[])">
+            <summary>
+            Adds MethodCall to query.
+            </summary>
+            <typeparam name="T">
+            Type of the element.
+            </typeparam>
+            <typeparam name="TParent">
+            The type of parent element.
+            </typeparam>
+            <param name="methodBase">
+            The method base.
+            </param>
+            <param name="query">
+            The query.
+            </param>
+            <param name="arguments">
+            The arguments.
+            </param>
+            <returns>
+            IQueryable of type T with MethodCall added.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.MethodInfoExtensions.GetCustomAttributes``1(System.Reflection.MethodInfo)">
+            <summary>
+            Gets the custom attributes.
+            </summary>
+            <typeparam name="T">
+            The type of custom attribute.
+            </typeparam>
+            <param name="methodInfo">
+            The method info.
+            </param>
+            <returns>
+            Array of custom attributes instances for method.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.MethodInfoExtensions.GetCustomAttributes``1(System.Reflection.MethodInfo,System.Boolean)">
+            <summary>
+            Gets the custom attributes.
+            </summary>
+            <typeparam name="T">
+            Custom attribute type.
+            </typeparam>
+            <param name="methodInfo">
+            The method info.
+            </param>
+            <param name="inherit">
+            if set to <c>true</c> [inherit].
+            </param>
+            <returns>
+            Array of custom attributes instances for method.
+            </returns>
+        </member>
+        <member name="T:LogicSoftware.Infrastructure.Extensions.EnumerableExtensions">
+            <summary>
+            The enumerable extensions.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            Applies a function to every element of the list.
+            </summary>
+            <typeparam name="T">
+            Element type.
+            </typeparam>
+            <param name="enumerable">
+            The enumerable.
+            </param>
+            <param name="action">
+            The action.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.EnumerableExtensions.Multicast``1(System.Collections.Generic.IEnumerable{System.Action{``0}})">
+            <summary>
+            Create a multicast action.
+            </summary>
+            <typeparam name="T">
+            The type of the parameter of the method that this delegate encapsulates.
+            </typeparam>
+            <param name="actions">
+            The action.
+            </param>
+            <returns>
+            Multicast action
+            </returns>
+        </member>
+        <member name="T:LogicSoftware.Infrastructure.Linq.ExpressionConstantReplacer">
+            <summary>
+            Class used to replace constants in a expression.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionConstantReplacer.#ctor(System.Object,System.Linq.Expressions.Expression)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.Infrastructure.Linq.ExpressionConstantReplacer"/> class for replacement of single constant. 
+            </summary>
+            <param name="constantToSearch">
+            Constant to be replaced.
+            </param>
+            <param name="expressionToReplace">
+            Expression that replaces.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionConstantReplacer.#ctor(System.Object,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.Infrastructure.Linq.ExpressionConstantReplacer"/> class for replacement of single constant. 
+            </summary>
+            <param name="constantToSearch">
+            Constant to be replaced.
+            </param>
+            <param name="constantToReplace">
+            Constant that replaces.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionConstantReplacer.#ctor(System.Collections.Generic.Dictionary{System.Object,System.Linq.Expressions.Expression})">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.Infrastructure.Linq.ExpressionConstantReplacer"/> class for replacement of multiple constants. 
+            </summary>
+            <param name="replacementDictionary">
+            Dictionary of replacement pairs (key is constant to be replaced, value is expression that replaces).
+            </param>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Linq.ExpressionConstantReplacer.VisitConstant(System.Linq.Expressions.ConstantExpression)">
+            <summary>
+            Analyzes the constant expression provided as parameter and
+            returns an appropiated constant expression.
+            </summary>
+            <param name="constant">
+            The constant expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.Infrastructure.Linq.ExpressionConstantReplacer.ReplacementDictionary">
+            <summary>
+            Gets or sets replacement pairs list.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.Infrastructure.Extensions.TypeExtensions">
+            <summary>
+            The type extensions.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.TypeExtensions.GetCustomAttributes``1(System.Type)">
+            <summary>
+            Searches and returns attributes. The inheritance chain is not used to find the attributes.
+            </summary>
+            <typeparam name="T">
+            The type of attribute to search for.
+            </typeparam>
+            <param name="type">
+            The type which is searched for the attributes.
+            </param>
+            <returns>
+            Returns all attributes.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.TypeExtensions.GetCustomAttributes``1(System.Type,System.Boolean)">
+            <summary>
+            Searches and returns attributes.
+            </summary>
+            <typeparam name="T">
+            The type of attribute to search for.
+            </typeparam>
+            <param name="type">
+            The type which is searched for the attributes.
+            </param>
+            <param name="inherit">
+            Specifies whether to search this member's inheritance chain to find the attributes. Interfaces will be searched, too.
+            </param>
+            <returns>
+            Returns all attributes.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.Infrastructure.Extensions.TypeExtensions.GetCustomAttributes(System.Type,System.Type,System.Boolean)">
+            <summary>
+            Private helper for searching attributes.
+            </summary>
+            <param name="type">
+            The type which is searched for the attribute.
+            </param>
+            <param name="attributeType">
+            The type of attribute to search for.
+            </param>
+            <param name="inherit">
+            Specifies whether to search this member's inheritance chain to find the attribute. Interfaces will be searched, too.
+            </param>
+            <returns>
+            An array that contains all the custom attributes, or an array with zero elements if no attributes are defined.
+            </returns>
+        </member>
+    </members>
+</doc>

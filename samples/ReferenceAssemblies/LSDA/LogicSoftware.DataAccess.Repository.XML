@@ -1,0 +1,3037 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LogicSoftware.DataAccess.Repository</name>
+    </assembly>
+    <members>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.IScope">
+            <summary>
+            The scope marker interface.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Events.InterceptorEventArgs">
+            <summary>
+            Base class for ExtendedRepository QueryInterceptors events.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatedEventArgs">
+            <summary>
+            QueryCreated event arguments
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatedEventArgs.#ctor(System.Linq.IQueryable)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatedEventArgs"/> class.
+            </summary>
+            <param name="query">
+            The query.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatedEventArgs.Query">
+            <summary>
+            Gets or sets the query.
+            </summary>
+            <value>The query.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1">
+            <summary>
+            Query provider for memory repository results
+            </summary>
+            <typeparam name="T">
+            Entity Type
+            </typeparam>
+        </member>
+        <member name="F:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1.executionLockObject">
+            <summary>
+            Lock object for Execute method serialization
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1.#ctor(System.Linq.IQueryable{`0},LogicSoftware.DataAccess.Repository.Memory.MemoryRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1"/> class.
+            </summary>
+            <param name="innerQuery">
+            The inner query.
+            </param>
+            <param name="repository">
+            The repository.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1.CreateQuery(System.Linq.Expressions.Expression)">
+            <summary>
+            Constructs an <see cref="T:System.Linq.IQueryable"/> object that can evaluate the query represented by a specified expression tree.
+            </summary>
+            <param name="expression">
+            An expression tree that represents a LINQ query.
+            </param>
+            <returns>
+            An <see cref="T:System.Linq.IQueryable"/> that can evaluate the query represented by the specified expression tree.
+            </returns>
+            <exception cref="T:System.NotImplementedException">
+            </exception>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1.CreateQuery``1(System.Linq.Expressions.Expression)">
+            <summary>
+            Creates the query.
+            </summary>
+            <typeparam name="TElement">
+            The type of the element.
+            </typeparam>
+            <param name="expression">
+            The expression.
+            </param>
+            <returns>
+            The query.
+            </returns>
+            <exception cref="T:System.NotImplementedException">
+            </exception>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1.Execute(System.Linq.Expressions.Expression)">
+            <summary>
+            Executes the query represented by a specified expression tree.
+            </summary>
+            <param name="expression">
+            An expression tree that represents a LINQ query.
+            </param>
+            <returns>
+            The value that results from executing the specified query.
+            </returns>
+            <exception cref="T:System.NotImplementedException">
+            </exception>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1.Execute``1(System.Linq.Expressions.Expression)">
+            <summary>
+            Executes the specified expression.
+            </summary>
+            <typeparam name="TResult">
+            The type of the result.
+            </typeparam>
+            <param name="expression">
+            The expression.
+            </param>
+            <returns>
+            Execution result
+            </returns>
+            <exception cref="T:System.NotImplementedException">
+            </exception>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1.VisitConstant(System.Linq.Expressions.ConstantExpression)">
+            <summary>
+            Analyzes the constant expression provided as parameter and
+            returns an appropiated constant expression.
+            </summary>
+            <param name="constant">
+            The constant expression to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1.VisitMemberAccess(System.Linq.Expressions.MemberExpression)">
+            <summary>
+            Analyzes the member access expression provided as parameter and
+            returns an appropiated member access.
+            </summary>
+            <param name="member">
+            The member access to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1.CreateExplicitJoinMethodCall(System.Linq.Expressions.MemberExpression,System.Data.Linq.Mapping.MetaType,System.Reflection.MethodInfo)">
+            <summary>
+            Creates the explicit join method call.
+            </summary>
+            <param name="member">
+            The member.
+            </param>
+            <param name="objectMetaType">
+            Type of the object meta.
+            </param>
+            <param name="selector">
+            The selector.
+            </param>
+            <returns>
+            Explicit join method call expression
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1.IndexesCache">
+            <summary>
+            Gets or sets the indexes cache.
+            </summary>
+            <value>The indexes cache.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1.InnerQuery">
+            <summary>
+            Gets or sets the inner query.
+            </summary>
+            <value>The inner query.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryProvider`1.Repository">
+            <summary>
+            Gets or sets the repository.
+            </summary>
+            <value>The repository.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryable`1">
+            <summary>
+            Memory Repository Queryable object
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryable`1.#ctor(System.Linq.IQueryProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryable`1"/> class.
+            </summary>
+            <param name="provider">
+            The provider.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryable`1.#ctor(System.Linq.IQueryProvider,System.Linq.Expressions.Expression)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryable`1"/> class.
+            </summary>
+            <param name="provider">The provider.</param>
+            <param name="expression">The expression.</param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryable`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryable`1.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryable`1.ElementType">
+            <summary>
+            Gets the type of the element(s) that are returned when the expression tree associated with this instance of <see cref="T:System.Linq.IQueryable"/> is executed.
+            </summary>
+            <value></value>
+            <returns>
+            A <see cref="T:System.Type"/> that represents the type of the element(s) that are returned when the expression tree associated with this object is executed.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryable`1.Expression">
+            <summary>
+            Gets the expression tree that is associated with the instance of <see cref="T:System.Linq.IQueryable"/>.
+            </summary>
+            <value></value>
+            <returns>
+            The <see cref="T:System.Linq.Expressions.Expression"/> that is associated with this instance of <see cref="T:System.Linq.IQueryable"/>.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.MemoryQueryable`1.Provider">
+            <summary>
+            Gets the query provider that is associated with this data source.
+            </summary>
+            <value></value>
+            <returns>
+            The <see cref="T:System.Linq.IQueryProvider"/> that is associated with this data source.
+            </returns>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.ExtendedRepository">
+            <summary>
+            Repository proxy that supports methods and types interception.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.IExtendedRepository">
+            <summary>
+            Interface of repository that allows method ant type interception.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.IExtendedRepository.All``1">
+            <summary>
+            Returns query for all entities of type T.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <returns>
+            Query for all entities of type T
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.IExtendedRepository.Delete``1(``0)">
+            <summary>
+            Deletes the specified entity.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.IExtendedRepository.Insert``1(``0)">
+            <summary>
+            Inserts the specified entity.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.IExtendedRepository.Update``1(``0)">
+            <summary>
+            Updates the specified entity.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedRepository.#ctor(LogicSoftware.DataAccess.Repository.Basic.IRepository,LogicSoftware.DataAccess.Repository.Extended.IExtendedQueryExecutor,LogicSoftware.DataAccess.Repository.Extended.IRepositoryExtensionsProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.ExtendedRepository"/> class.
+            </summary>
+            <param name="innerRepository">
+            The inner repository.
+            </param>
+            <param name="queryExecutor">
+            The query executor.
+            </param>
+            <param name="repositoryExtensionsProvider">
+            The repository extensions provider.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedRepository.All``1">
+            <summary>
+            Returns query for all entities ob type T with specified load options.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <returns>
+            Query for all entities of type T
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedRepository.Delete``1(``0)">
+            <summary>
+            Deletes the specified entity.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedRepository.Insert``1(``0)">
+            <summary>
+            Inserts the specified entity.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedRepository.Update``1(``0)">
+            <summary>
+            Updates the specified entity.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedRepository.ExecuteInterceptableOperation``1(``0,System.Func{LogicSoftware.DataAccess.Repository.Extended.Interceptors.IOperationInterceptor,System.Action{LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs}},System.Action{``0},System.Func{LogicSoftware.DataAccess.Repository.Extended.Interceptors.IOperationInterceptor,System.Action{LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs}})">
+            <summary>
+            Executes the interceptable operation.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+            <param name="preOperation">
+            The pre operation.
+            </param>
+            <param name="operation">
+            The operation.
+            </param>
+            <param name="postOperation">
+            The post operation.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.ExtendedRepository.InnerRepository">
+            <summary>
+            Gets or sets the inner repository.
+            </summary>
+            <value>The inner repository.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.ExtendedRepository.QueryExecutor">
+            <summary>
+            Gets or sets the query executor.
+            </summary>
+            <value>The query executor.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.ExtendedRepository.RepositoryExtensionsProvider">
+            <summary>
+            Gets or sets the repository extensions provider.
+            </summary>
+            <value>The repository extensions provider.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs">
+            <summary>
+            The method call visit event args.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs.#ctor(System.Linq.Expressions.MethodCallExpression)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs"/> class.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs.MethodCall">
+            <summary>
+            Gets the original expression.
+            </summary>
+            <value>The original expression.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs.SubstituteExpression">
+            <summary>
+            Gets or sets the expression to place into thee.
+            </summary>
+            <remarks>
+            Defaults to original expression.
+            </remarks>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs">
+            <summary>
+            The PreQueryCreating event arguments.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs.#ctor(System.Linq.Expressions.Expression)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs"/> class.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs.Expression">
+            <summary>
+            Gets or sets the expression.
+            </summary>
+            <value>The expression.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.ExpressionAttribute">
+            <summary>
+            The custom expression attribute.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.ExpressionAttribute.#ctor(System.Type,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.ExpressionAttribute"/> class.
+            </summary>
+            <param name="declaringType">
+            The declaring Type.
+            </param>
+            <param name="methodName">
+            The name of the method.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.ExpressionAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.ExpressionAttribute"/> class.
+            </summary>
+            <param name="methodName">
+            The name of the method.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.ExpressionAttribute.DeclaringType">
+            <summary>
+            Gets the method declaring type.
+            </summary>
+            <value>
+            The method declaring type.
+            </value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.ExpressionAttribute.MethodName">
+            <summary>
+            Gets the name of the method.
+            </summary>
+            <value>
+            The name of the method.
+            </value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Interceptors.QueryInterceptor`1">
+            <summary>
+            Base abstract class for interceptors that does nothing.
+            </summary>
+            <typeparam name="TScope">
+            Type of the scope.
+            </typeparam>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IQueryInterceptor">
+            <summary>
+            The i query interceptor.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IQueryInterceptor.Initialize(LogicSoftware.DataAccess.Repository.Extended.QueryContext,LogicSoftware.DataAccess.Repository.Extended.IScope)">
+            <summary>
+            Initializes the current interceptor.
+            </summary>
+            <param name="queryContext">
+            The context of the query.
+            </param>
+            <param name="scope">
+            The scope.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IQueryInterceptor.OnMethodCallVisit(LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs)">
+            <summary>
+            The MethodCallVisit stage handler.
+            </summary>
+            <param name="e">
+            The event arguments.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IQueryInterceptor.OnPreExecute(LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs)">
+            <summary>
+            The PreExecute stage handler.
+            </summary>
+            <param name="e">
+            The event arguments.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IQueryInterceptor.OnQueryCreating(LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs)">
+            <summary>
+            The QueryCreating stage handler.
+            </summary>
+            <param name="e">
+            The event arguments.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IQueryInterceptor.OnQueryCreated(LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatedEventArgs)">
+            <summary>
+            The QueryCreated stage handler.
+            </summary>
+            <param name="e">
+            The event arguments.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IQueryInterceptor.OnLoadOptionsCreating(LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs)">
+            <summary>
+            The LoadOptionsCreating stage handler.
+            </summary>
+            <param name="e">
+            The event arguments.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.QueryInterceptor`1.Initialize(LogicSoftware.DataAccess.Repository.Extended.QueryContext,LogicSoftware.DataAccess.Repository.Extended.IScope)">
+            <summary>
+            Initializes the current interceptor.
+            </summary>
+            <param name="queryContext">
+            The context of the query.
+            </param>
+            <param name="scope">
+            The scope.
+            </param>
+            <remarks>
+            Remember to call base implementation if overriden.
+            </remarks>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.QueryInterceptor`1.OnMethodCallVisit(LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs)">
+            <summary>
+            The MethodCallVisit stage handler.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs"/> instance containing the event data.
+            </param>
+            <remarks>
+            Base implementation is empty.
+            </remarks>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.QueryInterceptor`1.OnPreExecute(LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs)">
+            <summary>
+            The PreExecute stage handler.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs"/> instance containing the event data.
+            </param>
+            <remarks>
+            Base implementation is empty.
+            </remarks>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.QueryInterceptor`1.OnQueryCreating(LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs)">
+            <summary>
+            The QueryCreating stage handler.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs"/> instance containing the event data.
+            </param>
+            <remarks>
+            Base implementation is empty.
+            </remarks>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.QueryInterceptor`1.OnQueryCreated(LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatedEventArgs)">
+            <summary>
+            The QueryCreated stage handler.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatedEventArgs"/> instance containing the event data.
+            </param>
+            <remarks>
+            Base implementation is empty.
+            </remarks>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.QueryInterceptor`1.OnLoadOptionsCreating(LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs)">
+            <summary>
+            The LoadOptionsCreating stage handler.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs"/> instance containing the event data.
+            </param>
+            <remarks>
+            Base implementation is empty.
+            </remarks>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Interceptors.QueryInterceptor`1.QueryContext">
+            <summary>
+            Gets or sets the context of the query.
+            </summary>
+            <value>The context of the query.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Interceptors.QueryInterceptor`1.Scope">
+            <summary>
+            Gets or sets the scope.
+            </summary>
+            <value>The scope.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Interceptors.InterceptorFactory">
+            <summary>
+            Creates interceptor instances
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IInterceptorFactory">
+            <summary>
+            Creates interceptor instances
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IInterceptorFactory.CreateQueryInterceptor(System.Type)">
+            <summary>
+            Creates the query interceptor of specified type.
+            </summary>
+            <param name="type">
+            The interceptor type.
+            </param>
+            <returns>
+            Interceptor instance
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IInterceptorFactory.CreateOperationInterceptor(System.Type)">
+            <summary>
+            Creates the operation interceptor of specified type.
+            </summary>
+            <param name="type">
+            The interceptor type.
+            </param>
+            <returns>
+            Interceptor instance
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.InterceptorFactory.CreateQueryInterceptor(System.Type)">
+            <summary>
+            Creates the interceptor of specified type.
+            </summary>
+            <param name="type">
+            The interceptor type.
+            </param>
+            <returns>
+            Interceptor instance
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.InterceptorFactory.CreateOperationInterceptor(System.Type)">
+            <summary>
+            Creates the operation interceptor of specified type.
+            </summary>
+            <param name="type">The interceptor type.</param>
+            <returns>Interceptor instance</returns>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Attributes.InterceptVisitAttribute">
+            <summary>
+            Marks a method as a target of data interceptor visit.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Attributes.InterceptVisitAttribute.#ctor(System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Attributes.InterceptVisitAttribute"/> class.
+            </summary>
+            <param name="interceptorType">
+            Type of the interceptor.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Attributes.InterceptVisitAttribute.InterceptorType">
+            <summary>
+            Gets the type of the interceptor.
+            </summary>
+            <value>The type of the interceptor.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositorySelectingEventArgs">
+            <summary>
+            Base class for memory repository method event arguments
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IOperationInterceptor">
+            <summary>
+            The operation (insert/update/delete) interceptor.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IOperationInterceptor.Initialize(LogicSoftware.DataAccess.Repository.Extended.IScope)">
+            <summary>
+            Initializes the current interceptor.
+            </summary>
+            <param name="scope">The scope.</param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IOperationInterceptor.OnInserting(LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs)">
+            <summary>
+            Rasied before Insert operation.
+            </summary>
+            <param name="eventArgs">The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IOperationInterceptor.OnUpdating(LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs)">
+            <summary>
+            Rasied before Update operation.
+            </summary>
+            <param name="eventArgs">The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IOperationInterceptor.OnDeleting(LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs)">
+            <summary>
+            Rasied before Delete operation.
+            </summary>
+            <param name="eventArgs">The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IOperationInterceptor.OnInserted(LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs)">
+            <summary>
+            Rasied after Insert operation.
+            </summary>
+            <param name="eventArgs">The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance contained the event data.</param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IOperationInterceptor.OnUpdated(LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs)">
+            <summary>
+            Rasied after Update operation.
+            </summary>
+            <param name="eventArgs">The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance contained the event data.</param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.IOperationInterceptor.OnDeleted(LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs)">
+            <summary>
+            Rasied after Delete operation.
+            </summary>
+            <param name="eventArgs">The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance contained the event data.</param>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs">
+            <summary>
+            LoadOptionsCreating event arguments.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs.#ctor(System.Linq.Expressions.Expression,LogicSoftware.DataAccess.Repository.Basic.LoadOptions)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs"/> class.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+            <param name="loadOptions">
+            The load options.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs.Expression">
+            <summary>
+            Gets or sets the expression.
+            </summary>
+            <value>The expression.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs.LoadOptions">
+            <summary>
+            Gets or sets the load options.
+            </summary>
+            <value>The load options.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.ExtendedQueryExecutor">
+            <summary>
+            The extended query executor.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.IExtendedQueryExecutor">
+            <summary>
+            The extended query executor interface.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.IExtendedQueryExecutor.Execute``1(LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Executes the specified query.
+            </summary>
+            <typeparam name="TResult">
+            The type of the result.
+            </typeparam>
+            <param name="context">
+            The query context.
+            </param>
+            <returns>
+            Result of the query.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQueryExecutor.#ctor(LogicSoftware.DataAccess.Repository.Basic.IRepository,LogicSoftware.DataAccess.Repository.Extended.IRepositoryExtensionsProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.ExtendedQueryExecutor"/> class.
+            </summary>
+            <param name="repository">
+            The repository.
+            </param>
+            <param name="extensionsProvider">
+            The extensions provider.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQueryExecutor.Execute``1(LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Executes the specified query.
+            </summary>
+            <typeparam name="TResult">
+            The type of the result.
+            </typeparam>
+            <param name="context">
+            The query context.
+            </param>
+            <returns>
+            Result of the query.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQueryExecutor.ExecuteCore``1(System.Linq.IQueryable,LogicSoftware.DataAccess.Repository.Extended.QueryContext,System.Linq.Expressions.Expression)">
+            <summary>
+            The real execute implementation.
+            </summary>
+            <typeparam name="TResult">
+            The type of the result.
+            </typeparam>
+            <param name="query">
+            The original queryable that will perform execute.
+            </param>
+            <param name="context">
+            The query context context.
+            </param>
+            <param name="expression">
+            The expression.
+            </param>
+            <returns>
+            The result of the query.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQueryExecutor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression,LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Analyzes the method call expression provided as parameter and
+            returns an appropiated member access.
+            </summary>
+            <param name="methodCall">
+            The method call to analyze.
+            </param>
+            <param name="context">
+            Current context.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.ExtendedQueryExecutor.ExtensionsProvider">
+            <summary>
+            Gets or sets ExtensionsProvider.
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.ExtendedQueryExecutor.Repository">
+            <summary>
+            Gets or sets Repository.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs">
+            <summary>
+            PreExecute event arguments.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs.#ctor(System.Linq.Expressions.Expression)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs"/> class.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs.Expression">
+            <summary>
+            Gets or sets the expression.
+            </summary>
+            <value>The expression.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager">
+            <summary>
+            The sql connection manager.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.LinqToSql.ISqlConnectionManager">
+            <summary>
+            The sql connection manager interface.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.ISqlConnectionManager.GetConnection">
+            <summary>
+            Gets the sql connection and transaction if present.
+            </summary>
+            <returns>
+            SqlConnectionContext with connection and transaction if available.
+            </returns>
+        </member>
+        <member name="F:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.TransactionEnlistmentsMap">
+            <summary>
+            The transaction enlistments map.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.#ctor(LogicSoftware.DataAccess.Repository.LinqToSql.IConnectionString)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager"/> class.
+            </summary>
+            <param name="connectionString">
+            The connection string.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.GetConnection">
+            <summary>
+            Gets the sql connection and transaction if present.
+            </summary>
+            <returns>
+            SqlConnectionContext with connection and transaction if available.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing">
+            <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.CleanupEnlistment(System.String)">
+            <summary>
+            Cleanups the enlistment.
+            </summary>
+            <param name="transactionLocalIdentifier">
+            The transaction local identifier.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.GetSqlIsolationLevel(System.Transactions.Transaction)">
+            <summary>
+            Gets sql isolation level from System.Transactions.IsolationLevel.
+            </summary>
+            <param name="transaction">
+            The transaction.
+            </param>
+            <returns>
+            The sql isolation level.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.CreateConnection">
+            <summary>
+            Creates the sql connection.
+            </summary>
+            <returns>
+            New sql connection.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.TryEnlistConnection">
+            <summary>
+            Tries to create and enlist the connection in current transaction.
+            </summary>
+            <returns>
+            SqlConnectionEnlistment if current transaction exists.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.ConnectionString">
+            <summary>
+            Gets or sets ConnectionString.
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.CreatedConnections">
+            <summary>
+            Gets or sets CreatedConnections.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.SqlConnectionEnlistment">
+            <summary>
+            The sql connection enlistment.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.SqlConnectionEnlistment.#ctor(System.String,System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlTransaction)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.SqlConnectionEnlistment"/> class.
+            </summary>
+            <param name="transactionLocalIdentifier">
+            The transaction Local Identifier.
+            </param>
+            <param name="connection">
+            The sql connection.
+            </param>
+            <param name="sqlTtransaction">
+            The sql transaction.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.SqlConnectionEnlistment.Commit(System.Transactions.Enlistment)">
+            <summary>
+            Notifies an enlisted object that a transaction is being committed.
+            </summary>
+            <param name="enlistment">
+            An <see cref="T:System.Transactions.Enlistment"/> object used to send a response to the transaction manager.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.SqlConnectionEnlistment.InDoubt(System.Transactions.Enlistment)">
+            <summary>
+            Notifies an enlisted object that the status of a transaction is in doubt.
+            </summary>
+            <param name="enlistment">
+            An <see cref="T:System.Transactions.Enlistment"/> object used to send a response to the transaction manager.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.SqlConnectionEnlistment.Prepare(System.Transactions.PreparingEnlistment)">
+            <summary>
+            Notifies an enlisted object that a transaction is being prepared for commitment.
+            </summary>
+            <param name="preparingEnlistment">
+            A <see cref="T:System.Transactions.PreparingEnlistment"/> object used to send a response to the transaction manager.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.SqlConnectionEnlistment.Rollback(System.Transactions.Enlistment)">
+            <summary>
+            Notifies an enlisted object that a transaction is being rolled back (aborted).
+            </summary>
+            <param name="enlistment">
+            A <see cref="T:System.Transactions.Enlistment"/> object used to send a response to the transaction manager.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.SqlConnectionEnlistment.SqlConnection">
+            <summary>
+            Gets the sql connection.
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.SqlConnectionEnlistment.SqlTransaction">
+            <summary>
+            Gets the sql transaction.
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionManager.SqlConnectionEnlistment.TransactionLocalIdentifier">
+            <summary>
+            Gets the transaction local identifier.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Attributes.InterceptAttribute">
+            <summary>
+            Marks class as a target for data access interceptor
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Attributes.InterceptAttribute.#ctor(System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Attributes.InterceptAttribute"/> class.
+            </summary>
+            <param name="interceptorType">
+            Type of the interceptor.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Attributes.InterceptAttribute.InterceptorType">
+            <summary>
+            Gets the type of the interceptor.
+            </summary>
+            <value>The type of the interceptor.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryStatusEventArgs">
+            <summary>
+            Base class for memory repository status event arguments
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryStatusEventArgs.#ctor(System.Object,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryStatusEventArgs"/> class.
+            </summary>
+            <param name="result">The result.</param>
+            <param name="oldValue">The old value.</param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryStatusEventArgs.Result">
+            <summary>
+            Gets or sets the result.
+            </summary>
+            <value>The result.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryStatusEventArgs.OldValue">
+            <summary>
+            Gets or sets the old value.
+            </summary>
+            <value>The old value.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository">
+            <summary>
+            In-Memory Entities Repository
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Basic.IRepository">
+            <summary>
+            Entities Repository Interface
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.IRepository.All``1">
+            <summary>
+            Returns query for all entities of type T.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <returns>
+            Query for all entities of type T.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.IRepository.All(System.Type)">
+            <summary>
+            Returns query for all entities of type T.
+            Non-generic overload.
+            </summary>
+            <param name="entityType">
+            Type of the entity.
+            </param>
+            <returns>
+            Query for all entities of type T.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.IRepository.All``1(LogicSoftware.DataAccess.Repository.Basic.LoadOptions)">
+            <summary>
+            Returns query for all entities of type T with specified load options.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <param name="loadOptions">
+            The load options.
+            </param>
+            <returns>
+            Query for all entities of type T.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.IRepository.All(System.Type,LogicSoftware.DataAccess.Repository.Basic.LoadOptions)">
+            <summary>
+            Returns query for all entities of type T with specified load options.
+            Non-generic overload.
+            </summary>
+            <param name="entityType">
+            Type of the entity.
+            </param>
+            <param name="loadOptions">
+            The load options.
+            </param>
+            <returns>
+            Query for all entities of type T.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.IRepository.Delete``1(``0)">
+            <summary>
+            Deletes the specified entity.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.IRepository.Insert``1(``0)">
+            <summary>
+            Inserts the specified entity.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.IRepository.Update``1(``0)">
+            <summary>
+            Updates the specified entity.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="F:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.AllMethod">
+            <summary>
+            The all method.
+            </summary>
+        </member>
+        <member name="F:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.DataLockObject">
+            <summary>
+            The data lock object.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.#ctor(LogicSoftware.DataAccess.Repository.Mapping.IMappingSourceManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository"/> class.
+            </summary>
+            <param name="mappingSourceManager">
+            The mapping source manager.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository"/> class from being created. 
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository"/> class.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.All``1">
+            <summary>
+            Returns query for all entities of type T.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <returns>
+            Query for all entities of type T.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.All(System.Type)">
+            <summary>
+            Returns query for all entities of type T.
+            Non-generic overload.
+            </summary>
+            <param name="entityType">
+            Type of the entity.
+            </param>
+            <returns>
+            Query for all entities of type T.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.All``1(LogicSoftware.DataAccess.Repository.Basic.LoadOptions)">
+            <summary>
+            Returns query for all entities of type T with specified load options.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <param name="loadOptions">
+            The load options.
+            </param>
+            <returns>
+            Query for all entities of type T.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.All(System.Type,LogicSoftware.DataAccess.Repository.Basic.LoadOptions)">
+            <summary>
+            Returns query for all entities of type T with specified load options.
+            Non-generic overload.
+            </summary>
+            <param name="entityType">
+            Type of the entity.
+            </param>
+            <param name="loadOptions">
+            The load options.
+            </param>
+            <returns>
+            Query for all entities of type T.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.Delete``1(``0)">
+            <summary>
+            Deletes the specified entity.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.Insert``1(``0)">
+            <summary>
+            Inserts the specified entity.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.Update``1(``0)">
+            <summary>
+            Updates the specified entity.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.GetAllByPropertyValue``1(System.Reflection.PropertyInfo,System.Object)">
+            <summary>
+            Returns all entities with specified property value.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="property">
+            The property.
+            </param>
+            <param name="value">
+            The value.
+            </param>
+            <returns>
+            All entities with specified property value.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.GetModel">
+            <summary>
+            Gets the model.
+            </summary>
+            <returns>
+            Meta model.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.GetSingleByPropertyValue``1(System.Reflection.PropertyInfo,System.Object)">
+            <summary>
+            Gets the single entity with specified property value.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="property">
+            The property.
+            </param>
+            <param name="value">
+            The value.
+            </param>
+            <returns>
+            The single entity with specified property value.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.ConvertFromDbValue(System.Object,System.Type)">
+            <summary>
+            Converts from db value.
+            </summary>
+            <param name="value">
+            The value.
+            </param>
+            <param name="type">
+            The type to convert to.
+            </param>
+            <returns>
+            converted value
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.ConvertToDbValue(System.Object)">
+            <summary>
+            Converts to db value.
+            </summary>
+            <param name="value">
+            The value.
+            </param>
+            <returns>
+            Value converted to database-formatted value
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.FilterByPropertyValue``1(System.Linq.IQueryable{``0},System.Reflection.PropertyInfo,System.Object)">
+            <summary>
+            Filters entities the by property value.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="entities">
+            The entities.
+            </param>
+            <param name="property">
+            The property.
+            </param>
+            <param name="value">
+            The value.
+            </param>
+            <returns>
+            Entites with specific value of specified propery.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.GetColumnStorageType(System.Type)">
+            <summary>
+            Gets the storage type of the column.
+            </summary>
+            <param name="type">
+            The original column type.
+            </param>
+            <returns>
+            The storage type of a column
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.CreateTable``1(System.String)">
+            <summary>
+            Creates the table to store entities data.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="tableName">
+            Name of the table.
+            </param>
+            <returns>
+            The table to store entities data
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.CreateTable(System.Type,System.String)">
+            <summary>
+            Creates the table to store entities data.
+            </summary>
+            <param name="entityType">
+            Entity type
+            </param>
+            <param name="tableName">
+            Name of the table.
+            </param>
+            <returns>
+            The table to store entities data
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.Delete(System.Type,System.Object)">
+            <summary>
+            Deletes the entity
+            </summary>
+            <param name="entityType">
+            The entity type.
+            </param>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.DeleteAssociations(System.Type,System.Data.DataRow)">
+            <summary>
+            Processes all associated data on "main" entity deletion
+            </summary>
+            <param name="entityType">
+            The entity Type.
+            </param>
+            <param name="entityRow">
+            Entity being deleted
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.FillGeneratedMembers``1(System.Data.DataRow,``0)">
+            <summary>
+            Fills the db-generated members.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="row">
+            The entity data row.
+            </param>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.FindTable``1">
+            <summary>
+            Finds the storage table for entity type.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <returns>
+            Storage table for entity type.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.FindTable(System.Type)">
+            <summary>
+            Finds the storage table for entity type.
+            </summary>
+            <param name="entityType">
+            The type of the entity
+            </param>
+            <returns>
+            Storage table for entity type.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.GetEntityRow``1(``0)">
+            <summary>
+            Gets the entity data row.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+            <returns>
+            Entity data row.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.GetEntityRow(System.Type,System.Object)">
+            <summary>
+            Gets the entity data row.
+            </summary>
+            <param name="entityType">
+            The entity Type.
+            </param>
+            <param name="entity">
+            The entity.
+            </param>
+            <returns>
+            Entity data row.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.GetMetaType``1">
+            <summary>
+            Gets the metatype for entity type.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <returns>
+            Metatype for entity type.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.GetMetaType(System.Type)">
+            <summary>
+            Gets the metatype for entity type
+            </summary>
+            <param name="sourceType">
+            Entity type
+            </param>
+            <returns>
+            Metatype for entity type.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.LoadAssociationsForEach``1(System.Collections.Generic.List{``0},LogicSoftware.DataAccess.Repository.Basic.LoadOptions)">
+            <summary>
+            Loads the associations for entities.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="entities">
+            The entities.
+            </param>
+            <param name="loadOptions">
+            The load options.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.MapObjectToRow``1(System.Object,System.Data.DataRow)">
+            <summary>
+            Maps the object to entity data row.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+            <param name="row">
+            The entity data row.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.MapRowToObject``1(System.Data.DataRow)">
+            <summary>
+            Maps the entity data row row to object.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="row">
+            The entity data row.
+            </param>
+            <returns>
+            Entity object.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.OnDeleted(LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryStatusEventArgs)">
+            <summary>
+            Raises the <see cref="E:Deleted"/> event.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryStatusEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.OnDeleting(LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryMethodEventArgs)">
+            <summary>
+            Raises the <see cref="E:Deleting"/> event.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryMethodEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.OnInserted(LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryStatusEventArgs)">
+            <summary>
+            Raises the <see cref="E:Inserted"/> event.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryStatusEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.OnInserting(LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryMethodEventArgs)">
+            <summary>
+            Raises the <see cref="E:Inserting"/> event.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryMethodEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.OnSelected(LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryStatusEventArgs)">
+            <summary>
+            Raises the <see cref="E:Selected"/> event.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryStatusEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.OnSelecting(LogicSoftware.DataAccess.Repository.Memory.MemoryRepositorySelectingEventArgs)">
+            <summary>
+            Raises the <see cref="E:Selecting"/> event.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositorySelectingEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.OnUpdated(LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryStatusEventArgs)">
+            <summary>
+            Raises the <see cref="E:Updated"/> event.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryStatusEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.OnUpdating(LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryMethodEventArgs)">
+            <summary>
+            Raises the <see cref="E:Updating"/> event.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryMethodEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="E:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.Deleted">
+            <summary>
+            Occurs when [deleted].
+            </summary>
+        </member>
+        <member name="E:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.Deleting">
+            <summary>
+            Occurs when [deleting].
+            </summary>
+        </member>
+        <member name="E:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.Inserted">
+            <summary>
+            Occurs when [inserted].
+            </summary>
+        </member>
+        <member name="E:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.Inserting">
+            <summary>
+            Occurs when [inserting].
+            </summary>
+        </member>
+        <member name="E:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.Selected">
+            <summary>
+            Occurs when [selected].
+            </summary>
+        </member>
+        <member name="E:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.Selecting">
+            <summary>
+            Occurs when [selecting].
+            </summary>
+        </member>
+        <member name="E:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.Updated">
+            <summary>
+            Occurs when [updated].
+            </summary>
+        </member>
+        <member name="E:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.Updating">
+            <summary>
+            Occurs when [updating].
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.Data">
+            <summary>
+            Gets or sets the data.
+            </summary>
+            <value>The dataset with repository data.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.MemoryRepository.MappingSource">
+            <summary>
+            Gets MappingSource.
+            </summary>
+            <value>The mapping source.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.LinqToSql.DisposableLinqToSqlRepository">
+            <summary>
+            The disposable linq to sql repository.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository">
+            <summary>
+            Repository that uses Linq To SQL to store entity data
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.#ctor(LogicSoftware.DataAccess.Repository.LinqToSql.ISqlConnectionManager,LogicSoftware.DataAccess.Repository.Mapping.IMappingSourceManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository"/> class.
+            </summary>
+            <param name="connectionManager">
+            The sql connection manager.
+            </param>
+            <param name="mappingSourceManager">
+            The mapping source manager.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.All``1">
+            <summary>
+            Returns query for all entities of type T.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <returns>
+            Query for all entities of type T.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.All(System.Type)">
+            <summary>
+            Returns query for all entities of type T.
+            Non-generic overload.
+            </summary>
+            <param name="entityType">
+            Type of the entity.
+            </param>
+            <returns>
+            Query for all entities of type T.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.All``1(LogicSoftware.DataAccess.Repository.Basic.LoadOptions)">
+            <summary>
+            Returns query for all entities of type T with specified load options.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <param name="loadOptions">
+            The load options.
+            </param>
+            <returns>
+            Query for all entities of type T.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.All(System.Type,LogicSoftware.DataAccess.Repository.Basic.LoadOptions)">
+            <summary>
+            Returns query for all entities of type T with specified load options.
+            Non-generic overload.
+            </summary>
+            <param name="entityType">
+            Type of the entity.
+            </param>
+            <param name="loadOptions">
+            The load options.
+            </param>
+            <returns>
+            Query for all entities of type T.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.Delete``1(``0)">
+            <summary>
+            Deletes the specified entity.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.Insert``1(``0)">
+            <summary>
+            Inserts the specified entity.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.Update``1(``0)">
+            <summary>
+            Updates the specified entity.
+            </summary>
+            <typeparam name="T">
+            Type of the entity.
+            </typeparam>
+            <param name="entity">
+            The entity.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.ApplyLoadOptions(System.Data.Linq.DataLoadOptions,LogicSoftware.DataAccess.Repository.Basic.LoadOptions)">
+            <summary>
+            Converts LoadOptions to LinqToSql DataLoadOptions.
+            </summary>
+            <param name="dataContextLoadOptions">
+            The data context load options.
+            </param>
+            <param name="loadOptions">
+            The load options.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.CreateDataContext(System.Data.Linq.Mapping.MappingSource)">
+            <summary>
+            Creates the data context with provided mapping source.
+            </summary>
+            <param name="mappingSource">
+            The mapping source.
+            </param>
+            <returns>
+            New DataContext.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.CreateNoAssociationsDataContext">
+            <summary>
+            Creates the data context without association support.
+            </summary>
+            <returns>
+            The data context without association support
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.CreateReadOnlyDataContext">
+            <summary>
+            Creates the read only data context.
+            </summary>
+            <returns>
+            The read only data context.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.CreateReadOnlyDataContext(LogicSoftware.DataAccess.Repository.Basic.LoadOptions)">
+            <summary>
+            Creates the read only data context with LoadOptions.
+            </summary>
+            <param name="loadOptions">
+            The load options.
+            </param>
+            <returns>
+            The read only data context with LoadOptions.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.GetDataContextLoadOptions(LogicSoftware.DataAccess.Repository.Basic.LoadOptions)">
+            <summary>
+            Creating LinqToSql DataLoadOptions from provided LoadOptions.
+            </summary>
+            <param name="loadOptions">
+            The load options.
+            </param>
+            <returns>
+            LinqToSql DataLoadOptions.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.ConnectionManager">
+            <summary>
+            Gets or sets the sql connection manager.
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.LinqToSql.LinqToSqlRepository.MappingSourceManager">
+            <summary>
+            Gets the mapping source manager.
+            </summary>
+            <value>The mapping source manager.</value>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.DisposableLinqToSqlRepository.#ctor(LogicSoftware.DataAccess.Repository.LinqToSql.ISqlConnectionManager,LogicSoftware.DataAccess.Repository.Mapping.IMappingSourceManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.LinqToSql.DisposableLinqToSqlRepository"/> class.
+            </summary>
+            <param name="connectionManager">
+            The sql connection manager.
+            </param>
+            <param name="mappingSourceManager">
+            The mapping source manager.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.DisposableLinqToSqlRepository.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.DisposableLinqToSqlRepository.CreateReadOnlyDataContext">
+            <summary>
+            Creates the read only data context.
+            </summary>
+            <returns>
+            The read only data context.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.DisposableLinqToSqlRepository.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources
+            </summary>
+            <param name="disposing">
+            <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.LinqToSql.DisposableLinqToSqlRepository.CreatedDataContexts">
+            <summary>
+            Gets or sets CreatedDataContexts.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.LinqToSql.ConfigurationConnectionString">
+            <summary>
+            Connection String in configuration file
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.LinqToSql.IConnectionString">
+            <summary>
+            Connection String interface. 
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.LinqToSql.IConnectionString.ConnectionString">
+            <summary>
+            Gets the connection string.
+            </summary>
+            <value>The connection string.</value>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.ConfigurationConnectionString.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.LinqToSql.ConfigurationConnectionString"/> class.
+            </summary>
+            <param name="name">
+            The configuration element name.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.LinqToSql.ConfigurationConnectionString.ConnectionString">
+            <summary>
+            Gets the connection string.
+            </summary>
+            <value>The connection string.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.ViewAttribute">
+            <summary>
+            The view attribute.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.ViewAttribute.#ctor(System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.ViewAttribute"/> class.
+            </summary>
+            <param name="rootType">
+            The root type.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.ViewAttribute.RootType">
+            <summary>
+            Gets Type.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryMethodEventArgs">
+            <summary>
+            Base class for memory repository method event arguments
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryMethodEventArgs.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryMethodEventArgs"/> class.
+            </summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.MemoryRepositoryMethodEventArgs.Entity">
+            <summary>
+            Gets the entity.
+            </summary>
+            <value>The entity.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionContext">
+            <summary>
+            The sql connection context returned from SqlConnectionManager.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionContext.#ctor(System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlTransaction)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionContext"/> class.
+            </summary>
+            <param name="connection">
+            The connection.
+            </param>
+            <param name="transaction">
+            The transaction if available.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionContext.Connection">
+            <summary>
+            Gets or sets the connection.
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.LinqToSql.SqlConnectionContext.Transaction">
+            <summary>
+            Gets or sets the transaction.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.ExpressionExpanderQueryInterceptor">
+            <summary>
+            The custom expression expander query interceptor.
+            </summary>
+        </member>
+        <member name="F:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.ExpressionExpanderQueryInterceptor.ExpandMethod">
+            <summary>
+            The expand method.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.ExpressionExpanderQueryInterceptor.OnMethodCallVisit(LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs)">
+            <summary>
+            The MethodCallVisit stage handler.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.ExpressionExpanderQueryInterceptor.OnPreExecute(LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs)">
+            <summary>
+            The PreExecute stage handler.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.ExpressionExpanderQueryInterceptor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)">
+            <summary>
+            Analyzes the method call expression provided as parameter and
+            returns an appropiated member access.
+            </summary>
+            <param name="methodCall">
+            The method call to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Mapping.XmlMappingSourceManager">
+            <summary>
+            Mapping source manager for XmlMappingSource
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Mapping.IMappingSourceManager">
+            <summary>
+            Mappig source manager interface
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Mapping.IMappingSourceManager.MappingSource">
+            <summary>
+            Gets the mapping source.
+            </summary>
+            <value>The mapping source.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Mapping.IMappingSourceManager.NoAssociationsMappingSource">
+            <summary>
+            Gets the mapping source with no associations in mapping.
+            </summary>
+            <value>The mapping source with no associations in mapping</value>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Mapping.XmlMappingSourceManager.#ctor(System.IO.Stream)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Mapping.XmlMappingSourceManager"/> class.
+            </summary>
+            <param name="mappingStream">
+            The mapping stream.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Mapping.XmlMappingSourceManager.CreateNoAssociationsMappingSource(System.IO.Stream)">
+            <summary>
+            Creates the mapping source with no associations in mapping.
+            </summary>
+            <param name="mappingStream">
+            The mapping stream.
+            </param>
+            <returns>
+            The mapping source with no associations
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Mapping.XmlMappingSourceManager.ReadAllToMemoryStream(System.IO.Stream)">
+            <summary>
+            Reads all stream content to memory stream.
+            </summary>
+            <param name="mappingStream">
+            The mapping stream.
+            </param>
+            <returns>
+            Memory stream.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Mapping.XmlMappingSourceManager.MappingSource">
+            <summary>
+            Gets the mapping source.
+            </summary>
+            <value>The mapping source.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Mapping.XmlMappingSourceManager.NoAssociationsMappingSource">
+            <summary>
+            Gets the no associations mapping source.
+            </summary>
+            <value>The no associations mapping source.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.RepositoryExtensionsProvider">
+            <summary>
+            The repository extensions provider.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.IRepositoryExtensionsProvider">
+            <summary>
+            Handles events and query context for data interception.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.IRepositoryExtensionsProvider.InitializeQueryContext(LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Initializes the query context.
+            </summary>
+            <param name="context">
+            The context.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.IRepositoryExtensionsProvider.OnMethodCallVisit(LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs,LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Notifies interceptors about MethodCallVisit stage in query execution.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs"/> instance containing the event data.
+            </param>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            <c>true</c>, if method call was interepted, <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.IRepositoryExtensionsProvider.OnPreExecute(LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs,LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Notifies interceptors about PreExecute stage in query execution.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs"/> instance containing the event data.
+            </param>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            <c>true</c>, if at least one interceptor has been executed, <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.IRepositoryExtensionsProvider.OnQueryCreating(LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs,LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Notifies interceptor about PreQueryCreating stage in query execution.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs"/> instance containing the event data.
+            </param>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            <c>true</c>, if at least one interceptor has been executed, <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.IRepositoryExtensionsProvider.OnQueryCreated(LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatedEventArgs,LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Notifies interceptors about QueryCreated stage in query execution.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatedEventArgs"/> instance containing the event data.
+            </param>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            <c>true</c>, if at least one interceptor has been executed, <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.IRepositoryExtensionsProvider.OnLoadOptionsCreating(LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs,LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Notifies interceptor about LoadOptionsCreating stage in query execution.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs"/> instance containing the event data.
+            </param>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            <c>true</c>, if at least one interceptor has been executed, <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.IRepositoryExtensionsProvider.InitializeOperationInterceptors``1">
+            <summary>
+            Initializes the operation interceptor.
+            </summary>
+            <typeparam name="T">Entity type.</typeparam>
+            <returns>The operation interceptor.</returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.RepositoryExtensionsProvider.#ctor(LogicSoftware.DataAccess.Repository.Extended.Interceptors.IInterceptorFactory,LogicSoftware.DataAccess.Repository.Extended.IScope)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.RepositoryExtensionsProvider"/> class.
+            </summary>
+            <param name="interceptorFactory">
+            The interceptor factory.
+            </param>
+            <param name="scope">
+            The object scope.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.RepositoryExtensionsProvider.InitializeOperationInterceptors``1">
+            <summary>
+            Initializes the operation interceptor.
+            </summary>
+            <typeparam name="T">
+            Entity type.
+            </typeparam>
+            <returns>
+            The operation interceptor.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.RepositoryExtensionsProvider.InitializeQueryContext(LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Initializes the query context.
+            </summary>
+            <param name="context">
+            The context.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.RepositoryExtensionsProvider.OnLoadOptionsCreating(LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs,LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Notifies interceptor about LoadOptionsCreating stage in query execution.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs"/> instance containing the event data.
+            </param>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            <c>true</c>, if at least one interceptor has been executed, <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.RepositoryExtensionsProvider.OnMethodCallVisit(LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs,LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Notifies interceptors about MethodCallVisit stage in query execution.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs"/> instance containing the event data.
+            </param>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            <c>true</c>, if method call was interepted, <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.RepositoryExtensionsProvider.OnPreExecute(LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs,LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Notifies interceptors about PreExecute stage in query execution.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs"/> instance containing the event data.
+            </param>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            <c>true</c>, if at least one interceptor has been executed, <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.RepositoryExtensionsProvider.OnQueryCreated(LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatedEventArgs,LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Notifies interceptors about QueryCreated stage in query execution.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatedEventArgs"/> instance containing the event data.
+            </param>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            <c>true</c>, if at least one interceptor has been executed, <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.RepositoryExtensionsProvider.OnQueryCreating(LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs,LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Notifies interceptor about QueryCreating stage in query execution.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs"/> instance containing the event data.
+            </param>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            <c>true</c>, if at least one interceptor has been executed, <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.RepositoryExtensionsProvider.AddInterceptorToContext(System.Type,LogicSoftware.DataAccess.Repository.Extended.QueryContext)">
+            <summary>
+            Adds the interceptor to query context.
+            </summary>
+            <param name="interceptorType">
+            Type of the interceptor.
+            </param>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            Created query interceptor.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.RepositoryExtensionsProvider.InterceptorFactory">
+            <summary>
+            Gets or sets the interceptor factory.
+            </summary>
+            <value>The interceptor factory.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.RepositoryExtensionsProvider.Scope">
+            <summary>
+            Gets or sets the object scope.
+            </summary>
+            <value>The object scope.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1">
+            <summary>
+            The extended query.
+            </summary>
+            <typeparam name="T">
+            Element type.
+            </typeparam>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.#ctor(LogicSoftware.DataAccess.Repository.Extended.IExtendedQueryExecutor)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1"/> class.
+            </summary>
+            <param name="queryExecutor">
+            The query executor.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.#ctor(LogicSoftware.DataAccess.Repository.Extended.IExtendedQueryExecutor,System.Linq.IQueryable,System.Linq.Expressions.Expression)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1"/> class.
+            </summary>
+            <param name="queryExecutor">
+            The query executor.
+            </param>
+            <param name="rootQuery">
+            The root query that came from extended repository.
+            </param>
+            <param name="expression">
+            The expression.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.System#Linq#IQueryProvider#CreateQuery(System.Linq.Expressions.Expression)">
+            <summary>
+            Constructs an <see cref="T:System.Linq.IQueryable"/> object that can evaluate the query represented by a specified expression tree.
+            </summary>
+            <param name="expression">
+            An expression tree that represents a LINQ query.
+            </param>
+            <returns>
+            An <see cref="T:System.Linq.IQueryable"/> that can evaluate the query represented by the specified expression tree.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            </exception>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.System#Linq#IQueryProvider#CreateQuery``1(System.Linq.Expressions.Expression)">
+            <summary>
+            Constructs an <see cref="T:System.Linq.IQueryable"/> object that can evaluate the query represented by a specified expression tree.
+            </summary>
+            <typeparam name="TElement">
+            The type of the element.
+            </typeparam>
+            <param name="expression">
+            An expression tree that represents a LINQ query.
+            </param>
+            <returns>
+            An <see cref="T:System.Linq.IQueryable"/> that can evaluate the query represented by the specified expression tree.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.System#Linq#IQueryProvider#Execute(System.Linq.Expressions.Expression)">
+            <summary>
+            Executes the query represented by a specified expression tree.
+            </summary>
+            <param name="expression">
+            An expression tree that represents a LINQ query.
+            </param>
+            <returns>
+            The value that results from executing the specified query.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.System#Linq#IQueryProvider#Execute``1(System.Linq.Expressions.Expression)">
+            <summary>
+            Executes the query represented by a specified expression tree.
+            </summary>
+            <typeparam name="TResult">
+            The type of the result.
+            </typeparam>
+            <param name="expression">
+            An expression tree that represents a LINQ query.
+            </param>
+            <returns>
+            The value that results from executing the specified query.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.System#Linq#IQueryable#ElementType">
+            <summary>
+            Gets the type of the element(s) that are returned when the expression tree associated with this instance of <see cref="T:System.Linq.IQueryable"/> is executed.
+            </summary>
+            <value></value>
+            <returns>
+            A <see cref="T:System.Type"/> that represents the type of the element(s) that are returned when the expression tree associated with this object is executed.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.System#Linq#IQueryable#Expression">
+            <summary>
+            Gets the expression tree that is associated with the instance of <see cref="T:System.Linq.IQueryable"/>.
+            </summary>
+            <value></value>
+            <returns>
+            The <see cref="T:System.Linq.Expressions.Expression"/> that is associated with this instance of <see cref="T:System.Linq.IQueryable"/>.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.System#Linq#IQueryable#Provider">
+            <summary>
+            Gets the query provider that is associated with this data source.
+            </summary>
+            <value></value>
+            <returns>
+            The <see cref="T:System.Linq.IQueryProvider"/> that is associated with this data source.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.Expression">
+            <summary>
+            Gets or sets the expression of the current query.
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.QueryExecutor">
+            <summary>
+            Gets or sets the QueryExecutor.
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.ExtendedQuery`1.RootQuery">
+            <summary>
+            Gets or sets the root query that came from extended repository.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Basic.LoadOptions">
+            <summary>
+            The load options.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.LoadOptions.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Basic.LoadOptions"/> class.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.LoadOptions.LoadWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+            <summary>
+            Loads the with.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="member">
+            The member.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.LoadOptions.LoadWith(System.Linq.Expressions.LambdaExpression)">
+            <summary>
+            Loads the with.
+            </summary>
+            <param name="member">
+            The member.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Basic.LoadOptions.IsEmpty">
+            <summary>
+            Gets a value indicating whether this instance is empty.
+            </summary>
+            <value><c>true</c> if this instance is empty; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Basic.LoadOptions.LoadWithOptions">
+            <summary>
+            Gets the load with options.
+            </summary>
+            <value>The load with options.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.PropertyAttribute">
+            <summary>
+            The map attribute.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.PropertyAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.PropertyAttribute"/> class.
+            </summary>
+            <param name="path">
+            The path of member.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Attributes.Views.PropertyAttribute.Path">
+            <summary>
+            Gets PropertyPath of member.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Interceptors.OperationInterceptor`1">
+            <summary>
+            Base abstract class for interceptors that does nothing.
+            </summary>
+            <typeparam name="TScope">
+            Type of the scope.
+            </typeparam>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.OperationInterceptor`1.Initialize(LogicSoftware.DataAccess.Repository.Extended.IScope)">
+            <summary>
+            Initializes the current interceptor.
+            </summary>
+            <param name="scope">
+            The scope.
+            </param>
+            <remarks>
+            Remember to call base implementation if overriden.
+            </remarks>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.OperationInterceptor`1.OnDeleted(LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs)">
+            <summary>
+            Rasied after Delete operation.
+            </summary>
+            <param name="eventArgs">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance contained the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.OperationInterceptor`1.OnDeleting(LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs)">
+            <summary>
+            Rasied before Delete operation.
+            </summary>
+            <param name="eventArgs">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.OperationInterceptor`1.OnInserted(LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs)">
+            <summary>
+            Rasied after Insert operation.
+            </summary>
+            <param name="eventArgs">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance contained the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.OperationInterceptor`1.OnInserting(LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs)">
+            <summary>
+            Rasied before Insert operation.
+            </summary>
+            <param name="eventArgs">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.OperationInterceptor`1.OnUpdated(LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs)">
+            <summary>
+            Rasied after Update operation.
+            </summary>
+            <param name="eventArgs">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance contained the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.OperationInterceptor`1.OnUpdating(LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs)">
+            <summary>
+            Rasied before Update operation.
+            </summary>
+            <param name="eventArgs">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Interceptors.OperationInterceptor`1.Scope">
+            <summary>
+            Gets or sets the scope.
+            </summary>
+            <value>The scope.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.LoadWithQueryInterceptor">
+            <summary>
+            The Load With query interceptor.
+            </summary>
+        </member>
+        <member name="F:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.LoadWithQueryInterceptor.LoadWithMethod">
+            <summary>
+            The load with method.
+            </summary>
+        </member>
+        <member name="F:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.LoadWithQueryInterceptor.LoadWithParentMethod">
+            <summary>
+            The load with parent method.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.LoadWithQueryInterceptor.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.LoadWithQueryInterceptor"/> class.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.LoadWithQueryInterceptor.OnLoadOptionsCreating(LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs)">
+            <summary>
+            The LoadOptionsCreating stage handler.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.LoadWithQueryInterceptor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)">
+            <summary>
+            Analyzes the method call expression provided as parameter and
+            returns an appropiated member access.
+            </summary>
+            <param name="methodCall">
+            The method call to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.LoadWithQueryInterceptor.LoadWithExpressions">
+            <summary>
+            Gets or sets the load with expressions.
+            </summary>
+            <value>The load with expressions.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption">
+            <summary>
+            The load with option.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption.#ctor(System.Linq.Expressions.LambdaExpression)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption"/> class.
+            </summary>
+            <param name="expression">
+            The LoadWith expression.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption.Association">
+            <summary>
+            Gets or sets the full association lambda.
+            Eg. project => project.Tasks.Where(...).
+            </summary>
+            <value>The member.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption.Member">
+            <summary>
+            Gets or sets the member lambda only.
+            Eg. project => project.Tasks.
+            </summary>
+            <value>The member.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption.LoadWithOptionNormalizer">
+            <summary>
+            The private LoadWithOption normalizer.
+            </summary>
+        </member>
+        <member name="F:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption.LoadWithOptionNormalizer.AsEnumerableMethod">
+            <summary>
+            The as enumerable method.
+            </summary>
+        </member>
+        <member name="F:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption.LoadWithOptionNormalizer.ToArrayMethod">
+            <summary>
+            The to array method.
+            </summary>
+        </member>
+        <member name="F:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption.LoadWithOptionNormalizer.ToListMethod">
+            <summary>
+            The to list method.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption.LoadWithOptionNormalizer.Visit(System.Linq.Expressions.Expression,System.Linq.Expressions.ParameterExpression)">
+            <summary>
+            The custom visit method.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+            <param name="entityParameter">
+            The entity parameter.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption.LoadWithOptionNormalizer.VisitMemberAccess(System.Linq.Expressions.MemberExpression)">
+            <summary>
+            Analyzes the member access expression provided as parameter and
+            returns an appropiated member access.
+            </summary>
+            <param name="member">
+            The member access to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption.LoadWithOptionNormalizer.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)">
+            <summary>
+            Analyzes the method call expression provided as parameter and
+            returns an appropiated member access.
+            </summary>
+            <param name="methodCall">
+            The method call to analyze.
+            </param>
+            <returns>
+            A System.Linq.Expressions.Expression.
+            </returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption.LoadWithOptionNormalizer.AssociationExpression">
+            <summary>
+            Gets association expression.
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption.LoadWithOptionNormalizer.MemberExpression">
+            <summary>
+            Gets the member expression.
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Basic.LoadWithOption.LoadWithOptionNormalizer.EntityParameter">
+            <summary>
+            Gets or sets EntityParameter.
+            </summary>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs">
+            <summary>
+            Operation Method event arguments
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> class.
+            </summary>
+            <param name="entity">The entity.</param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs.Entity">
+            <summary>
+            Gets the entity.
+            </summary>
+            <value>The entity.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.QueryableExtensions">
+            <summary>
+            The queryable extensions.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.QueryableExtensions.Expand``1(System.Linq.IQueryable{``0})">
+            <summary>
+            Expands expression properties in the query.
+            </summary>
+            <param name="source">
+            The source query.
+            </param>
+            <typeparam name="T">
+            The type of element of the query.
+            </typeparam>
+            <returns>
+            Source IQueryable with Expand MethodCall added.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.QueryableExtensions.LoadWith``1(System.Linq.IQueryable{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+            <summary>
+            Loads sprcified entities along with root one.
+            </summary>
+            <typeparam name="T">
+            The type of element of the query.
+            </typeparam>
+            <param name="source">
+            The source.
+            </param>
+            <param name="predicate">
+            The predicate.
+            </param>
+            <returns>
+            Source IQueryable with LoadWith MethodCall added.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.QueryableExtensions.LoadWith``2(System.Linq.IQueryable{``0},System.Linq.Expressions.Expression{System.Func{``1,System.Object}})">
+            <summary>
+            Loads the with.
+            </summary>
+            <typeparam name="T">
+            The type of the query element.
+            </typeparam>
+            <typeparam name="TParent">
+            The type of the inner element.
+            </typeparam>
+            <param name="source">
+            The source.
+            </param>
+            <param name="predicate">
+            The predicate.
+            </param>
+            <returns>
+            Source IQueryable with LoadWith MethodCall added.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.QueryableExtensions.Select``2(System.Linq.IQueryable{``0})">
+            <summary>
+            Loads the with.
+            </summary>
+            <typeparam name="T">
+            The type of the query element.
+            </typeparam>
+            <typeparam name="TView">
+            The type of the view element.
+            </typeparam>
+            <param name="source">
+            The source.
+            </param>
+            <returns>
+            Source IQueryable with Select MethodCall added.
+            </returns>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.QueryContext">
+            <summary>
+            Context for query.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.QueryContext.#ctor(System.Linq.IQueryable,System.Linq.Expressions.Expression)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Extended.QueryContext"/> class.
+            </summary>
+            <param name="rootQuery">
+            The root query that came from extended repository.
+            </param>
+            <param name="expression">
+            The original expression of the query.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.QueryContext.ElementType">
+            <summary>
+            Gets the element type of the query.
+            </summary>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.QueryContext.Expression">
+            <summary>
+            Gets the original expression of the query.
+            </summary>
+            <value>The original expression of the query.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.QueryContext.Interceptors">
+            <summary>
+            Gets the interceptors.
+            </summary>
+            <value>The interceptors.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Extended.QueryContext.RootQuery">
+            <summary>
+            Gets the root query that came from extended repository.
+            </summary>
+            <value>The extended root query.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.ViewQueryInterceptor">
+            <summary>
+            Typed Views interceptor
+            </summary>
+        </member>
+        <member name="F:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.ViewQueryInterceptor.SelectViewMethod">
+            <summary>
+            The Select method.
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.ViewQueryInterceptor.OnMethodCallVisit(LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs)">
+            <summary>
+            Handles the MethodCallVisit event.
+            </summary>
+            <param name="e">
+            The <see cref="T:LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Memory.QueryIndexesCache">
+            <summary>
+            Indexes Cache for Memory Repository explicit joins
+            </summary>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.QueryIndexesCache.#ctor(LogicSoftware.DataAccess.Repository.Basic.IRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Memory.QueryIndexesCache"/> class.
+            </summary>
+            <param name="repository">The repository.</param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.QueryIndexesCache.GetAllByPropertyValue``1(System.Reflection.PropertyInfo,System.Object)">
+            <summary>
+            Returns all entities with specified property value.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="property">
+            The property.
+            </param>
+            <param name="value">
+            The value.
+            </param>
+            <returns>
+            All entities with specified property value.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.QueryIndexesCache.GetSingleByPropertyValue``1(System.Reflection.PropertyInfo,System.Object)">
+            <summary>
+            Gets the single entity with specified property value.
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+            <param name="property">
+            The property.
+            </param>
+            <param name="value">
+            The value.
+            </param>
+            <returns>
+            The single entity with specified property value.
+            </returns>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.QueryIndexesCache.GetTableIndexesCache``1">
+            <summary>
+            Gets the table indexes cache for specified entity type.
+            </summary>
+            <typeparam name="T">Entity type</typeparam>
+            <returns>table indexes cache for specified entity type.</returns>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.QueryIndexesCache.Repository">
+            <summary>
+            Gets or sets the repository.
+            </summary>
+            <value>The repository.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.QueryIndexesCache.TableIndexesCaches">
+            <summary>
+            Gets or sets the table indexes caches.
+            </summary>
+            <value>The table indexes caches.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Memory.TableIndex`1">
+            <summary>
+            Entity table index
+            </summary>
+            <typeparam name="T">
+            Entity type
+            </typeparam>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.TableIndex`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Reflection.PropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Memory.TableIndex`1"/> class.
+            </summary>
+            <param name="tableData">
+            The table data.
+            </param>
+            <param name="property">
+            The property.
+            </param>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.TableIndex`1.IndexTableData(System.Collections.Generic.IEnumerable{`0},System.Reflection.PropertyInfo)">
+            <summary>
+            Indexes the table data.
+            </summary>
+            <param name="tableData">
+            The table data.
+            </param>
+            <param name="property">
+            The property.
+            </param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.TableIndex`1.Index">
+            <summary>
+            Gets or sets the index data.
+            </summary>
+            <value>The index data.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.TableIndex`1.Item(System.Object)">
+            <summary>
+            Gets the entities with the specified value.
+            </summary>
+            <param name="value">
+            The value.
+            </param>
+            <value>Entities with the specified value.</value>
+        </member>
+        <member name="T:LogicSoftware.DataAccess.Repository.Memory.TableIndexes`1">
+            <summary>
+            Table Indexes collection for entity type
+            </summary>
+            <typeparam name="T">Entity Type</typeparam>
+        </member>
+        <member name="M:LogicSoftware.DataAccess.Repository.Memory.TableIndexes`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:LogicSoftware.DataAccess.Repository.Memory.TableIndexes`1"/> class.
+            </summary>
+            <param name="tableData">The table data.</param>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.TableIndexes`1.Indexes">
+            <summary>
+            Gets or sets the indexed data.
+            </summary>
+            <value>The indexed data.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.TableIndexes`1.TableData">
+            <summary>
+            Gets or sets the table data.
+            </summary>
+            <value>The table data.</value>
+        </member>
+        <member name="P:LogicSoftware.DataAccess.Repository.Memory.TableIndexes`1.Item(System.Reflection.PropertyInfo)">
+            <summary>
+            Indexes the by property.
+            </summary>
+            <param name="property">The property.</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
