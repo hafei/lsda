@@ -82,8 +82,7 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// New sequence with AsEnumerable method call.
         /// </returns>
         /// <remarks>
-        /// It should be used only with IEnumerable sequences.
-        /// AsEnumerable MethodCall for IQueryable makes no sense and should throw exception (FindExtensionMethod will return null). 
+        /// Be careful with this method when dealing with IQueryable, because only IEnumerable has extension method with this name.
         /// </remarks>
         public static MethodCallExpression AsEnumerable(this Expression source)
         {
@@ -532,8 +531,7 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// New sequence with ToArray method call.
         /// </returns>
         /// <remarks>
-        /// It should be used only with IEnumerable sequences.
-        /// ToArray MethodCall for IQueryable makes no sense and should throw exception (FindExtensionMethod will return null). 
+        /// Be careful with this method when dealing with IQueryable, because only IEnumerable has extension method with this name.
         /// </remarks>
         public static MethodCallExpression ToArray(this Expression source)
         {
@@ -596,8 +594,7 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// New sequence with ToList method call.
         /// </returns>
         /// <remarks>
-        /// It should be used only with IEnumerable sequences.
-        /// ToList MethodCall for IQueryable makes no sense and should throw exception (FindExtensionMethod will return null). 
+        /// Be careful with this method when dealing with IQueryable, because only IEnumerable has extension method with this name.
         /// </remarks>
         public static MethodCallExpression ToList(this Expression source)
         {

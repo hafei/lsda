@@ -73,22 +73,63 @@ namespace LogicSoftware.Infrastructure.Helpers
                     }
                 }
 
-                return FindQueryableMethod(
-                    name,
-                    (new[] { queryType }).Concat(otherArgs).ToArray(),
+                var queryableMethod = FindQueryableMethod(
+                    name, 
+                    (new[] { queryType }).Concat(otherArgs).ToArray(), 
                     (new[] { GetElementType(queryType) }).Concat(otherTypeArgs).ToArray());
+
+                if (queryableMethod != null)
+                {
+                    return queryableMethod;
+                }
             }
 
             var sequenceType = FindIEnumerable(collectionType);
             if (sequenceType != null)
             {
                 return FindSequenceMethod(
-                    name,
-                    (new[] { sequenceType }).Concat(otherArgs).ToArray(),
+                    name, 
+                    (new[] { sequenceType }).Concat(otherArgs).ToArray(), 
                     (new[] { GetElementType(sequenceType) }).Concat(otherTypeArgs).ToArray());
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Finds the method in specified type with specified arguments.
+        /// </summary>
+        /// <param name="type">
+        /// The type to find method in.
+        /// </param>
+        /// <param name="name">
+        /// The name of the method.
+        /// </param>
+        /// <param name="args">
+        /// The arguments of the method.
+        /// </param>
+        /// <param name="typeArgs">
+        /// The type argumets of the method.
+        /// </param>
+        /// <returns>
+        /// MethodInfo of found method.
+        /// </returns>
+        public static MethodInfo FindMethod(Type type, string name, Type[] args, params Type[] typeArgs)
+        {
+            var availableMethods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).ToLookup<MethodInfo, string>(m => m.Name);
+
+            MethodInfo info = availableMethods[name].FirstOrDefault<MethodInfo>(m => ArgsMatchExact(m, args, typeArgs));
+            if (info == null)
+            {
+                return null;
+            }
+
+            if (typeArgs != null && typeArgs.Length > 0)
+            {
+                return info.MakeGenericMethod(typeArgs);
+            }
+
+            return info;
         }
 
         /// <summary>
@@ -116,10 +157,10 @@ namespace LogicSoftware.Infrastructure.Helpers
             MethodInfo info = queryMethods[name].FirstOrDefault<MethodInfo>(m => ArgsMatchExact(m, args, typeArgs));
             if (info == null)
             {
-                throw new InvalidOperationException("No method with provided arguments found in type Queryable");
+                return null;
             }
 
-            if (typeArgs != null)
+            if (typeArgs != null && typeArgs.Length > 0)
             {
                 return info.MakeGenericMethod(typeArgs);
             }
@@ -177,7 +218,7 @@ namespace LogicSoftware.Infrastructure.Helpers
                 return null;
             }
 
-            if (typeArgs != null)
+            if (typeArgs != null && typeArgs.Length > 0)
             {
                 return info.MakeGenericMethod(typeArgs);
             }
@@ -213,10 +254,10 @@ namespace LogicSoftware.Infrastructure.Helpers
             MethodInfo info = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static).FirstOrDefault<MethodInfo>(delegate(MethodInfo m) { return (m.Name == name) && ArgsMatchExact(m, args, typeArgs); });
             if (info == null)
             {
-                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "No method with provided arguments found in type {0}", type));
+                return null;
             }
 
-            if (typeArgs != null)
+            if (typeArgs != null && typeArgs.Length > 0)
             {
                 return info.MakeGenericMethod(typeArgs);
             }
@@ -353,6 +394,12 @@ namespace LogicSoftware.Infrastructure.Helpers
                 return propertyInfo.PropertyType;
             }
 
+            MethodInfo methodInfo = mi as MethodInfo;
+            if (methodInfo != null)
+            {
+                return methodInfo.ReturnType;
+            }
+
             EventInfo eventInfo = mi as EventInfo;
             if (eventInfo != null)
             {
@@ -380,7 +427,7 @@ namespace LogicSoftware.Infrastructure.Helpers
 
             if (IsNullableType(type))
             {
-                 return type.GetGenericArguments().Single();
+                return type.GetGenericArguments().Single();
             }
 
             return type;
@@ -682,7 +729,7 @@ namespace LogicSoftware.Infrastructure.Helpers
         {
             if ((sequenceType != null) && (sequenceType != typeof(string)))
             {
-                if (sequenceType.IsArray)                    
+                if (sequenceType.IsArray)
                 {
                     return typeof(IEnumerable<>).MakeGenericType(new[] { sequenceType.GetElementType() });
                 }
