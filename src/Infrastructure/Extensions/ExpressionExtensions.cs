@@ -67,8 +67,8 @@ namespace LogicSoftware.Infrastructure.Extensions
             MethodInfo anyMethod = TypeSystem.FindExtensionMethod("Any", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, typeof(bool)) }, null);
 
             return Expression.Call(
-                anyMethod,
-                source,
+                anyMethod, 
+                source, 
                 TypeSystem.IsQueryableExtension(anyMethod) ? (Expression) Expression.Quote(predicate) : predicate);
         }
 
@@ -99,7 +99,59 @@ namespace LogicSoftware.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// Equals the specified member.
+        /// Non-typed Contains method call.
+        /// </summary>
+        /// <param name="sequence">
+        /// The source sequence expression.
+        /// </param>
+        /// <param name="itemExpression">
+        /// The item expression.
+        /// </param>
+        /// <returns>
+        /// New sequence with Contains method call.
+        /// </returns>
+        public static MethodCallExpression Contains(this Expression sequence, Expression itemExpression)
+        {
+            if (sequence == null)
+            {
+                throw new ArgumentNullException("sequence");
+            }
+
+            if (itemExpression == null)
+            {
+                throw new ArgumentNullException("itemExpression");
+            }
+
+            // todo: add cache?
+            ////var containsMethod = sequence.Type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
+            ////    .Where(m => m.Name == "Contains")
+            ////    .Where(m => m.ReturnType == typeof(bool))
+            ////    .Where(m => m.GetParameters().Length == 1)
+            ////    .SingleOrDefault();
+            return Expression.Call(sequence, "Contains", new Type[0], itemExpression);
+        }
+
+        /// <summary>
+        /// Creates a System.Linq.Expressions.BinaryExpression that represents an equality comparison.
+        /// Overload that gets value to compare to as expression.
+        /// </summary>
+        /// <param name="expression">
+        /// The expression.
+        /// </param>
+        /// <param name="valueExpression">
+        /// The value expression.
+        /// </param>
+        /// <returns>
+        /// New BinaryExpression.
+        /// </returns>
+        public static BinaryExpression Equal(this Expression expression, Expression valueExpression)
+        {
+            return Expression.Equal(expression, valueExpression);
+        }
+
+        /// <summary>
+        /// Creates a System.Linq.Expressions.BinaryExpression that represents an equality comparison.
+        /// Overload that gets value to compare to as object.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -112,7 +164,7 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// </returns>
         public static BinaryExpression Equal(this Expression expression, object value)
         {
-            return Expression.Equal(expression, Expression.Constant(value));
+            return expression.Equal(Expression.Constant(value));
         }
 
         /// <summary>
@@ -160,7 +212,8 @@ namespace LogicSoftware.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// Greaters the than.
+        /// Creates a System.Linq.Expressions.BinaryExpression that represents a "greater than" numeric comparison.
+        /// Overload that gets value to compare to as object.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -173,11 +226,30 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// </returns>
         public static BinaryExpression GreaterThan(this Expression expression, object value)
         {
-            return Expression.GreaterThan(expression, Expression.Constant(value));
+            return expression.GreaterThan(Expression.Constant(value));
         }
 
         /// <summary>
-        /// Greaters the than or equal.
+        /// Creates a System.Linq.Expressions.BinaryExpression that represents a "greater than" numeric comparison.
+        /// Overload that gets value to compare to as expression.
+        /// </summary>
+        /// <param name="expression">
+        /// The expression.
+        /// </param>
+        /// <param name="valueExpression">
+        /// The value expression.
+        /// </param>
+        /// <returns>
+        /// New BinaryExpression.
+        /// </returns>
+        public static BinaryExpression GreaterThan(this Expression expression, Expression valueExpression)
+        {
+            return Expression.GreaterThan(expression, valueExpression);
+        }
+
+        /// <summary>
+        /// Creates a System.Linq.Expressions.BinaryExpression that represents a "greater than or equal" numeric comparison.
+        /// Overload that gets value to compare to as object.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -190,11 +262,30 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// </returns>
         public static BinaryExpression GreaterThanOrEqual(this Expression expression, object value)
         {
-            return Expression.GreaterThanOrEqual(expression, Expression.Constant(value));
+            return expression.GreaterThanOrEqual(Expression.Constant(value));
         }
 
         /// <summary>
-        /// Lesses the than.
+        /// Creates a System.Linq.Expressions.BinaryExpression that represents a "greater than or equal" numeric comparison.
+        /// Overload that gets value to compare to as expression.
+        /// </summary>
+        /// <param name="expression">
+        /// The expression.
+        /// </param>
+        /// <param name="valueExpression">
+        /// The value expression.
+        /// </param>
+        /// <returns>
+        /// New BinaryExpression.
+        /// </returns>
+        public static BinaryExpression GreaterThanOrEqual(this Expression expression, Expression valueExpression)
+        {
+            return Expression.GreaterThanOrEqual(expression, valueExpression);
+        }
+
+        /// <summary>
+        /// Creates a System.Linq.Expressions.BinaryExpression that represents a "less than" numeric comparison.
+        /// Overload that gets value to compare to as object.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -207,11 +298,30 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// </returns>
         public static BinaryExpression LessThan(this Expression expression, object value)
         {
-            return Expression.LessThan(expression, Expression.Constant(value));
+            return expression.LessThan(Expression.Constant(value));
         }
 
         /// <summary>
-        /// Lesses the than or equal.
+        /// Creates a System.Linq.Expressions.BinaryExpression that represents a "less than" numeric comparison.
+        /// Overload that gets value to compare to as object.
+        /// </summary>
+        /// <param name="expression">
+        /// The expression.
+        /// </param>
+        /// <param name="valueExpression">
+        /// The value expression.
+        /// </param>
+        /// <returns>
+        /// New BinaryExpression.
+        /// </returns>
+        public static BinaryExpression LessThan(this Expression expression, Expression valueExpression)
+        {
+            return Expression.LessThan(expression, valueExpression);
+        }
+
+        /// <summary>
+        /// Creates a System.Linq.Expressions.BinaryExpression that represents a " less than or equal" numeric comparison.
+        /// Overload that gets value to compare to as object.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -224,7 +334,39 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// </returns>
         public static BinaryExpression LessThanOrEqual(this Expression expression, object value)
         {
-            return Expression.LessThanOrEqual(expression, Expression.Constant(value));
+            return expression.LessThanOrEqual(Expression.Constant(value));
+        }
+
+        /// <summary>
+        /// Creates a System.Linq.Expressions.BinaryExpression that represents a " less than or equal" numeric comparison.
+        /// Overload that gets value to compare to as expression.
+        /// </summary>
+        /// <param name="expression">
+        /// The expression.
+        /// </param>
+        /// <param name="valueExpression">
+        /// The value expression.
+        /// </param>
+        /// <returns>
+        /// New BinaryExpression.
+        /// </returns>
+        public static BinaryExpression LessThanOrEqual(this Expression expression, Expression valueExpression)
+        {
+            return Expression.LessThanOrEqual(expression, valueExpression);
+        }
+
+        /// <summary>
+        /// Creates a System.Linq.Expressions.UnaryExpression that represents a bitwise complement operation.
+        /// </summary>
+        /// <param name="expression">
+        /// The source expression.
+        /// </param>
+        /// <returns>
+        /// New UnaryExpression.
+        /// </returns>
+        public static UnaryExpression Not(this Expression expression)
+        {
+            return Expression.Not(expression);
         }
 
         /// <summary>
@@ -339,8 +481,8 @@ namespace LogicSoftware.Infrastructure.Extensions
             MethodInfo selectMethod = TypeSystem.FindExtensionMethod("Select", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, resultType) }, new[] { resultType });
 
             return Expression.Call(
-                selectMethod,
-                source,
+                selectMethod, 
+                source, 
                 TypeSystem.IsQueryableExtension(selectMethod) ? (Expression) Expression.Quote(selector) : selector);
         }
 
@@ -415,7 +557,7 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// The source sequence expression.
         /// </param>
         /// <returns>
-        /// New sequence with ToList method call        /// 
+        /// New sequence with ToList method call.
         /// </returns>
         /// <remarks>
         /// It should be used only with IEnumerable sequences.
@@ -460,8 +602,8 @@ namespace LogicSoftware.Infrastructure.Extensions
             MethodInfo whereMethod = TypeSystem.FindExtensionMethod("Where", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, typeof(bool)) }, null);
 
             return Expression.Call(
-                whereMethod,
-                source,
+                whereMethod, 
+                source, 
                 TypeSystem.IsQueryableExtension(whereMethod) ? (Expression) Expression.Quote(predicate) : predicate);
         }
 
