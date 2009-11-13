@@ -7,11 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace LogicSoftware.DataAccess.Repository.LinqToSql
 {
     using System;
+    using System.Collections.Generic;
     using System.Data.Linq;
     using System.Data.Linq.Mapping;
     using System.Diagnostics.CodeAnalysis;
@@ -45,8 +44,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         }
 
         /// <summary>
-        /// Releases unmanaged resources and performs other cleanup operations before the
-        /// <see cref="LinqToSqlRepository"/> is reclaimed by garbage collection.
+        /// Finalizes an instance of the <see cref="LinqToSqlRepository"/> class.
         /// </summary>
         ~LinqToSqlRepository()
         {
