@@ -58,8 +58,8 @@ namespace LogicSoftware.Infrastructure.Helpers
         /// </returns>
         public static MethodInfo FindExtensionMethod(string name, Type collectionType, Type[] otherArgs, Type[] otherTypeArgs)
         {
-            otherArgs = otherArgs ?? new Type[0];
-            otherTypeArgs = otherTypeArgs ?? new Type[0];
+            otherArgs = otherArgs ?? Type.EmptyTypes;
+            otherTypeArgs = otherTypeArgs ?? Type.EmptyTypes;
 
             var queryType = FindIQueryable(collectionType);
             if (queryType != null)

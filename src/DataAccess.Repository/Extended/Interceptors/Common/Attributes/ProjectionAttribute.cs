@@ -1,31 +1,31 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ViewAttribute.cs" company="Logic Software">
+// <copyright file="ProjectionAttribute.cs" company="Logic Software">
 //   (c) Logic Software
 // </copyright>
 // <summary>
-//   The view attribute.
+//   The projection attribute.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogicSoftware.DataAccess.Repository.Extended.Attributes.Views
+namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.Attributes
 {
     using System;
 
     /// <summary>
-    /// The view attribute.
+    /// The projection attribute.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public sealed class ViewAttribute : Attribute
+    public sealed class ProjectionAttribute : Attribute
     {
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewAttribute"/> class.
+        /// Initializes a new instance of the <see cref="ProjectionAttribute"/> class.
         /// </summary>
         /// <param name="rootType">
-        /// The root type.
+        /// The root entity type of the projection.
         /// </param>
-        public ViewAttribute(Type rootType)
+        public ProjectionAttribute(Type rootType)
         {
             this.RootType = rootType;
         }
@@ -35,7 +35,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Attributes.Views
         #region Properties
 
         /// <summary>
-        /// Gets Type.
+        /// Gets the root entity type of the projection.
         /// </summary>
         public Type RootType { get; private set; }
 

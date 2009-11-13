@@ -69,7 +69,7 @@ namespace LogicSoftware.DataAccess.Repository.Tests
 
             var result = extendedRepository.All<SampleChildEntity>()
                 .LoadWith(c => c.Parent)
-                .LoadWith<SampleChildEntity, SampleParentEntity>(p => p.SuperParent)
+                .LoadWith((SampleParentEntity p) => p.SuperParent)
                 .ToList();
 
             // Assert

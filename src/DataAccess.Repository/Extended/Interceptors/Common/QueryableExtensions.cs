@@ -15,7 +15,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
     using System.Linq.Expressions;
     using System.Reflection;
 
-    using Attributes;
+    using Extended.Attributes;
 
     using Infrastructure.Extensions;
 
@@ -99,22 +99,24 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// <typeparam name="T">
         /// The type of the query element.
         /// </typeparam>
-        /// <typeparam name="TView">
-        /// The type of the view element.
+        /// <typeparam name="TProjection">
+        /// The type of the projection.
         /// </typeparam>
         /// <param name="source">
         /// The source.
         /// </param>
+        /// <param name="projection">
+        /// The projection instance to infer projection type from.
+        /// </param>
         /// <returns>
         /// Source IQueryable with Select MethodCall added.
         /// </returns>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Seems impossible.")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "By design.")]
-        [InterceptVisit(typeof(ViewQueryInterceptor))]
-        public static IQueryable<TView> Select<T, TView>(this IQueryable<T> source)
+        [InterceptVisit(typeof(ProjectionQueryInterceptor))]
+        public static IQueryable<TProjection> Select<T, TProjection>(this IQueryable<T> source, TProjection projection)
         {
-            return MethodBase.GetCurrentMethod().AddToNewQuery<T, TView>(source);
+            return MethodBase.GetCurrentMethod().AddToNewQuery<T, TProjection>(source, Expression.Constant(projection));
         }
 
         #endregion

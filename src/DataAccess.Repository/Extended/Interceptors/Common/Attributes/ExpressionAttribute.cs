@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogicSoftware.DataAccess.Repository.Extended.Attributes.Views
+namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.Attributes
 {
     using System;
 

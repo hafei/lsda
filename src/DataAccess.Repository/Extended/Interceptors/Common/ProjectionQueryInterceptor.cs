@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ViewQueryInterceptor.cs" company="Logic Software">
+// <copyright file="ProjectionQueryInterceptor.cs" company="Logic Software">
 //   (c) Logic Software
 // </copyright>
 // <summary>
-//   Typed Views interceptor
+//   Typed Projections interceptor.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
     using System.Linq.Expressions;
     using System.Reflection;
 
-    using Attributes.Views;
+    using Attributes;
 
     using Events;
 
@@ -25,16 +25,16 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
     using Infrastructure.Linq;
 
     /// <summary>
-    /// Typed Views interceptor
+    /// Typed Projections interceptor.
     /// </summary>
-    public class ViewQueryInterceptor : QueryInterceptor<IScope>
+    public class ProjectionQueryInterceptor : QueryInterceptor<IScope>
     {
         #region Constants and Fields
 
         /// <summary>
         /// The Select method.
         /// </summary>
-        private static readonly MethodInfo SelectViewMethod = typeof(QueryableExtensions).GetMethod("Select", BindingFlags.Static | BindingFlags.Public);
+        private static readonly MethodInfo SelectProjectionMethod = typeof(QueryableExtensions).GetMethod("Select", BindingFlags.Static | BindingFlags.Public);
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             }
 
             if (e.MethodCall.Method.IsGenericMethod &&
-                e.MethodCall.Method.GetGenericMethodDefinition() == SelectViewMethod)
+                e.MethodCall.Method.GetGenericMethodDefinition() == SelectProjectionMethod)
             {
                 var elementType = TypeSystem.GetElementType(e.MethodCall.Arguments.First().Type);
                 var resultElementType = TypeSystem.GetElementType(e.MethodCall.Type);
@@ -65,11 +65,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 
                 foreach (PropertyInfo property in resultElementType.GetProperties())
                 {
-                    var attribute = (PropertyAttribute) property.GetCustomAttributes(typeof(PropertyAttribute), false).SingleOrDefault();
+                    var propertyAttribute = (PropertyAttribute) property.GetCustomAttributes(typeof(PropertyAttribute), false).SingleOrDefault();
 
-                    if (attribute != null)
+                    if (propertyAttribute != null)
                     {
-                        bindings.Add(Expression.Bind(property, entityParameter.PropertyPath(attribute.Path)));
+                        bindings.Add(Expression.Bind(property, entityParameter.PropertyPath(propertyAttribute.Path)));
                     }
 
                     var expressionAttribute = (ExpressionAttribute) property.GetCustomAttributes(typeof(ExpressionAttribute), false).SingleOrDefault();
@@ -79,12 +79,12 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                         var declaringType = expressionAttribute.DeclaringType ?? resultElementType;
 
                         var expressionMethodInfo = declaringType.GetMethod(
-                            expressionAttribute.MethodName,
+                            expressionAttribute.MethodName, 
                             BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy);
 
                         if (expressionMethodInfo == null)
                         {
-                            throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "Method specified in ExpressionMethod attribute of '{0}' property in '{1}' class is not found", property.Name, resultElementType.Name));
+                            throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "Method specified in ExpressionMethod attribute of '{0}' property in '{1}' class is not found.", property.Name, resultElementType.Name));
                         }
 
                         var customBindingExpression = (LambdaExpression) expressionMethodInfo.Invoke(null, new object[] { this.Scope });
@@ -102,7 +102,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                 // todo: add cache for selectors
                 var selectorLambda = entityParameter.ToLambda(initExpression);
 
-                var originalQuery = e.MethodCall.Arguments.First(); 
+                var originalQuery = e.MethodCall.Arguments.First();
 
                 e.SubstituteExpression = originalQuery.Select(selectorLambda);
             }

@@ -76,9 +76,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extended\Attributes\InterceptAttribute.cs" />
-    <Compile Include="Extended\Attributes\Views\ExpressionAttribute.cs" />
-    <Compile Include="Extended\Attributes\Views\PropertyAttribute.cs" />
-    <Compile Include="Extended\Attributes\Views\ViewAttribute.cs" />
+    <Compile Include="Extended\Interceptors\Common\Attributes\ExpressionAttribute.cs" />
+    <Compile Include="Extended\Interceptors\Common\Attributes\PropertyAttribute.cs" />
+    <Compile Include="Extended\Interceptors\Common\Attributes\ProjectionAttribute.cs" />
     <Compile Include="Extended\Events\OperationEventArgs.cs" />
     <Compile Include="Extended\Events\QueryCreatingEventArgs.cs" />
     <Compile Include="Extended\Events\QueryCreatedEventArgs.cs" />
@@ -96,7 +96,7 @@
     <Compile Include="Extended\Interceptors\Common\ExpressionExpanderQueryInterceptor.cs" />
     <Compile Include="Extended\Interceptors\Common\LoadWithQueryInterceptor.cs" />
     <Compile Include="Extended\Attributes\InterceptVisitAttribute.cs" />
-    <Compile Include="Extended\Interceptors\Common\ViewQueryInterceptor.cs" />
+    <Compile Include="Extended\Interceptors\Common\ProjectionQueryInterceptor.cs" />
     <Compile Include="Extended\Interceptors\OperationInterceptor.cs" />
     <Compile Include="Extended\Interceptors\IOperationInterceptor.cs" />
     <Compile Include="Extended\Interceptors\IInterceptorFactory.cs" />

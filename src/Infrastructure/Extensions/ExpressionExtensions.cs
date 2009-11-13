@@ -107,7 +107,7 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// The item expression.
         /// </param>
         /// <returns>
-        /// New sequence with Contains method call.
+        /// Contains method call.
         /// </returns>
         public static MethodCallExpression Contains(this Expression source, Expression itemExpression)
         {
@@ -127,7 +127,40 @@ namespace LogicSoftware.Infrastructure.Extensions
             ////    .Where(m => m.ReturnType == typeof(bool))
             ////    .Where(m => m.GetParameters().Length == 1)
             ////    .SingleOrDefault();
-            return Expression.Call(source, "Contains", new Type[0], itemExpression);
+            return Expression.Call(source, "Contains", Type.EmptyTypes, itemExpression);
+        }
+
+        /// <summary>
+        /// Non-typed StartsWith method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source expression.
+        /// </param>
+        /// <param name="valueExpression">
+        /// The value expression.
+        /// </param>
+        /// <returns>
+        /// StartsWith method call.
+        /// </returns>
+        public static MethodCallExpression StartsWith(this Expression source, Expression valueExpression)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            if (valueExpression == null)
+            {
+                throw new ArgumentNullException("valueExpression");
+            }
+
+            // todo: add cache?
+            ////var startsWithMethod = sequence.Type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
+            ////    .Where(m => m.Name == "StartsWith")
+            ////    .Where(m => m.ReturnType == typeof(bool))
+            ////    .Where(m => m.GetParameters().Length == 1)
+            ////    .SingleOrDefault();
+            return Expression.Call(source, "StartsWith", Type.EmptyTypes, valueExpression);
         }
 
         /// <summary>

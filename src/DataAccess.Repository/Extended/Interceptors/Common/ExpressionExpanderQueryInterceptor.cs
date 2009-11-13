@@ -15,7 +15,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
     using System.Linq.Expressions;
     using System.Reflection;
 
-    using Attributes.Views;
+    using Attributes;
 
     using Events;
 
