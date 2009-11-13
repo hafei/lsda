@@ -1,38 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Database xmlns="http://schemas.microsoft.com/linqtosql/mapping/2007" Name="SampleDb">
+<Database Name="SampleDb" xmlns="http://schemas.microsoft.com/linqtosql/mapping/2007">
     <Table Name="SampleEntities">
         <Type Name="LogicSoftware.DataAccess.Repository.Tests.SampleModel.SampleEntity">
             <Column Name="Id" Member="Id" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" />
+            <Column Name="Name" Member="Name" />
         </Type>
     </Table>
-    <Table Name="SampleSuperParentEntities">
-        <Type Name="LogicSoftware.DataAccess.Repository.Tests.SampleModel.SampleSuperParentEntity">
-            <Column Name="Id" Member="Id" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" />
 
-            <Column Name="Name" Member="Name" />
+    <Table Name="SampleChildEntities">
+        <Type Name="LogicSoftware.DataAccess.Repository.Tests.SampleModel.SampleChildEntity">
+            <Column Name="Id" Member="Id" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" />
+            <Column Name="Name" Member="Name" UpdateCheck="Never" />
+            <Column Name="ParentId" Member="ParentId" UpdateCheck="Never" />
+            <Association Name="FK_Parent" Member="Parent" ThisKey="ParentId" OtherKey="Id" IsForeignKey="true" />
         </Type>
     </Table>
     <Table Name="SampleParentEntities">
         <Type Name="LogicSoftware.DataAccess.Repository.Tests.SampleModel.SampleParentEntity">
             <Column Name="Id" Member="Id" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" />
-
-            <Column Name="Name" Member="Name" />
-
+            <Column Name="Name" Member="Name" UpdateCheck="Never" />
             <Column Name="SuperParentId" Member="SuperParentId" UpdateCheck="Never" />
-
             <Association Name="FK_SuperParent" Member="SuperParent" ThisKey="SuperParentId" OtherKey="Id" IsForeignKey="true" />
-
             <Association Name="FK_Children" Member="Children" ThisKey="Id" OtherKey="ParentId" />
         </Type>
     </Table>
-    <Table Name="SampleChildEntities">
-        <Type Name="LogicSoftware.DataAccess.Repository.Tests.SampleModel.SampleChildEntity">
+
+    <Table Name="SampleSuperParentEntities">
+        <Type Name="LogicSoftware.DataAccess.Repository.Tests.SampleModel.SampleSuperParentEntity">
             <Column Name="Id" Member="Id" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" />
-            <Column Name="Name" Member="Name" />
-
-            <Column Name="ParentId" Member="ParentId" UpdateCheck="Never" />
-
-            <Association Name="FK_Parent" Member="Parent" ThisKey="ParentId" OtherKey="Id" IsForeignKey="true" />
+            <Column Name="Name" Member="Name" UpdateCheck="Never" />
+            <Association Name="FK_Children" Member="Children" ThisKey="Id" OtherKey="SuperParentId" />
         </Type>
     </Table>
 </Database>

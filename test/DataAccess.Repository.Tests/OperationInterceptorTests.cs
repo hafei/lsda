@@ -12,6 +12,8 @@ namespace LogicSoftware.DataAccess.Repository.Tests
 {
     using Basic;
 
+    using SampleModel.Interceptors;
+
     /// <summary>
     /// Summary description for InterceptorTest
     /// </summary>

@@ -73,18 +73,19 @@
     <Compile Include="Core\MemoryRepositoryAssociationsTest.cs" />
     <Compile Include="Core\MemoryRepositoryTest.cs" />
     <Compile Include="Core\SimpleEntity.cs" />
-    <Compile Include="SampleModel\TestOperationInterceptor.cs" />
+    <Compile Include="SampleModel\Interceptors\TestOperationInterceptor.cs" />
+    <Compile Include="SampleModel\Projections\SampleParentEntityView.cs" />
     <Compile Include="SampleModel\SampleSuperParentEntity.cs" />
     <Compile Include="SampleModel\SampleParentEntity.cs" />
     <Compile Include="SampleModel\SampleChildEntity.cs" />
     <Compile Include="SampleModel\Mapping\MappingSourceManager.cs" />
-    <Compile Include="SampleModel\QueryableExtensions.cs" />
+    <Compile Include="SampleModel\Interceptors\QueryableExtensions.cs" />
     <Compile Include="SampleModel\SampleEntity.cs" />
-    <Compile Include="SampleModel\SampleChildEntityView.cs" />
-    <Compile Include="SampleModel\TestInterceptor.cs" />
+    <Compile Include="SampleModel\Projections\SampleChildEntityView.cs" />
+    <Compile Include="SampleModel\Interceptors\TestInterceptor.cs" />
     <Compile Include="TestScope.cs" />
     <Compile Include="UnitTestBase.cs" />
-    <Compile Include="ViewQueryInterceptorTest.cs" />
+    <Compile Include="ProjectionQueryInterceptorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Infrastructure.EntLib\LogicSoftware.Infrastructure.EntLib.csproj">

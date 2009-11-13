@@ -7,11 +7,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel
+namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel.Interceptors
 {
-    using LogicSoftware.DataAccess.Repository.Extended;
-    using LogicSoftware.DataAccess.Repository.Extended.Events;
-    using LogicSoftware.DataAccess.Repository.Extended.Interceptors;
+    using Extended;
+    using Extended.Events;
+    using Extended.Interceptors;
 
     /// <summary>
     /// The test interceptor.
@@ -19,6 +19,18 @@ namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel
     public class TestOperationInterceptor : OperationInterceptor<ITestScope>
     {
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the last deleted entity.
+        /// </summary>
+        /// <value>The last deleted entity.</value>
+        public object LastDeletedEntity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the last deleting entity.
+        /// </summary>
+        /// <value>The last deleting entity.</value>
+        public object LastDeletingEntity { get; set; }
 
         /// <summary>
         /// Gets or sets the last inserted entity.
@@ -45,18 +57,6 @@ namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel
         public object LastUpdatingEntity { get; set; }
 
         /// <summary>
-        /// Gets or sets the last deleted entity.
-        /// </summary>
-        /// <value>The last deleted entity.</value>
-        public object LastDeletedEntity { get; set; }
-
-        /// <summary>
-        /// Gets or sets the last deleting entity.
-        /// </summary>
-        /// <value>The last deleting entity.</value>
-        public object LastDeletingEntity { get; set; }
-
-        /// <summary>
         /// Gets the public scope property.
         /// </summary>
         /// <value>The scope.</value>
@@ -71,6 +71,28 @@ namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Rasied after Delete operation.
+        /// </summary>
+        /// <param name="eventArgs">
+        /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance contained the event data.
+        /// </param>
+        public override void OnDeleted(OperationEventArgs eventArgs)
+        {
+            this.LastDeletedEntity = eventArgs.Entity;
+        }
+
+        /// <summary>
+        /// Rasied before Delete operation.
+        /// </summary>
+        /// <param name="eventArgs">
+        /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance containing the event data.
+        /// </param>
+        public override void OnDeleting(OperationEventArgs eventArgs)
+        {
+            this.LastDeletingEntity = eventArgs.Entity;
+        }
 
         /// <summary>
         /// Rasied after Insert operation.
@@ -114,28 +136,6 @@ namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel
         public override void OnUpdating(OperationEventArgs eventArgs)
         {
             this.LastUpdatingEntity = eventArgs.Entity;
-        }
-
-        /// <summary>
-        /// Rasied after Delete operation.
-        /// </summary>
-        /// <param name="eventArgs">
-        /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance contained the event data.
-        /// </param>
-        public override void OnDeleted(OperationEventArgs eventArgs)
-        {
-            this.LastDeletedEntity = eventArgs.Entity;
-        }
-
-        /// <summary>
-        /// Rasied before Delete operation.
-        /// </summary>
-        /// <param name="eventArgs">
-        /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.OperationEventArgs"/> instance containing the event data.
-        /// </param>
-        public override void OnDeleting(OperationEventArgs eventArgs)
-        {
-            this.LastDeletingEntity = eventArgs.Entity;
         }
 
         #endregion

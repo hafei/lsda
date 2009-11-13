@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel
+namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel.Interceptors
 {
     using Extended.Interceptors;
 

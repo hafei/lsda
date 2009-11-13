@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel
+namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel.Projections
 {
     using Extended.Interceptors.Common.Attributes;
 
