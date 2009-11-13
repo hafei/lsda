@@ -370,6 +370,42 @@ namespace LogicSoftware.Infrastructure.Extensions
         }
 
         /// <summary>
+        /// Creates a System.Linq.Expressions.BinaryExpression that represents an inequality comparison.
+        /// Overload that gets value to compare to as expression.
+        /// </summary>
+        /// <param name="expression">
+        /// The expression.
+        /// </param>
+        /// <param name="valueExpression">
+        /// The value expression.
+        /// </param>
+        /// <returns>
+        /// New BinaryExpression.
+        /// </returns>
+        public static BinaryExpression NotEqual(this Expression expression, Expression valueExpression)
+        {
+            return Expression.NotEqual(expression, valueExpression);
+        }
+
+        /// <summary>
+        /// Creates a System.Linq.Expressions.BinaryExpression that represents an inequality comparison.
+        /// Overload that gets value to compare to as object.
+        /// </summary>
+        /// <param name="expression">
+        /// The expression.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <returns>
+        /// New BinaryExpression.
+        /// </returns>
+        public static BinaryExpression NotEqual(this Expression expression, object value)
+        {
+            return expression.NotEqual(Expression.Constant(value));
+        }
+
+        /// <summary>
         /// Ors the specified left.
         /// </summary>
         /// <param name="left">
