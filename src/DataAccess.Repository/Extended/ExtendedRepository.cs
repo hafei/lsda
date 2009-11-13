@@ -76,13 +76,13 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         #region IExtendedRepository methods
 
         /// <summary>
-        /// Returns query for all entities ob type T with specified load options.
+        /// Returns the query for all entities of type T.
         /// </summary>
         /// <typeparam name="T">
-        /// Entity type
+        /// Type of the entity.
         /// </typeparam>
         /// <returns>
-        /// Query for all entities of type T
+        /// The query for all entities of type T.
         /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "By design, to allow type-safe calls.")]
         public IQueryable<T> All<T>() where T : class
@@ -91,20 +91,36 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         }
 
         /// <summary>
+        /// Returns the query for all entities of specified type.
+        /// </summary>
+        /// <param name="entityType">
+        /// Type of the entity.
+        /// </param>
+        /// <returns>
+        /// The query for all entities of specified type.
+        /// </returns>
+        public IQueryable All(Type entityType)
+        {
+            return (IQueryable) Activator.CreateInstance(
+                                    typeof(ExtendedQuery<>).MakeGenericType(entityType), 
+                                    new object[] { this.QueryExecutor });
+        }
+
+        /// <summary>
         /// Deletes the specified entity.
         /// </summary>
         /// <typeparam name="T">
-        /// Entity type
+        /// Type of the entity.
         /// </typeparam>
         /// <param name="entity">
         /// The entity.
         /// </param>
         public void Delete<T>(T entity) where T : class
         {
-            ExecuteInterceptableOperation(
-                entity,
-                x => x.OnDeleting,
-                e => this.InnerRepository.Delete(e),
+            this.ExecuteInterceptableOperation(
+                entity, 
+                x => x.OnDeleting, 
+                e => this.InnerRepository.Delete(e), 
                 x => x.OnDeleted);
         }
 
@@ -112,17 +128,17 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// Inserts the specified entity.
         /// </summary>
         /// <typeparam name="T">
-        /// Entity type
+        /// Type of the entity.
         /// </typeparam>
         /// <param name="entity">
         /// The entity.
         /// </param>
         public void Insert<T>(T entity) where T : class
         {
-            ExecuteInterceptableOperation(
-                entity,
-                x => x.OnInserting,
-                e => this.InnerRepository.Insert(e),
+            this.ExecuteInterceptableOperation(
+                entity, 
+                x => x.OnInserting, 
+                e => this.InnerRepository.Insert(e), 
                 x => x.OnInserted);
         }
 
@@ -130,17 +146,17 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// Updates the specified entity.
         /// </summary>
         /// <typeparam name="T">
-        /// Entity type
+        /// Type of the entity.
         /// </typeparam>
         /// <param name="entity">
         /// The entity.
         /// </param>
         public void Update<T>(T entity) where T : class
         {
-            ExecuteInterceptableOperation(
-                entity,
-                x => x.OnUpdating,
-                e => this.InnerRepository.Update(e),
+            this.ExecuteInterceptableOperation(
+                entity, 
+                x => x.OnUpdating, 
+                e => this.InnerRepository.Update(e), 
                 x => x.OnUpdated);
         }
 
@@ -169,9 +185,9 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// The post operation.
         /// </param>
         private void ExecuteInterceptableOperation<T>(
-            T entity,
-            Func<IOperationInterceptor, Action<OperationEventArgs>> preOperation,
-            Action<T> operation,
+            T entity, 
+            Func<IOperationInterceptor, Action<OperationEventArgs>> preOperation, 
+            Action<T> operation, 
             Func<IOperationInterceptor, Action<OperationEventArgs>> postOperation)
         {
             var interceptorEventArguments = new OperationEventArgs(entity);

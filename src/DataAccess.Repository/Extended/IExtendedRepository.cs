@@ -9,6 +9,7 @@
 
 namespace LogicSoftware.DataAccess.Repository.Extended
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
@@ -20,22 +21,33 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         #region Public Methods
 
         /// <summary>
-        /// Returns query for all entities of type T.
+        /// Returns the query for all entities of type T.
         /// </summary>
         /// <typeparam name="T">
-        /// Entity type
+        /// Type of the entity.
         /// </typeparam>
         /// <returns>
-        /// Query for all entities of type T
+        /// The query for all entities of type T.
         /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "By design, to allow type-safe calls.")]
         IQueryable<T> All<T>() where T : class;
 
         /// <summary>
+        /// Returns the query for all entities of specified type.
+        /// </summary>
+        /// <param name="entityType">
+        /// Type of the entity.
+        /// </param>
+        /// <returns>
+        /// The query for all entities of specified type.
+        /// </returns>
+        IQueryable All(Type entityType);
+
+        /// <summary>
         /// Deletes the specified entity.
         /// </summary>
         /// <typeparam name="T">
-        /// Entity type
+        /// Type of the entity.
         /// </typeparam>
         /// <param name="entity">
         /// The entity.
@@ -46,7 +58,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// Inserts the specified entity.
         /// </summary>
         /// <typeparam name="T">
-        /// Entity type
+        /// Type of the entity.
         /// </typeparam>
         /// <param name="entity">
         /// The entity.
@@ -57,7 +69,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// Updates the specified entity.
         /// </summary>
         /// <typeparam name="T">
-        /// Entity type
+        /// Type of the entity.
         /// </typeparam>
         /// <param name="entity">
         /// The entity.
