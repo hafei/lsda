@@ -100,8 +100,8 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// <summary>
         /// Non-typed Contains method call.
         /// </summary>
-        /// <param name="sequence">
-        /// The source sequence expression.
+        /// <param name="source">
+        /// The source expression.
         /// </param>
         /// <param name="itemExpression">
         /// The item expression.
@@ -109,11 +109,11 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// <returns>
         /// New sequence with Contains method call.
         /// </returns>
-        public static MethodCallExpression Contains(this Expression sequence, Expression itemExpression)
+        public static MethodCallExpression Contains(this Expression source, Expression itemExpression)
         {
-            if (sequence == null)
+            if (source == null)
             {
-                throw new ArgumentNullException("sequence");
+                throw new ArgumentNullException("source");
             }
 
             if (itemExpression == null)
@@ -127,7 +127,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             ////    .Where(m => m.ReturnType == typeof(bool))
             ////    .Where(m => m.GetParameters().Length == 1)
             ////    .SingleOrDefault();
-            return Expression.Call(sequence, "Contains", new Type[0], itemExpression);
+            return Expression.Call(source, "Contains", new Type[0], itemExpression);
         }
 
         /// <summary>
@@ -510,7 +510,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             }
 
             var elementType = TypeSystem.GetElementType(source.Type);
-            var resultType = TypeSystem.GetElementType(selector.Body.Type);
+            var resultType = selector.Body.Type;
 
             // todo: add cache?
             MethodInfo selectMethod = TypeSystem.FindExtensionMethod("Select", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, resultType) }, new[] { resultType });
@@ -519,6 +519,28 @@ namespace LogicSoftware.Infrastructure.Extensions
                 selectMethod, 
                 source, 
                 TypeSystem.IsQueryableExtension(selectMethod) ? (Expression) Expression.Quote(selector) : selector);
+        }
+
+        /// <summary>
+        /// Non-typed Single method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source sequence expression.
+        /// </param>
+        /// <returns>
+        /// New sequence with Single method call.
+        /// </returns>
+        public static MethodCallExpression Single(this Expression source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            // todo: add cache?
+            MethodInfo singleMethod = TypeSystem.FindExtensionMethod("Single", source.Type, null, null);
+
+            return Expression.Call(singleMethod, source);
         }
 
         /// <summary>
