@@ -131,39 +131,6 @@ namespace LogicSoftware.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// Non-typed StartsWith method call.
-        /// </summary>
-        /// <param name="source">
-        /// The source expression.
-        /// </param>
-        /// <param name="valueExpression">
-        /// The value expression.
-        /// </param>
-        /// <returns>
-        /// StartsWith method call.
-        /// </returns>
-        public static MethodCallExpression StartsWith(this Expression source, Expression valueExpression)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-
-            if (valueExpression == null)
-            {
-                throw new ArgumentNullException("valueExpression");
-            }
-
-            // todo: add cache?
-            ////var startsWithMethod = sequence.Type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
-            ////    .Where(m => m.Name == "StartsWith")
-            ////    .Where(m => m.ReturnType == typeof(bool))
-            ////    .Where(m => m.GetParameters().Length == 1)
-            ////    .SingleOrDefault();
-            return Expression.Call(source, "StartsWith", Type.EmptyTypes, valueExpression);
-        }
-
-        /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents an equality comparison.
         /// Overload that gets value to compare to as expression.
         /// </summary>
@@ -455,6 +422,70 @@ namespace LogicSoftware.Infrastructure.Extensions
         }
 
         /// <summary>
+        /// Non-typed OrderBy method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source sequence expression.
+        /// </param>
+        /// <param name="predicate">
+        /// The predicate.
+        /// </param>
+        /// <returns>
+        /// New sequence with OrderBy method call.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "OrderBy() MethodCall requires lambda as predicate.")]
+        public static MethodCallExpression OrderBy(this Expression source, LambdaExpression predicate)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            var elementType = TypeSystem.GetElementType(source.Type);
+            var keyType = predicate.Body.Type;
+
+            // todo: add cache?
+            MethodInfo orderByMethod = TypeSystem.FindExtensionMethod("OrderBy", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType) }, new[] { keyType });
+
+            return Expression.Call(
+                orderByMethod, 
+                source, 
+                TypeSystem.IsQueryableExtension(orderByMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+        }
+
+        /// <summary>
+        /// Non-typed OrderByDescending method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source sequence expression.
+        /// </param>
+        /// <param name="predicate">
+        /// The predicate.
+        /// </param>
+        /// <returns>
+        /// New sequence with OrderByDescending method call.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "OrderByDescending() MethodCall requires lambda as predicate.")]
+        public static MethodCallExpression OrderByDescending(this Expression source, LambdaExpression predicate)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            var elementType = TypeSystem.GetElementType(source.Type);
+            var keyType = predicate.Body.Type;
+
+            // todo: add cache?
+            MethodInfo orderByDescendingMethod = TypeSystem.FindExtensionMethod("OrderByDescending", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType) }, new[] { keyType });
+
+            return Expression.Call(
+                orderByDescendingMethod, 
+                source, 
+                TypeSystem.IsQueryableExtension(orderByDescendingMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+        }
+
+        /// <summary>
         /// Properties the specified parameter.
         /// </summary>
         /// <param name="expression">
@@ -574,6 +605,103 @@ namespace LogicSoftware.Infrastructure.Extensions
             MethodInfo singleMethod = TypeSystem.FindExtensionMethod("Single", source.Type, null, null);
 
             return Expression.Call(singleMethod, source);
+        }
+
+        /// <summary>
+        /// Non-typed StartsWith method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source expression.
+        /// </param>
+        /// <param name="valueExpression">
+        /// The value expression.
+        /// </param>
+        /// <returns>
+        /// StartsWith method call.
+        /// </returns>
+        public static MethodCallExpression StartsWith(this Expression source, Expression valueExpression)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            if (valueExpression == null)
+            {
+                throw new ArgumentNullException("valueExpression");
+            }
+
+            // todo: add cache?
+            ////var startsWithMethod = sequence.Type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
+            ////    .Where(m => m.Name == "StartsWith")
+            ////    .Where(m => m.ReturnType == typeof(bool))
+            ////    .Where(m => m.GetParameters().Length == 1)
+            ////    .SingleOrDefault();
+            return Expression.Call(source, "StartsWith", Type.EmptyTypes, valueExpression);
+        }
+
+        /// <summary>
+        /// Non-typed ThenBy method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source sequence expression.
+        /// </param>
+        /// <param name="predicate">
+        /// The predicate.
+        /// </param>
+        /// <returns>
+        /// New sequence with ThenBy method call.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "ThenBy() MethodCall requires lambda as predicate.")]
+        public static MethodCallExpression ThenBy(this Expression source, LambdaExpression predicate)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            var elementType = TypeSystem.GetElementType(source.Type);
+            var keyType = predicate.Body.Type;
+
+            // todo: add cache?
+            MethodInfo thenByMethod = TypeSystem.FindExtensionMethod("ThenBy", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType) }, new[] { keyType });
+
+            return Expression.Call(
+                thenByMethod, 
+                source, 
+                TypeSystem.IsQueryableExtension(thenByMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+        }
+
+        /// <summary>
+        /// Non-typed ThenByDescending method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source sequence expression.
+        /// </param>
+        /// <param name="predicate">
+        /// The predicate.
+        /// </param>
+        /// <returns>
+        /// New sequence with ThenByDescending method call.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "ThenByDescending() MethodCall requires lambda as predicate.")]
+        public static MethodCallExpression ThenByDescending(this Expression source, LambdaExpression predicate)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            var elementType = TypeSystem.GetElementType(source.Type);
+            var keyType = predicate.Body.Type;
+
+            // todo: add cache?
+            MethodInfo thenByDescendingMethod = TypeSystem.FindExtensionMethod("ThenByDescending", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType) }, new[] { keyType });
+
+            return Expression.Call(
+                thenByDescendingMethod, 
+                source, 
+                TypeSystem.IsQueryableExtension(thenByDescendingMethod) ? (Expression) Expression.Quote(predicate) : predicate);
         }
 
         /// <summary>

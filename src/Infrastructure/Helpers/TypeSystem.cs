@@ -116,6 +116,7 @@ namespace LogicSoftware.Infrastructure.Helpers
         /// </returns>
         public static MethodInfo FindMethod(Type type, string name, Type[] args, params Type[] typeArgs)
         {
+            // todo: maybe refactor FindSequenceMethod & FindQueryableMethod to this
             var availableMethods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).ToLookup<MethodInfo, string>(m => m.Name);
 
             MethodInfo info = availableMethods[name].FirstOrDefault<MethodInfo>(m => ArgsMatchExact(m, args, typeArgs));

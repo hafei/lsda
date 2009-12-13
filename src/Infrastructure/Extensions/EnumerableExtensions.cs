@@ -11,6 +11,7 @@ namespace LogicSoftware.Infrastructure.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -19,6 +20,61 @@ namespace LogicSoftware.Infrastructure.Extensions
     public static class EnumerableExtensions
     {
         #region Public Methods
+
+        /// <summary>
+        /// Applies an accumulator function over a sequence getting seed element from first element of the sequence.
+        /// </summary>
+        /// <typeparam name="TSource">
+        /// The type of the element of the source.
+        /// </typeparam>
+        /// <typeparam name="TAccumulate">
+        /// The type of the accumulate element.
+        /// </typeparam>
+        /// <param name="source">
+        /// The source sequence.
+        /// </param>
+        /// <param name="seed">
+        /// An seed function to be invoked on first element. 
+        /// </param>
+        /// <param name="func">
+        /// An accumulator function to be invoked on each element.
+        /// </param>
+        /// <returns>
+        /// The final accumulator value.
+        /// </returns>
+        public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> source, Func<TSource, TAccumulate> seed, Func<TAccumulate, TSource, TAccumulate> func)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            if (seed == null)
+            {
+                throw new ArgumentNullException("seed");
+            }
+
+            if (func == null)
+            {
+                throw new ArgumentNullException("func");
+            }
+
+            using (IEnumerator<TSource> enumerator = source.GetEnumerator())
+            {
+                if (!enumerator.MoveNext())
+                {
+                    throw new InvalidAsynchronousStateException("Source sequence contains no elements.");
+                }
+
+                TAccumulate current = seed(enumerator.Current);
+                while (enumerator.MoveNext())
+                {
+                    current = func(current, enumerator.Current);
+                }
+
+                return current;
+            }
+        }
 
         /// <summary>
         /// Applies a function to every element of the list.
