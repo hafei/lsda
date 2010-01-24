@@ -7,10 +7,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogicSoftware.DataAccess.Repository.Tests.Extensions
+namespace LogicSoftware.DataAccess.Repository.Extensions.Tests
 {
     using System;
     using System.Data.Linq;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
@@ -44,6 +45,7 @@ namespace LogicSoftware.DataAccess.Repository.Tests.Extensions
         /// <summary>
         /// Initializes static members of the <see cref="SqlProvider"/> class.
         /// </summary>
+        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", Justification = "Static ctor is ok here too.")]
         static SqlProvider()
         {
             SqlProviderType = typeof(DataContext).Assembly.GetTypes().Where(t => t.Name == "SqlProvider" && t.IsClass).Single();

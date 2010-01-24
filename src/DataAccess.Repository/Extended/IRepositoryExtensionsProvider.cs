@@ -13,7 +13,8 @@ namespace LogicSoftware.DataAccess.Repository.Extended
     using System.Diagnostics.CodeAnalysis;
 
     using Events;
-    using LogicSoftware.DataAccess.Repository.Extended.Interceptors;
+
+    using Interceptors;
 
     /// <summary>
     /// Handles events and query context for data interception.
@@ -23,12 +24,38 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         #region Public Methods
 
         /// <summary>
+        /// Initializes the operation interceptor.
+        /// </summary>
+        /// <typeparam name="T">
+        /// Entity type.
+        /// </typeparam>
+        /// <returns>
+        /// The operation interceptor.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "by design, to avoid typeof(T) at caller")]
+        IEnumerable<IOperationInterceptor> InitializeOperationInterceptors<T>();
+
+        /// <summary>
         /// Initializes the query context.
         /// </summary>
         /// <param name="context">
         /// The context.
         /// </param>
         void InitializeQueryContext(QueryContext context);
+
+        /// <summary>
+        /// Notifies interceptor about LoadOptionsCreating stage in query execution.
+        /// </summary>
+        /// <param name="e">
+        /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs"/> instance containing the event data.
+        /// </param>
+        /// <param name="context">
+        /// The context.
+        /// </param>
+        /// <returns>
+        /// <c>true</c>, if at least one interceptor has been executed, <c>false</c> otherwise.
+        /// </returns>
+        bool OnLoadOptionsCreating(LoadOptionsCreatingEventArgs e, QueryContext context);
 
         /// <summary>
         /// Notifies interceptors about MethodCallVisit stage in query execution.
@@ -40,7 +67,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// The context.
         /// </param>
         /// <returns>
-        /// <c>true</c>, if method call was interepted, <c>false</c> otherwise.
+        /// <c>true</c>, if method call was intercepted, <c>false</c> otherwise.
         /// </returns>
         bool OnMethodCallVisit(MethodCallVisitEventArgs e, QueryContext context);
 
@@ -59,20 +86,6 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         bool OnPreExecute(PreExecuteEventArgs e, QueryContext context);
 
         /// <summary>
-        /// Notifies interceptor about PreQueryCreating stage in query execution.
-        /// </summary>
-        /// <param name="e">
-        /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs"/> instance containing the event data.
-        /// </param>
-        /// <param name="context">
-        /// The context.
-        /// </param>
-        /// <returns>
-        /// <c>true</c>, if at least one interceptor has been executed, <c>false</c> otherwise.
-        /// </returns>
-        bool OnQueryCreating(QueryCreatingEventArgs e, QueryContext context);
-
-        /// <summary>
         /// Notifies interceptors about QueryCreated stage in query execution.
         /// </summary>
         /// <param name="e">
@@ -87,10 +100,10 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         bool OnQueryCreated(QueryCreatedEventArgs e, QueryContext context);
 
         /// <summary>
-        /// Notifies interceptor about LoadOptionsCreating stage in query execution.
+        /// Notifies interceptor about PreQueryCreating stage in query execution.
         /// </summary>
         /// <param name="e">
-        /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs"/> instance containing the event data.
+        /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs"/> instance containing the event data.
         /// </param>
         /// <param name="context">
         /// The context.
@@ -98,15 +111,8 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// <returns>
         /// <c>true</c>, if at least one interceptor has been executed, <c>false</c> otherwise.
         /// </returns>
-        bool OnLoadOptionsCreating(LoadOptionsCreatingEventArgs e, QueryContext context);
+        bool OnQueryCreating(QueryCreatingEventArgs e, QueryContext context);
 
-        /// <summary>
-        /// Initializes the operation interceptor.
-        /// </summary>
-        /// <typeparam name="T">Entity type.</typeparam>
-        /// <returns>The operation interceptor.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "by design, to avoid typeof(T) at caller")]
-        IEnumerable<IOperationInterceptor> InitializeOperationInterceptors<T>();
         #endregion
     }
 }

@@ -176,8 +176,10 @@ namespace LogicSoftware.DataAccess.Repository.Extended
             // checking if this method call visit must be intercepted
 
             // getting interceptor that subscibed to this method call visit
+            // allowing to specify InterceptVisitAttribute for all methods in class
             // todo: add caching?
-            InterceptVisitAttribute attribute = e.MethodCall.Method.GetCustomAttributes<InterceptVisitAttribute>().SingleOrDefault();
+            InterceptVisitAttribute attribute = e.MethodCall.Method.GetCustomAttributes<InterceptVisitAttribute>().SingleOrDefault()
+                ?? e.MethodCall.Method.DeclaringType.GetCustomAttributes<InterceptVisitAttribute>().SingleOrDefault();
 
             // no suitable interceptors found
             if (attribute == null)

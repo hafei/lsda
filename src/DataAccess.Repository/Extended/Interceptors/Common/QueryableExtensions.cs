@@ -27,24 +27,6 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         #region Public Methods
 
         /// <summary>
-        /// Expands expression properties in the query.
-        /// </summary>
-        /// <param name="source">
-        /// The source query.
-        /// </param>
-        /// <typeparam name="T">
-        /// The type of element of the query.
-        /// </typeparam>
-        /// <returns>
-        /// Source IQueryable with Expand MethodCall added.
-        /// </returns>
-        [InterceptVisit(typeof(ExpressionExpanderQueryInterceptor))]
-        public static IQueryable<T> Expand<T>(this IQueryable<T> source)
-        {
-            return MethodBase.GetCurrentMethod().AddToQuery(source);
-        }
-
-        /// <summary>
         /// Loads sprcified entities along with root one.
         /// </summary>
         /// <typeparam name="T">

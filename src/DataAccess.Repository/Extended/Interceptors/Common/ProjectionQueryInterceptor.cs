@@ -77,20 +77,27 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                     if (expressionAttribute != null)
                     {
                         var declaringType = expressionAttribute.DeclaringType ?? resultElementType;
+                        var methodName = expressionAttribute.MethodName ?? property.Name;
 
                         var expressionMethodInfo = declaringType.GetMethod(
-                            expressionAttribute.MethodName, 
+                            methodName, 
                             BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy);
 
                         if (expressionMethodInfo == null)
                         {
-                            throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "Method specified in ExpressionMethod attribute of '{0}' property in '{1}' class is not found.", property.Name, resultElementType.Name));
+                            throw new ArgumentException(String.Format(
+                                CultureInfo.InvariantCulture, 
+                                "Method specified in ExpressionMethod attribute of '{0}' property in '{1}' class is not found.", 
+                                property.Name, 
+                                resultElementType.Name));
                         }
 
                         var customBindingExpression = (LambdaExpression) expressionMethodInfo.Invoke(null, new object[] { this.Scope });
 
                         // localize expression (replace its parameter with local entityParameter)
-                        var localizedcustomBindingExpression = new ExpressionParameterReplacer(customBindingExpression.Parameters.Single(), entityParameter)
+                        var localizedcustomBindingExpression = new ExpressionParameterReplacer(
+                            customBindingExpression.Parameters.Single(), 
+                            entityParameter)
                             .Visit(customBindingExpression.Body);
 
                         bindings.Add(Expression.Bind(property, localizedcustomBindingExpression));

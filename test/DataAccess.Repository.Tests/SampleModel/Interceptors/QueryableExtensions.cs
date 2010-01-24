@@ -10,10 +10,11 @@
 namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel.Interceptors
 {
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Reflection;
 
     using Extended.Attributes;
+
+    using Infrastructure.Extensions;
 
     /// <summary>
     /// The queryable extensions.
@@ -37,7 +38,7 @@ namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel.Interceptors
         [InterceptVisit(typeof(TestInterceptor))]
         public static IQueryable<T> TestMethod<T>(this IQueryable<T> source)
         {
-            return source.Provider.CreateQuery<T>(Expression.Call(null, ((MethodInfo) MethodBase.GetCurrentMethod()).MakeGenericMethod(typeof(T)), source.Expression));
+            return MethodBase.GetCurrentMethod().AddToQuery(source);
         }
 
         #endregion

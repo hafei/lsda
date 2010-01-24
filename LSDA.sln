@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		test\config\nocoverage.testrunconfig = test\config\nocoverage.testrunconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicSoftware.DataAccess.Repository.Extensions", "src\DataAccess.Repository.Extensions\LogicSoftware.DataAccess.Repository.Extensions.csproj", "{FBDD7309-F91D-4273-AF62-EDB7D2182C39}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = LSDA.vsmdi
@@ -57,6 +59,12 @@ Global
 		{22049FAA-AE04-4065-9E1B-067FD2CBE44C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22049FAA-AE04-4065-9E1B-067FD2CBE44C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{22049FAA-AE04-4065-9E1B-067FD2CBE44C}.Release|x86.ActiveCfg = Release|Any CPU
+		{FBDD7309-F91D-4273-AF62-EDB7D2182C39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBDD7309-F91D-4273-AF62-EDB7D2182C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBDD7309-F91D-4273-AF62-EDB7D2182C39}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FBDD7309-F91D-4273-AF62-EDB7D2182C39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBDD7309-F91D-4273-AF62-EDB7D2182C39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBDD7309-F91D-4273-AF62-EDB7D2182C39}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +73,7 @@ Global
 		{727D9AB5-49E9-44FF-B031-12AAD90371B6} = {5113DE54-4E04-4C44-BD6D-A64FCA7CC207}
 		{0E89DF7F-0621-4D19-BF86-D95A13D43455} = {5113DE54-4E04-4C44-BD6D-A64FCA7CC207}
 		{D1C7FE2B-B28B-4A1F-8AC6-79B18EBD2D0C} = {5113DE54-4E04-4C44-BD6D-A64FCA7CC207}
+		{FBDD7309-F91D-4273-AF62-EDB7D2182C39} = {5113DE54-4E04-4C44-BD6D-A64FCA7CC207}
 		{22049FAA-AE04-4065-9E1B-067FD2CBE44C} = {0717060D-DD10-40E3-A817-5A25B9495F05}
 	EndGlobalSection
 EndGlobal

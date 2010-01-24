@@ -26,15 +26,6 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
     /// </summary>
     public class ExpressionExpanderQueryInterceptor : QueryInterceptor<IScope>
     {
-        #region Constants and Fields
-
-        /// <summary>
-        /// The expand method.
-        /// </summary>
-        private static readonly MethodInfo ExpandMethod = typeof(QueryableExtensions).GetMethod("Expand", BindingFlags.Static | BindingFlags.Public);
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
@@ -50,82 +41,59 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                 throw new ArgumentNullException("e");
             }
 
-            if (e.MethodCall.Method.IsGenericMethod &&
-                e.MethodCall.Method.GetGenericMethodDefinition() == ExpandMethod)
+            // working only with static extension methods with one "this" argument
+            // todo: instance methods can be added too
+            // todo: maybe better check?
+            if (e.MethodCall.Method.IsStatic && e.MethodCall.Arguments.Count == 1)
             {
-                e.SubstituteExpression = e.MethodCall.Arguments.Single();
-            }
-        }
+                var expressionAttribute = (ExpressionAttribute) e.MethodCall.Method.GetCustomAttributes(typeof(ExpressionAttribute), false).SingleOrDefault();
 
-        /// <summary>
-        /// The PreExecute stage handler.
-        /// </summary>
-        /// <param name="e">
-        /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.PreExecuteEventArgs"/> instance containing the event data.
-        /// </param>
-        public override void OnPreExecute(PreExecuteEventArgs e)
-        {
-            if (e == null)
-            {
-                throw new ArgumentNullException("e");
-            }
-
-            e.Expression = this.Visit(e.Expression);
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Analyzes the method call expression provided as parameter and
-        /// returns an appropiated member access.
-        /// </summary>
-        /// <param name="methodCall">
-        /// The method call to analyze.
-        /// </param>
-        /// <returns>
-        /// A System.Linq.Expressions.Expression.
-        /// </returns>
-        protected override Expression VisitMethodCall(MethodCallExpression methodCall)
-        {
-            if (methodCall == null)
-            {
-                throw new ArgumentNullException("methodCall");
-            }
-
-            // todo: add cache
-
-            // checking that method is extension method with one argument (todo: maybe better check?)
-            if (methodCall.Method.IsStatic && methodCall.Arguments.Count == 1)
-            {
-                // todo: maybe subscribe to all queries and expand MethodCalls of subscribed entities types only
-                var expressionAttribute = (ExpressionAttribute) methodCall.Method.GetCustomAttributes(typeof(ExpressionAttribute), false).SingleOrDefault();
-
-                if (expressionAttribute != null)
+                if (expressionAttribute == null)
                 {
-                    var declaringType = expressionAttribute.DeclaringType ?? methodCall.Method.DeclaringType;
-
-                    var expressionMethodInfo = declaringType.GetMethod(
-                        expressionAttribute.MethodName, 
-                        BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy);
-
-                    if (expressionMethodInfo == null)
-                    {
-                        throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "Method specified in Expression attribute of '{0}' method in '{1}' class is not found.", methodCall.Method.Name, methodCall.Method.DeclaringType.Name));
-                    }
-
-                    var customBindingExpression = (LambdaExpression) expressionMethodInfo.Invoke(null, new object[] { this.Scope });
-
-                    // localize expression (replace its parameter with local object expression)
-                    var localizedcustomBindingExpression = new ExpressionParameterReplacer(customBindingExpression.Parameters.Single(), methodCall.Arguments.Single())
-                        .Visit(customBindingExpression.Body);
-
-                    return localizedcustomBindingExpression;
+                    throw new InvalidOperationException(String.Format(
+                        CultureInfo.InvariantCulture, 
+                        "Method '{0}' in '{1}' class has no Expression attribute.", 
+                        e.MethodCall.Method.Name, 
+                        e.MethodCall.Method.DeclaringType.Name));
                 }
-            }
 
-            return base.VisitMethodCall(methodCall);
+                var declaringType = expressionAttribute.DeclaringType ?? e.MethodCall.Method.DeclaringType;
+                var methodName = expressionAttribute.MethodName ?? e.MethodCall.Method.Name;
+
+                var expressionMethodInfo = declaringType.GetMethod(
+                    methodName, 
+                    BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+
+                if (expressionMethodInfo == null)
+                {
+                    throw new ArgumentException(String.Format(
+                        CultureInfo.InvariantCulture, 
+                        "Method specified in Expression attribute of '{0}' method in '{1}' class is not found.", 
+                        e.MethodCall.Method.Name, 
+                        e.MethodCall.Method.DeclaringType.Name));
+                }
+
+                var customExpandedExpression = (LambdaExpression) expressionMethodInfo.Invoke(null, new object[] { this.Scope });
+
+                // validating custom expanded expression
+                if (customExpandedExpression.Parameters.Single().Type != e.MethodCall.Arguments.Single().Type
+                    || customExpandedExpression.Body.Type != e.MethodCall.Type)
+                {
+                    throw new InvalidOperationException(String.Format(
+                        CultureInfo.InvariantCulture, 
+                        "Method '{0}' in '{1}' class returns invalid expression.", 
+                        expressionMethodInfo.Name, 
+                        expressionMethodInfo.DeclaringType.Name));
+                }
+
+                // localize expression (replace its parameter with local object expression)
+                var localizedCustomExpandedExpression = new ExpressionParameterReplacer(
+                    customExpandedExpression.Parameters.Single(), 
+                    e.MethodCall.Arguments.Single())
+                    .Visit(customExpandedExpression.Body);
+
+                e.SubstituteExpression = localizedCustomExpandedExpression;
+            }
         }
 
         #endregion

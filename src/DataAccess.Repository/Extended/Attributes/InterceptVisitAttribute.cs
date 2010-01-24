@@ -14,7 +14,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Attributes
     /// <summary>
     /// Marks a method as a target of data interceptor visit.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public sealed class InterceptVisitAttribute : Attribute
     {
         #region Constructors and Destructors

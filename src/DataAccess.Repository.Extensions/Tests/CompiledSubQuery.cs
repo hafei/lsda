@@ -1,35 +1,36 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CompiledQuery.cs" company="Logic Software">
+// <copyright file="CompiledSubQuery.cs" company="Logic Software">
 //   (c) Logic Software
 // </copyright>
 // <summary>
-//   The compiled query.
+//   The compiled sub query.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogicSoftware.DataAccess.Repository.Tests.Extensions
+namespace LogicSoftware.DataAccess.Repository.Extensions.Tests
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
 
     /// <summary>
-    /// The compiled query.
+    /// The compiled sub query.
     /// </summary>
-    public class CompiledQuery
+    public class CompiledSubQuery
     {
         #region Constants and Fields
 
         /// <summary>
-        /// The compiled query type.
+        /// The compiled sub query type.
         /// </summary>
-        public static readonly Type CompiledQueryType;
+        public static readonly Type CompiledSubQueryType;
 
         /// <summary>
-        /// The query infos field.
+        /// The query info field.
         /// </summary>
-        private static readonly FieldInfo QueryInfosField;
+        private static readonly FieldInfo QueryInfoField;
 
         /// <summary>
         /// The sub queries field.
@@ -41,25 +42,26 @@ namespace LogicSoftware.DataAccess.Repository.Tests.Extensions
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes static members of the <see cref="CompiledQuery"/> class.
+        /// Initializes static members of the <see cref="CompiledSubQuery"/> class.
         /// </summary>
-        static CompiledQuery()
+        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", Justification = "Static ctor is ok here too.")]
+        static CompiledSubQuery()
         {
-            CompiledQueryType = SqlProvider.SqlProviderType.GetNestedType("CompiledQuery", BindingFlags.NonPublic);
+            CompiledSubQueryType = SqlProvider.SqlProviderType.GetNestedType("CompiledSubQuery", BindingFlags.NonPublic);
 
-            QueryInfosField = CompiledQueryType.GetField("queryInfos", BindingFlags.NonPublic | BindingFlags.Instance);
-            SubQueriesField = CompiledQueryType.GetField("subQueries", BindingFlags.NonPublic | BindingFlags.Instance);
+            SubQueriesField = CompiledSubQueryType.GetField("subQueries", BindingFlags.NonPublic | BindingFlags.Instance);
+            QueryInfoField = CompiledSubQueryType.GetField("queryInfo", BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CompiledQuery"/> class.
+        /// Initializes a new instance of the <see cref="CompiledSubQuery"/> class.
         /// </summary>
         /// <param name="internalValue">
         /// The internal value.
         /// </param>
-        public CompiledQuery(object internalValue)
+        public CompiledSubQuery(object internalValue)
         {
-            if (!CompiledQueryType.IsAssignableFrom(internalValue.GetType()))
+            if (!CompiledSubQueryType.IsAssignableFrom(internalValue.GetType()))
             {
                 throw new ArgumentException("Wrong object provided.");
             }
@@ -72,32 +74,22 @@ namespace LogicSoftware.DataAccess.Repository.Tests.Extensions
         #region Properties
 
         /// <summary>
-        /// Gets QueryInfos.
+        /// Gets QueryInfo.
         /// </summary>
-        public List<QueryInfo> QueryInfos
+        public QueryInfo QueryInfo
         {
             get
             {
-                var queryInfos = QueryInfosField.GetValue(this.InternalValue) as IEnumerable;
-                if (queryInfos != null)
-                {
-                    var list = new List<QueryInfo>();
+                var queryInfo = QueryInfoField.GetValue(this.InternalValue);
 
-                    foreach (var queryInfo in queryInfos)
-                    {
-                        list.Add(new QueryInfo(queryInfo));
-                    }
-
-                    return list;
-                }
-
-                return new List<QueryInfo>();
+                return new QueryInfo(queryInfo);
             }
         }
 
         /// <summary>
         /// Gets SubQueries.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "No need in special rules here.")]
         public List<CompiledSubQuery> SubQueries
         {
             get

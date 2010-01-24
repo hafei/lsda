@@ -29,9 +29,9 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.Attri
         /// The name of the method.
         /// </param>
         public ExpressionAttribute(Type declaringType, string methodName)
-            : this(methodName)
         {
             this.DeclaringType = declaringType;
+            this.MethodName = methodName;
         }
 
         /// <summary>
@@ -43,6 +43,17 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.Attri
         public ExpressionAttribute(string methodName)
         {
             this.MethodName = methodName;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpressionAttribute"/> class.
+        /// </summary>
+        /// <param name="declaringType">
+        /// The declaring type.
+        /// </param>
+        public ExpressionAttribute(Type declaringType)
+        {
+            this.DeclaringType = declaringType;
         }
 
         #endregion

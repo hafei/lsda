@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{727D9AB5-49E9-44FF-B031-12AAD90371B6}</ProjectGuid>
+    <ProjectGuid>{FBDD7309-F91D-4273-AF62-EDB7D2182C39}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LogicSoftware.Infrastructure</RootNamespace>
-    <AssemblyName>LogicSoftware.Infrastructure</AssemblyName>
+    <RootNamespace>LogicSoftware.DataAccess.Repository.Extensions</RootNamespace>
+    <AssemblyName>LogicSoftware.DataAccess.Repository.Extensions</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
@@ -24,7 +24,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>bin\Debug\LogicSoftware.Infrastructure.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,13 +34,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Transactions" />
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -52,26 +51,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\DataAccessException.cs" />
-    <Compile Include="Extensions\EnumerableExtensions.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Extensions\ExpressionExtensions.cs" />
-    <Compile Include="Extensions\MethodInfoExtensions.cs" />
-    <Compile Include="Extensions\QueryableExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Helpers\MetaPosition.cs" />
-    <Compile Include="Helpers\BeginTransaction.cs" />
-    <Compile Include="Helpers\TypeSystem.cs" />
-    <Compile Include="Linq\ContextExpressionVisitor.cs" />
-    <Compile Include="Linq\ExpressionConstantReplacer.cs" />
-    <Compile Include="Linq\ExpressionParameterReplacer.cs" />
-    <Compile Include="Linq\ExpressionReplacer.cs" />
-    <Compile Include="Linq\ExpressionVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\CompiledQuery.cs" />
+    <Compile Include="Tests\CompiledSubQuery.cs" />
+    <Compile Include="Tests\DataContextExtensions.cs" />
+    <Compile Include="Tests\QueryInfo.cs" />
+    <Compile Include="Tests\SqlProvider.cs" />
+    <Compile Include="Tests\ValidatingExtendedQueryExecutor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess.Repository\LogicSoftware.DataAccess.Repository.csproj">
+      <Project>{0E89DF7F-0621-4D19-BF86-D95A13D43455}</Project>
+      <Name>LogicSoftware.DataAccess.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\LogicSoftware.Infrastructure.csproj">
+      <Project>{727D9AB5-49E9-44FF-B031-12AAD90371B6}</Project>
+      <Name>LogicSoftware.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\keys\lsda.snk">
@@ -79,10 +75,6 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-
-  <!-- uncomment next line to enable StyleCop on build -->
-  <!--<Import Project="$(ProgramFiles)\MSBuild\Microsoft\StyleCop\v4.3\Microsoft.StyleCop.targets" />-->
-
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -7,10 +7,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogicSoftware.DataAccess.Repository.Tests.Extensions
+namespace LogicSoftware.DataAccess.Repository.Extensions.Tests
 {
     using System;
     using System.Data.Linq;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
@@ -62,6 +63,7 @@ namespace LogicSoftware.DataAccess.Repository.Tests.Extensions
         /// <returns>
         /// The result of the query.
         /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "TResult is the type of the result of the query.")]
         protected override TResult ExecuteCore<TResult>(IQueryable query, QueryContext context, Expression expression)
         {
             var queryAsTable = query as ITable;
@@ -72,12 +74,12 @@ namespace LogicSoftware.DataAccess.Repository.Tests.Extensions
                 if (compiledQuery.SubQueries.Count > 0)
                 {
                     throw new InvalidOperationException(String.Format(
-                        CultureInfo.InvariantCulture,
-                        "Expression:\n\r'{0}'\n\ris expanded to:\n\r'{1}'\n\rwith following SQL:\n\r'{2}'\n\rand {3} subqueries with SQL:\n\r{4}.\n\rPlease rewrite the query to avoid N+1 problem.",
-                        context.Expression.ToString(),
-                        expression.ToString(),
-                        String.Join("\n\r", compiledQuery.QueryInfos.Select(qi => qi.CommandText).ToArray()),
-                        compiledQuery.SubQueries.Count,                    
+                        CultureInfo.InvariantCulture, 
+                        "Expression:\n\r'{0}'\n\ris expanded to:\n\r'{1}'\n\rwith following SQL:\n\r'{2}'\n\rand {3} subqueries with SQL:\n\r{4}.\n\rPlease rewrite the query to avoid N+1 problem.", 
+                        context.Expression.ToString(), 
+                        expression.ToString(), 
+                        String.Join("\n\r", compiledQuery.QueryInfos.Select(qi => qi.CommandText).ToArray()), 
+                        compiledQuery.SubQueries.Count, 
                         String.Join("\n\r", compiledQuery.SubQueries.Select(sq => sq.QueryInfo.CommandText).ToArray())));
                 }
             }

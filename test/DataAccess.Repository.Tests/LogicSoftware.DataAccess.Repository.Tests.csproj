@@ -51,16 +51,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExpressionExpanderQueryInterceptorTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="OperationInterceptorTests.cs" />
     <Compile Include="Core\ClassG1.cs" />
     <Compile Include="Core\ClassG2.cs" />
     <Compile Include="Core\MappingSourceManager.cs" />
-    <Compile Include="Extensions\CompiledQuery.cs" />
-    <Compile Include="Extensions\CompiledSubQuery.cs" />
-    <Compile Include="Extensions\DataContextExtensions.cs" />
-    <Compile Include="Extensions\QueryInfo.cs" />
-    <Compile Include="Extensions\SqlProvider.cs" />
-    <Compile Include="Extensions\ValidatingExtendedQueryExecutor.cs" />
     <Compile Include="ITestScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryInterceptorTests.cs" />
@@ -73,6 +70,8 @@
     <Compile Include="Core\MemoryRepositoryAssociationsTest.cs" />
     <Compile Include="Core\MemoryRepositoryTest.cs" />
     <Compile Include="Core\SimpleEntity.cs" />
+    <Compile Include="SampleModel\Extensions\SampleEntityExpressions.cs" />
+    <Compile Include="SampleModel\Extensions\SampleEntityExtensions.cs" />
     <Compile Include="SampleModel\Interceptors\TestOperationInterceptor.cs" />
     <Compile Include="SampleModel\Projections\SampleParentEntityView.cs" />
     <Compile Include="SampleModel\SampleSuperParentEntity.cs" />
@@ -88,6 +87,10 @@
     <Compile Include="ProjectionQueryInterceptorTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\DataAccess.Repository.Extensions\LogicSoftware.DataAccess.Repository.Extensions.csproj">
+      <Project>{FBDD7309-F91D-4273-AF62-EDB7D2182C39}</Project>
+      <Name>LogicSoftware.DataAccess.Repository.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Infrastructure.EntLib\LogicSoftware.Infrastructure.EntLib.csproj">
       <Project>{D1C7FE2B-B28B-4A1F-8AC6-79B18EBD2D0C}</Project>
       <Name>LogicSoftware.Infrastructure.EntLib</Name>

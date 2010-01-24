@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogicSoftware.DataAccess.Repository.Tests.Extensions
+namespace LogicSoftware.DataAccess.Repository.Extensions.Tests
 {
     using System.Data.Linq;
     using System.Reflection;

@@ -462,7 +462,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
             LambdaExpression filterLambda;
 
             // todo: add support for nullable == null fiters
-            if (keyPropertyExpression.Type.IsGenericType && 
+            if (keyPropertyExpression.Type.IsGenericType &&
                 keyPropertyExpression.Type.GetGenericTypeDefinition() == typeof(Nullable<>) &&
                 keyPropertyExpression.Type.GetGenericArguments().First() == value.GetType())
             {
@@ -482,7 +482,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                 filterLambda = Expression.Lambda(equalityExpression, objectParameter);
             }
 
-            var predicate = (Expression<Func<T, bool>>)filterLambda;
+            var predicate = (Expression<Func<T, bool>>) filterLambda;
 
             return entities.Where(predicate);
         }
@@ -649,12 +649,12 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                         if (associatedEntityData.Count > 0)
                         {
                             throw new InvalidOperationException(String.Format(
-                                CultureInfo.CurrentCulture,
-                                "An attempt was made to delete a record from {0}, but {1} items are present in {2} with {3}. This is (yet) invalid with {4} delete rule",
-                                association.OtherType.Name,
-                                associatedEntityData.Count,
-                                association.ThisMember.Name,
-                                rowFilter,
+                                CultureInfo.CurrentCulture, 
+                                "An attempt was made to delete a record from {0}, but {1} items are present in {2} with {3}. This is (yet) invalid with {4} delete rule", 
+                                association.OtherType.Name, 
+                                associatedEntityData.Count, 
+                                association.ThisMember.Name, 
+                                rowFilter, 
                                 association.DeleteRule));
                         }
 
@@ -750,7 +750,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                 table = this.Data.Tables[tableName];
 
                 if (table == null)
-            {
+                {
                     table = this.CreateTable(entityType, tableName);
 
                     this.Data.Tables.Add(table);
@@ -929,11 +929,11 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                 if (thisKeyPropertyExpression.Type.IsGenericType && thisKeyPropertyExpression.Type.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
                     var nullableFilterParamA1 = Expression.Parameter(typeof(T), "a");
-                    
-                    MemberExpression nullableFilterPropertyExpression = 
+
+                    MemberExpression nullableFilterPropertyExpression =
                         nullableFilterParamA1
-                        .Property(association.ThisKey.First().Member as PropertyInfo)
-                        .Property("HasValue");
+                            .Property(association.ThisKey.First().Member as PropertyInfo)
+                            .Property("HasValue");
 
                     LambdaExpression whereHasValueFilter = nullableFilterParamA1.ToLambda(nullableFilterPropertyExpression);
 
@@ -948,8 +948,8 @@ namespace LogicSoftware.DataAccess.Repository.Memory
 
                     MemberExpression nullableFilterPropertyExpression =
                         nullableFilterParamB1
-                        .Property(association.OtherKey.First().Member as PropertyInfo)
-                        .Property("HasValue");
+                            .Property(association.OtherKey.First().Member as PropertyInfo)
+                            .Property("HasValue");
 
                     LambdaExpression whereHasValueFilter = nullableFilterParamB1.ToLambda(nullableFilterPropertyExpression);
 
@@ -969,10 +969,10 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                 var resultSelector = Expression.Quote(
                     Expression.Lambda(
                         Expression.New(
-                            keyValueType.GetConstructors().Single(),
-                            paramA2,
-                            paramB2),
-                        paramA2,
+                            keyValueType.GetConstructors().Single(), 
+                            paramA2, 
+                            paramB2), 
+                        paramA2, 
                         paramB2));
 
                 var joinMethod = typeof(Queryable).GetMethods().Where(m => m.Name == "Join" && m.GetParameters().Count() == 5).Single();
@@ -995,7 +995,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                     if (association.IsForeignKey)
                     {
                         association.ThisMember.StorageAccessor.SetBoxedValue(
-                            ref thisObject,
+                            ref thisObject, 
                             otherObject);
                     }
                     else

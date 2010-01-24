@@ -63,7 +63,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             {
                 if (!enumerator.MoveNext())
                 {
-                    throw new InvalidAsynchronousStateException("Source sequence contains no elements.");
+                    throw new InvalidOperationException("Source sequence contains no elements.");
                 }
 
                 TAccumulate current = seed(enumerator.Current);

@@ -14,11 +14,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LogicSoftware.DataAccess.Repository")]
+[assembly: AssemblyTitle("LogicSoftware.DataAccess.Repository.Extensions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Logic Software")]
-[assembly: AssemblyProduct("LogicSoftware.DataAccess.Repository")]
+[assembly: AssemblyProduct("LogicSoftware.DataAccess.Repository.Extensions")]
 [assembly: AssemblyCopyright("Copyright © Logic Software 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1dc71281-2ed2-4702-91d8-507817b8fe9a")]
+[assembly: Guid("fda4d0d5-a6cf-4b79-83c4-1879dee3d58b")]
 
 // Version information for an assembly consists of the following four values:
 //      Major Version
