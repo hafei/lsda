@@ -75,7 +75,7 @@ namespace LogicSoftware.Infrastructure.Helpers
 
                 var queryableMethod = FindQueryableMethod(
                     name, 
-                    (new[] { queryType }).Concat(otherArgs).ToArray(), 
+                    (new[] { collectionType }).Concat(otherArgs).ToArray(), 
                     (new[] { GetElementType(queryType) }).Concat(otherTypeArgs).ToArray());
 
                 if (queryableMethod != null)
@@ -89,7 +89,7 @@ namespace LogicSoftware.Infrastructure.Helpers
             {
                 return FindSequenceMethod(
                     name, 
-                    (new[] { sequenceType }).Concat(otherArgs).ToArray(), 
+                    (new[] { collectionType }).Concat(otherArgs).ToArray(), 
                     (new[] { GetElementType(sequenceType) }).Concat(otherTypeArgs).ToArray());
             }
 

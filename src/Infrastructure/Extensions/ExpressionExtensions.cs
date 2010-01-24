@@ -283,6 +283,38 @@ namespace LogicSoftware.Infrastructure.Extensions
         }
 
         /// <summary>
+        /// Non-typed GroupBy method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source sequence expression.
+        /// </param>
+        /// <param name="predicate">
+        /// The predicate.
+        /// </param>
+        /// <returns>
+        /// New sequence with GroupBy method call.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "GroupBy() MethodCall requires lambda as predicate.")]
+        public static MethodCallExpression GroupBy(this Expression source, LambdaExpression predicate)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            var elementType = TypeSystem.GetElementType(source.Type);
+            var keyType = predicate.Body.Type;
+
+            // todo: add cache?
+            MethodInfo groupByMethod = TypeSystem.FindExtensionMethod("GroupBy", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType) }, new[] { keyType });
+
+            return Expression.Call(
+                groupByMethod, 
+                source, 
+                TypeSystem.IsQueryableExtension(groupByMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+        }
+
+        /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents a "less than" numeric comparison.
         /// Overload that gets value to compare to as object.
         /// </summary>
@@ -352,6 +384,84 @@ namespace LogicSoftware.Infrastructure.Extensions
         public static BinaryExpression LessThanOrEqual(this Expression expression, Expression valueExpression)
         {
             return Expression.LessThanOrEqual(expression, valueExpression);
+        }
+
+        /// <summary>
+        /// Non-typed Max method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source sequence expression.
+        /// </param>
+        /// <param name="predicate">
+        /// The predicate.
+        /// </param>
+        /// <returns>
+        /// Max method call on top of source sequence.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Max() MethodCall requires lambda as predicate.")]
+        public static MethodCallExpression Max(this Expression source, LambdaExpression predicate)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            var elementType = TypeSystem.GetElementType(source.Type);
+            var keyType = predicate.Body.Type;
+
+            // todo: add cache?
+            // trying to fing special overload of Max method (with one generic parameter)
+            MethodInfo maxMethod = TypeSystem.FindExtensionMethod("Max", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType) }, null);
+
+            // if special overload is not found, then trying to find generic one
+            if (maxMethod == null)
+            {
+                maxMethod = TypeSystem.FindExtensionMethod("Max", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType) }, new[] { keyType });
+            }
+
+            return Expression.Call(
+                maxMethod, 
+                source, 
+                TypeSystem.IsQueryableExtension(maxMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+        }
+
+        /// <summary>
+        /// Non-typed Min method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source sequence expression.
+        /// </param>
+        /// <param name="predicate">
+        /// The predicate.
+        /// </param>
+        /// <returns>
+        /// Min method call on top of source sequence.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Min() MethodCall requires lambda as predicate.")]
+        public static MethodCallExpression Min(this Expression source, LambdaExpression predicate)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            var elementType = TypeSystem.GetElementType(source.Type);
+            var keyType = predicate.Body.Type;
+
+            // todo: add cache?
+            // trying to fing special overload of Min method (with one generic parameter)
+            MethodInfo minMethod = TypeSystem.FindExtensionMethod("Min", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType) }, null);
+
+            // if special overload is not found, then trying to find generic one
+            if (minMethod == null)
+            {
+                minMethod = TypeSystem.FindExtensionMethod("Min", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType) }, new[] { keyType });
+            }
+
+            return Expression.Call(
+                minMethod, 
+                source, 
+                TypeSystem.IsQueryableExtension(minMethod) ? (Expression) Expression.Quote(predicate) : predicate);
         }
 
         /// <summary>
@@ -638,6 +748,38 @@ namespace LogicSoftware.Infrastructure.Extensions
             ////    .Where(m => m.GetParameters().Length == 1)
             ////    .SingleOrDefault();
             return Expression.Call(source, "StartsWith", Type.EmptyTypes, valueExpression);
+        }
+
+        /// <summary>
+        /// Non-typed Sum method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source sequence expression.
+        /// </param>
+        /// <param name="predicate">
+        /// The predicate.
+        /// </param>
+        /// <returns>
+        /// Sum method call on top of source sequence.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Sum() MethodCall requires lambda as predicate.")]
+        public static MethodCallExpression Sum(this Expression source, LambdaExpression predicate)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            var elementType = TypeSystem.GetElementType(source.Type);
+            var keyType = predicate.Body.Type;
+
+            // todo: add cache?
+            MethodInfo sumMethod = TypeSystem.FindExtensionMethod("Sum", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType) }, null);
+
+            return Expression.Call(
+                sumMethod, 
+                source, 
+                TypeSystem.IsQueryableExtension(sumMethod) ? (Expression) Expression.Quote(predicate) : predicate);
         }
 
         /// <summary>

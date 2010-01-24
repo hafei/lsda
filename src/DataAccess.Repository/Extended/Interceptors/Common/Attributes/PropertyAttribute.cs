@@ -22,6 +22,13 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.Attri
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyAttribute"/> class.
         /// </summary>
+        public PropertyAttribute()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyAttribute"/> class.
+        /// </summary>
         /// <param name="path">
         /// The path of member.
         /// </param>

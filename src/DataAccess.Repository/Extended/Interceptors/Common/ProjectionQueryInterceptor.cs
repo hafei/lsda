@@ -69,7 +69,9 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 
                     if (propertyAttribute != null)
                     {
-                        bindings.Add(Expression.Bind(property, entityParameter.PropertyPath(propertyAttribute.Path)));
+                        var propertyPath = propertyAttribute.Path ?? property.Name;
+
+                        bindings.Add(Expression.Bind(property, entityParameter.PropertyPath(propertyPath)));
                     }
 
                     var expressionAttribute = (ExpressionAttribute) property.GetCustomAttributes(typeof(ExpressionAttribute), false).SingleOrDefault();
