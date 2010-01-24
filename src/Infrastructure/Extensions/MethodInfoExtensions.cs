@@ -25,9 +25,6 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// <summary>
         /// Adds MethodCall to query.
         /// </summary>
-        /// <typeparam name="T">
-        /// Type of the element.
-        /// </typeparam>
         /// <typeparam name="TNew">
         /// Type of the element of new IQueryable.
         /// </typeparam>
@@ -41,12 +38,12 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// The arguments.
         /// </param>
         /// <returns>
-        /// IQueryable of type T with MethodCall added.
+        /// IQueryable of type TNew with MethodCall added.
         /// </returns>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", 
             Justification = "By design.")]
-        public static IQueryable<TNew> AddToNewQuery<T, TNew>(
-            this MethodBase methodBase, IQueryable<T> query, params Expression[] arguments)
+        public static IQueryable<TNew> AddToNewQuery<TNew>(
+            this MethodBase methodBase, IQueryable query, params Expression[] arguments)
         {
             if (methodBase == null)
             {
@@ -77,7 +74,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             return
                 query.Provider.CreateQuery<TNew>(
                     Expression.Call(
-                        ((MethodInfo) methodBase).MakeGenericMethod(typeof(T), typeof(TNew)),
+                        ((MethodInfo) methodBase).MakeGenericMethod(typeof(TNew)), 
                         (new[] { query.Expression }).Concat(arguments).ToArray()));
         }
 
@@ -131,7 +128,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             return
                 query.Provider.CreateQuery<T>(
                     Expression.Call(
-                        ((MethodInfo) methodBase).MakeGenericMethod(typeof(T)),
+                        ((MethodInfo) methodBase).MakeGenericMethod(typeof(T)), 
                         (new[] { query.Expression }).Concat(arguments).ToArray()));
         }
 
@@ -141,8 +138,8 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// <typeparam name="T">
         /// Type of the element.
         /// </typeparam>
-        /// <typeparam name="TParent">
-        /// The type of parent element.
+        /// <typeparam name="TOther">
+        /// The type of other element.
         /// </typeparam>
         /// <param name="methodBase">
         /// The method base.
@@ -156,9 +153,9 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// <returns>
         /// IQueryable of type T with MethodCall added.
         /// </returns>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", 
             Justification = "By design.")]
-        public static IQueryable<T> AddToQuery<T, TParent>(
+        public static IQueryable<T> AddToQuery<T, TOther>(
             this MethodBase methodBase, IQueryable<T> query, params Expression[] arguments)
         {
             if (methodBase == null)
@@ -190,7 +187,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             return
                 query.Provider.CreateQuery<T>(
                     Expression.Call(
-                        ((MethodInfo) methodBase).MakeGenericMethod(typeof(T), typeof(TParent)),
+                        ((MethodInfo) methodBase).MakeGenericMethod(typeof(T), typeof(TOther)), 
                         (new[] { query.Expression }).Concat(arguments).ToArray()));
         }
 

@@ -653,7 +653,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             Expression expr = expression;
             foreach (string property in properties)
             {
-                expr = Expression.Property(expr, property);
+                expr = expr.Property(property);
             }
 
             return (MemberExpression) expr;

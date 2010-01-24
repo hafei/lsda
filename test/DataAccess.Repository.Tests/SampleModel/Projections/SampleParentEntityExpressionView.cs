@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SampleParentEntityView.cs" company="Logic Software">
+// <copyright file="SampleParentEntityExpressionView.cs" company="Logic Software">
 //   (c) Logic Software
 // </copyright>
 // <summary>
@@ -20,7 +20,7 @@ namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel.Projections
     /// The sample parent entity view.
     /// </summary>
     [Projection(typeof(SampleParentEntity))]
-    public class SampleParentEntityView
+    public class SampleParentEntityExpressionView
     {
         #region Properties
 

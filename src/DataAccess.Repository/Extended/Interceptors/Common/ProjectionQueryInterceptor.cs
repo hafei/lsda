@@ -32,9 +32,14 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         #region Constants and Fields
 
         /// <summary>
-        /// The Select method.
+        /// The enumerable Select method.
         /// </summary>
-        private static readonly MethodInfo SelectProjectionMethod = typeof(QueryableExtensions).GetMethod("Select", BindingFlags.Static | BindingFlags.Public);
+        private static readonly MethodInfo EnumerableSelectProjectionMethod = typeof(EnumerableExtensions).GetMethod("Select", BindingFlags.Static | BindingFlags.Public);
+
+        /// <summary>
+        /// The queryable Select method.
+        /// </summary>
+        private static readonly MethodInfo QueryableSelectProjectionMethod = typeof(QueryableExtensions).GetMethod("Select", BindingFlags.Static | BindingFlags.Public);
 
         #endregion
 
@@ -53,33 +58,50 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                 throw new ArgumentNullException("e");
             }
 
-            if (e.MethodCall.Method.IsGenericMethod &&
-                e.MethodCall.Method.GetGenericMethodDefinition() == SelectProjectionMethod)
+            if (e.MethodCall.Method.IsGenericMethod
+                && (e.MethodCall.Method.GetGenericMethodDefinition() == QueryableSelectProjectionMethod
+                    || e.MethodCall.Method.GetGenericMethodDefinition() == EnumerableSelectProjectionMethod))
             {
-                var elementType = TypeSystem.GetElementType(e.MethodCall.Arguments.First().Type);
+                var sourceElementType = TypeSystem.GetElementType(e.MethodCall.Arguments.Single().Type);
                 var resultElementType = TypeSystem.GetElementType(e.MethodCall.Type);
 
-                var entityParameter = Expression.Parameter(elementType, "p");
+                var sourceElementParameter = Expression.Parameter(sourceElementType, "source");
 
-                var bindings = new List<MemberBinding>();
+                var resultMemberBindings = new List<MemberBinding>();
 
-                foreach (PropertyInfo property in resultElementType.GetProperties())
+                foreach (var resultProperty in resultElementType.GetProperties())
                 {
-                    var propertyAttribute = (PropertyAttribute) property.GetCustomAttributes(typeof(PropertyAttribute), false).SingleOrDefault();
-
+                    var propertyAttribute = (PropertyAttribute) resultProperty.GetCustomAttributes(typeof(PropertyAttribute), false).SingleOrDefault();
                     if (propertyAttribute != null)
                     {
-                        var propertyPath = propertyAttribute.Path ?? property.Name;
+                        var sourcePropertyPath = propertyAttribute.Path ?? resultProperty.Name;
+                        var resultPropertyBindingExpression = (Expression) sourceElementParameter.PropertyPath(sourcePropertyPath);
 
-                        bindings.Add(Expression.Bind(property, entityParameter.PropertyPath(propertyPath)));
+                        var sourcePropertyElementType = TypeSystem.GetElementType(resultPropertyBindingExpression.Type);
+                        var resultPropertyElementType = TypeSystem.GetElementType(resultProperty.PropertyType);
+
+                        // note: if both properties are sequence types and element types are differ, then create sub-projection call
+                        if (((sourcePropertyElementType != resultPropertyBindingExpression.Type) && (resultPropertyElementType != resultProperty.PropertyType))
+                            && (sourcePropertyElementType != resultPropertyElementType))
+                        {
+                            var genericSelectPropjectionMethod = EnumerableSelectProjectionMethod.MakeGenericMethod(resultPropertyElementType);
+
+                            resultPropertyBindingExpression = Expression.Call(genericSelectPropjectionMethod, resultPropertyBindingExpression)
+                                .FixupCollectionType(resultProperty.PropertyType);
+                        }
+
+                        resultMemberBindings.Add(Expression.Bind(resultProperty, resultPropertyBindingExpression));
+
+                        // Expression and Property attributes cannot be used together
+                        // todo: maybe throw below?
+                        continue;
                     }
 
-                    var expressionAttribute = (ExpressionAttribute) property.GetCustomAttributes(typeof(ExpressionAttribute), false).SingleOrDefault();
-
+                    var expressionAttribute = (ExpressionAttribute) resultProperty.GetCustomAttributes(typeof(ExpressionAttribute), false).SingleOrDefault();
                     if (expressionAttribute != null)
                     {
                         var declaringType = expressionAttribute.DeclaringType ?? resultElementType;
-                        var methodName = expressionAttribute.MethodName ?? property.Name;
+                        var methodName = expressionAttribute.MethodName ?? resultProperty.Name;
 
                         var expressionMethodInfo = declaringType.GetMethod(
                             methodName, 
@@ -90,30 +112,30 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                             throw new ArgumentException(String.Format(
                                 CultureInfo.InvariantCulture, 
                                 "Method specified in ExpressionMethod attribute of '{0}' property in '{1}' class is not found.", 
-                                property.Name, 
+                                resultProperty.Name, 
                                 resultElementType.Name));
                         }
 
                         var customBindingExpression = (LambdaExpression) expressionMethodInfo.Invoke(null, new object[] { this.Scope });
 
                         // localize expression (replace its parameter with local entityParameter)
-                        var localizedcustomBindingExpression = new ExpressionParameterReplacer(
+                        var localizedCustomBindingExpression = new ExpressionParameterReplacer(
                             customBindingExpression.Parameters.Single(), 
-                            entityParameter)
+                            sourceElementParameter)
                             .Visit(customBindingExpression.Body);
 
-                        bindings.Add(Expression.Bind(property, localizedcustomBindingExpression));
+                        resultMemberBindings.Add(Expression.Bind(resultProperty, localizedCustomBindingExpression));
                     }
                 }
 
-                var initExpression = Expression.MemberInit(Expression.New(resultElementType), bindings);
+                var resultInitExpression = Expression.MemberInit(Expression.New(resultElementType), resultMemberBindings);
 
                 // todo: add cache for selectors
-                var selectorLambda = entityParameter.ToLambda(initExpression);
+                var resultSelectorLambda = sourceElementParameter.ToLambda(resultInitExpression);
 
                 var originalQuery = e.MethodCall.Arguments.First();
 
-                e.SubstituteExpression = originalQuery.Select(selectorLambda);
+                e.SubstituteExpression = originalQuery.Select(resultSelectorLambda);
             }
         }
 

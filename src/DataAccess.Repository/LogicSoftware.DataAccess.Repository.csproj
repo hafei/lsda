@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="Extended\IExtendedQueryExecutor.cs" />
     <Compile Include="Extended\IExtendedRepository.cs" />
+    <Compile Include="Extended\Interceptors\Common\EnumerableExtensions.cs" />
     <Compile Include="Extended\Interceptors\Common\ExpressionExpanderQueryInterceptor.cs" />
     <Compile Include="Extended\Interceptors\Common\LoadWithQueryInterceptor.cs" />
     <Compile Include="Extended\Attributes\InterceptVisitAttribute.cs" />

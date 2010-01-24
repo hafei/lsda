@@ -73,7 +73,8 @@
     <Compile Include="SampleModel\Extensions\SampleEntityExpressions.cs" />
     <Compile Include="SampleModel\Extensions\SampleEntityExtensions.cs" />
     <Compile Include="SampleModel\Interceptors\TestOperationInterceptor.cs" />
-    <Compile Include="SampleModel\Projections\SampleParentEntityView.cs" />
+    <Compile Include="SampleModel\Projections\SampleParentEntityExpressionView.cs" />
+    <Compile Include="SampleModel\Projections\SampleParentEntitySubProjectionView.cs" />
     <Compile Include="SampleModel\SampleSuperParentEntity.cs" />
     <Compile Include="SampleModel\SampleParentEntity.cs" />
     <Compile Include="SampleModel\SampleChildEntity.cs" />

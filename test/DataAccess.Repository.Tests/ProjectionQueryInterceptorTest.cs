@@ -45,7 +45,7 @@ namespace LogicSoftware.DataAccess.Repository.Tests
             var extendedRepository = this.Container.Resolve<IExtendedRepository>();
 
             // Act
-            var result = extendedRepository.All<SampleChildEntity>().Select(new SampleChildEntityView()).ToList();
+            var result = extendedRepository.All<SampleChildEntity>().Select<SampleChildEntityView>().ToList();
 
             // Assert
             Assert.IsNotNull(result);
@@ -71,7 +71,7 @@ namespace LogicSoftware.DataAccess.Repository.Tests
             var extendedRepository = this.Container.Resolve<IExtendedRepository>();
 
             // Act
-            var result = extendedRepository.All<SampleParentEntity>().Select(new SampleParentEntityView()).ToList();
+            var result = extendedRepository.All<SampleParentEntity>().Select<SampleParentEntityExpressionView>().ToList();
 
             // Assert
             Assert.IsNotNull(result);
@@ -80,6 +80,31 @@ namespace LogicSoftware.DataAccess.Repository.Tests
             foreach (var parentEntityView in result)
             {
                 Assert.AreEqual(1, parentEntityView.Children.Count);
+            }
+        }
+
+        [TestMethod]
+        public void Projections_should_support_sub_projections()
+        {
+            // Arrange
+            var repository = CreateSampleEntityRepository();
+            this.Container.RegisterInstance<IRepository>(repository);
+
+            var extendedRepository = this.Container.Resolve<IExtendedRepository>();
+
+            // Act
+            var result = extendedRepository.All<SampleParentEntity>().Select<SampleParentEntitySubProjectionView>().ToList();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(3, result.Count);
+
+            foreach (var parentEntityView in result)
+            {
+                foreach (var childEntityView in parentEntityView.ChildrenViews)
+                {
+                    Assert.AreEqual(parentEntityView.Name, childEntityView.ParentName);
+                }
             }
         }
 
