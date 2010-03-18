@@ -81,7 +81,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                         var resultPropertyElementType = TypeSystem.GetElementType(resultProperty.PropertyType);
 
                         // note: if both properties are sequence types and element types are differ, then create sub-projection call
-                        if (((sourcePropertyElementType != resultPropertyBindingExpression.Type) && (resultPropertyElementType != resultProperty.PropertyType))
+                        if (((sourcePropertyElementType != null) && (resultPropertyElementType != null))
                             && (sourcePropertyElementType != resultPropertyElementType))
                         {
                             var genericSelectPropjectionMethod = EnumerableSelectProjectionMethod.MakeGenericMethod(resultPropertyElementType);

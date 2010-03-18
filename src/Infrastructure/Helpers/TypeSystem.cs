@@ -12,7 +12,6 @@ namespace LogicSoftware.Infrastructure.Helpers
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
@@ -344,12 +343,13 @@ namespace LogicSoftware.Infrastructure.Helpers
         public static Type GetElementType(Type seqType)
         {
             Type type = FindIEnumerable(seqType);
-            if (type == null)
+
+            if (type != null)
             {
-                return seqType;
+                return type.GetGenericArguments().Single();
             }
 
-            return type.GetGenericArguments().Single();
+            return null;
         }
 
         /// <summary>
