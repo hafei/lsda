@@ -41,10 +41,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                 throw new ArgumentNullException("e");
             }
 
-            // working only with static extension methods with one "this" argument
-            // todo: instance methods can be added too
+            // working with static extension methods with one "this" argument and with instance methods with no arguments
+            // todo: methods with multiple arguments can be implemented too
             // todo: maybe better check?
-            if (e.MethodCall.Method.IsStatic && e.MethodCall.Arguments.Count == 1)
+            if ((e.MethodCall.Method.IsStatic && e.MethodCall.Arguments.Count == 1)
+                || (!e.MethodCall.Method.IsStatic && e.MethodCall.Arguments.Count == 0))
             {
                 var expressionAttribute = (ExpressionAttribute) e.MethodCall.Method.GetCustomAttributes(typeof(ExpressionAttribute), false).SingleOrDefault();
 
@@ -75,8 +76,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 
                 var customExpandedExpression = (LambdaExpression) expressionMethodInfo.Invoke(null, new object[] { this.Scope });
 
+                // parameterExpression is object in case of instance method or single (todo: first) argument in case of extension method
+                var parameterExpression = e.MethodCall.Method.IsStatic ? e.MethodCall.Arguments.Single() : e.MethodCall.Object;
+
                 // validating custom expanded expression
-                if (customExpandedExpression.Parameters.Single().Type != e.MethodCall.Arguments.Single().Type
+                if (customExpandedExpression.Parameters.Single().Type != parameterExpression.Type
                     || customExpandedExpression.Body.Type != e.MethodCall.Type)
                 {
                     throw new InvalidOperationException(String.Format(
@@ -88,8 +92,8 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 
                 // localize expression (replace its parameter with local object expression)
                 var localizedCustomExpandedExpression = new ExpressionParameterReplacer(
-                    customExpandedExpression.Parameters.Single(), 
-                    e.MethodCall.Arguments.Single())
+                        customExpandedExpression.Parameters.Single(), 
+                        parameterExpression)
                     .Visit(customExpandedExpression.Body);
 
                 e.SubstituteExpression = localizedCustomExpandedExpression;

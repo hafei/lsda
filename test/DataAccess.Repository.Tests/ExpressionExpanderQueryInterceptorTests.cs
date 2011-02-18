@@ -114,6 +114,33 @@ namespace LogicSoftware.DataAccess.Repository.Tests
             }
         }
 
+        /// <summary>
+        /// The instance_extension_method_should_be_expanded_in_ where_clause.
+        /// </summary>
+        [TestMethod]
+        public void Instance_extension_method_should_be_expanded_in_Where_clause()
+        {
+            // Arrange
+            var repository = CreateSampleEntityRepository();
+            this.Container.RegisterInstance<IRepository>(repository);
+
+            var extendedRepository = this.Container.Resolve<IExtendedRepository>();
+
+            // Act
+            var result = extendedRepository.All<SampleEntity>()
+                .Where(e => e.IsSampleInstance())
+                .ToList();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(3, result.Count);
+
+            foreach (var sampleEntity in result)
+            {
+                Assert.AreEqual("Sample", sampleEntity.Name);
+            }
+        }
+
         #endregion
 
         #region Methods
