@@ -91,8 +91,9 @@ namespace LogicSoftware.Infrastructure.Linq
                 throw new ArgumentNullException("constant");
             }
 
+            // note: ExpressionConstantReplacer doesn't support null constants replacement (generic ExpressionReplacer can be used, or ExpressionConstantReplacer's logic can be changed)
             Expression replacement;
-            return this.ReplacementDictionary.TryGetValue(constant.Value, out replacement)
+            return constant.Value != null && this.ReplacementDictionary.TryGetValue(constant.Value, out replacement)
                        ? replacement
                        : base.VisitConstant(constant);
         }
