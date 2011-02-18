@@ -524,7 +524,13 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 
             var selectResultExpression = this.GetSelectExpression(sourceExpression, projectionType, projectionConfig, projectionMembers[ProjectionMemberType.Select]);
 
-            return selectResultExpression;
+            // note: generating conditional expression to have nulls in result where original relationship has null too
+            var conditionalSelectResultExpression = Expression.Condition(
+                sourceExpression.Equal(Expression.Constant(null, sourceExpression.Type)),
+                Expression.Constant(null, projectionType),
+                selectResultExpression);
+
+            return conditionalSelectResultExpression;
         }
 
         #endregion
