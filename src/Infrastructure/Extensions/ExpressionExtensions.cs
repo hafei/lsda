@@ -740,6 +740,31 @@ namespace LogicSoftware.Infrastructure.Extensions
         }
 
         /// <summary>
+        /// Non-typed Skip method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source sequence expression.
+        /// </param>
+        /// <param name="count">
+        /// The count.
+        /// </param>
+        /// <returns>
+        /// New sequence with Skip method call.
+        /// </returns>
+        public static MethodCallExpression Skip(this Expression source, int count)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            // todo: add cache?
+            MethodInfo skipMethod = TypeSystem.FindExtensionMethod("Skip", source.Type, new[] { typeof(int) }, null);
+
+            return Expression.Call(skipMethod, source, Expression.Constant(count));
+        }
+
+        /// <summary>
         /// Non-typed StartsWith method call.
         /// </summary>
         /// <param name="source">
@@ -802,6 +827,31 @@ namespace LogicSoftware.Infrastructure.Extensions
                 sumMethod, 
                 source, 
                 TypeSystem.IsQueryableExtension(sumMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+        }
+
+        /// <summary>
+        /// Non-typed Take method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source sequence expression.
+        /// </param>
+        /// <param name="count">
+        /// The count.
+        /// </param>
+        /// <returns>
+        /// New sequence with Take method call.
+        /// </returns>
+        public static MethodCallExpression Take(this Expression source, int count)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            // todo: add cache?
+            MethodInfo takeMethod = TypeSystem.FindExtensionMethod("Take", source.Type, new[] { typeof(int) }, null);
+
+            return Expression.Call(takeMethod, source, Expression.Constant(count));
         }
 
         /// <summary>

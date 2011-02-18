@@ -28,14 +28,14 @@ namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel.Projections
         /// Gets or sets the children.
         /// </summary>
         /// <value>The children.</value>
-        [Expression("ChildrenExpression")]
+        [SelectExpression("ChildrenExpression")]
         public List<SampleChildEntity> Children { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name of the entity.</value>
-        [Property("Name")]
+        [SelectProperty("Name")]
         public string Name { get; set; }
 
         #endregion

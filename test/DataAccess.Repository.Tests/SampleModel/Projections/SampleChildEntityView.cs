@@ -22,25 +22,25 @@ namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel.Projections
         /// <summary>
         /// Gets or sets EntityName.
         /// </summary>
-        [Property("Name")]
+        [SelectProperty("Name")]
         public string EntityName { get; set; }
 
         /// <summary>
         /// Gets or sets Name.
         /// </summary>
-        [Property("Name")]
+        [SelectProperty("Name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets ParentName.
         /// </summary>
-        [Property("Parent.Name")]
+        [SelectProperty("Parent.Name")]
         public string ParentName { get; set; }
 
         /// <summary>
         /// Gets or sets SuperParentName.
         /// </summary>
-        [Property("Parent.SuperParent.Name")]
+        [SelectProperty("Parent.SuperParent.Name")]
         public string SuperParentName { get; set; }
 
         #endregion

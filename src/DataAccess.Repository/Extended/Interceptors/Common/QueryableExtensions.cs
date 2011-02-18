@@ -75,26 +75,6 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             return MethodBase.GetCurrentMethod().AddToQuery<T, TParent>(source, Expression.Quote(predicate));
         }
 
-        /// <summary>
-        /// Selects typed projection.
-        /// </summary>
-        /// <typeparam name="TProjection">
-        /// The type of the projection.
-        /// </typeparam>
-        /// <param name="source">
-        /// The source query.
-        /// </param>
-        /// <returns>
-        /// New query with Select MethodCall added.
-        /// </returns>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "TProjection is the type of the result.")]
-        [InterceptVisit(typeof(ProjectionQueryInterceptor))]
-        public static IQueryable<TProjection> Select<TProjection>(this IQueryable source)
-            where TProjection : new()
-        {
-            return MethodBase.GetCurrentMethod().AddToNewQuery<TProjection>(source);
-        }
-
         #endregion
     }
 }

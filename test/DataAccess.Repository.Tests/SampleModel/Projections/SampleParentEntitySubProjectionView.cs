@@ -26,14 +26,14 @@ namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel.Projections
         /// </summary>
         /// <value>The children views.</value>
         /// <remarks>Note element type, this will be sub-projection.</remarks>
-        [Property("Children")]
+        [SelectProperty("Children")]
         public List<SampleChildEntityView> ChildrenViews { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name of the entity.</value>
-        [Property]
+        [SelectProperty]
         public string Name { get; set; }
 
         #endregion

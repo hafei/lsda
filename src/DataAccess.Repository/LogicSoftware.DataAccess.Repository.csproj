@@ -77,6 +77,9 @@
   <ItemGroup>
     <Compile Include="Extended\Attributes\InterceptAttribute.cs" />
     <Compile Include="Extended\Interceptors\Common\Attributes\ExpressionAttribute.cs" />
+    <Compile Include="Extended\Interceptors\Common\Attributes\OrderByAttribute.cs" />
+    <Compile Include="Extended\Interceptors\Common\Attributes\OrderByDescendingAttribute.cs" />
+    <Compile Include="Extended\Interceptors\Common\Attributes\ProjectionMemberAttribute.cs" />
     <Compile Include="Extended\Interceptors\Common\Attributes\PropertyAttribute.cs" />
     <Compile Include="Extended\Interceptors\Common\Attributes\ProjectionAttribute.cs" />
     <Compile Include="Extended\Events\OperationEventArgs.cs" />
@@ -93,10 +96,15 @@
     </Compile>
     <Compile Include="Extended\IExtendedQueryExecutor.cs" />
     <Compile Include="Extended\IExtendedRepository.cs" />
-    <Compile Include="Extended\Interceptors\Common\EnumerableExtensions.cs" />
+    <Compile Include="Extended\Interceptors\Common\Attributes\SelectExpressionAttribute.cs" />
+    <Compile Include="Extended\Interceptors\Common\Attributes\SelectPropertyAttribute.cs" />
+    <Compile Include="Extended\Interceptors\Common\Attributes\SkipAttribute.cs" />
+    <Compile Include="Extended\Interceptors\Common\Attributes\TakeAttribute.cs" />
+    <Compile Include="Extended\Interceptors\Common\Attributes\WhereAttribute.cs" />
     <Compile Include="Extended\Interceptors\Common\ExpressionExpanderQueryInterceptor.cs" />
     <Compile Include="Extended\Interceptors\Common\LoadWithQueryInterceptor.cs" />
     <Compile Include="Extended\Attributes\InterceptVisitAttribute.cs" />
+    <Compile Include="Extended\Interceptors\Common\ProjectionExtensions.cs" />
     <Compile Include="Extended\Interceptors\Common\ProjectionQueryInterceptor.cs" />
     <Compile Include="Extended\Interceptors\OperationInterceptor.cs" />
     <Compile Include="Extended\Interceptors\IOperationInterceptor.cs" />
