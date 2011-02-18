@@ -11,8 +11,6 @@ namespace LogicSoftware.Infrastructure.EntLib.Unity
 {
     using System.Configuration;
 
-    using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
-    using Microsoft.Practices.EnterpriseLibrary.PolicyInjection.Configuration;
     using Microsoft.Practices.Unity;
     using Microsoft.Practices.Unity.Configuration;
 
@@ -34,15 +32,7 @@ namespace LogicSoftware.Infrastructure.EntLib.Unity
             IUnityContainer container = new UnityContainer();
 
             UnityConfigurationSection configuration = (UnityConfigurationSection) ConfigurationManager.GetSection("unity");
-            configuration.Containers.Default.Configure(container);
-
-            // configuring Unity container for policy injection
-            IConfigurationSource configSource = ConfigurationSourceFactory.Create();
-            PolicyInjectionSettings section = (PolicyInjectionSettings) configSource.GetSection("policyInjection");
-            if (section != null)
-            {
-                section.ConfigureContainer(container, configSource);
-            }
+            configuration.Configure(container);
 
             return container;
         }

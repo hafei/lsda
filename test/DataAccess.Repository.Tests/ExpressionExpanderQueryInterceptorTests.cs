@@ -17,6 +17,7 @@ namespace LogicSoftware.DataAccess.Repository.Tests
 
     using Memory;
 
+    using Microsoft.Practices.Unity;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using SampleModel;

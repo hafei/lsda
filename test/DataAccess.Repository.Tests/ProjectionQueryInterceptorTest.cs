@@ -18,6 +18,7 @@ namespace LogicSoftware.DataAccess.Repository.Tests
 
     using Memory;
 
+    using Microsoft.Practices.Unity;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using SampleModel;
@@ -83,6 +84,9 @@ namespace LogicSoftware.DataAccess.Repository.Tests
             }
         }
 
+        /// <summary>
+        /// The projections_should_support_sub_projections.
+        /// </summary>
         [TestMethod]
         public void Projections_should_support_sub_projections()
         {
@@ -123,15 +127,15 @@ namespace LogicSoftware.DataAccess.Repository.Tests
             var memoryRepository = new MemoryRepository(new MappingSourceManager());
 
             memoryRepository.Insert(new SampleSuperParentEntity() { Id = 1, Name = "SuperParent 1" });
-                memoryRepository.Insert(new SampleParentEntity() { Id = 1, Name = "Parent 1 1", SuperParentId = 1 });
-                    memoryRepository.Insert(new SampleChildEntity() { Id = 1, Name = "Child '1 1' 1", ParentId = 1 });
+            memoryRepository.Insert(new SampleParentEntity() { Id = 1, Name = "Parent 1 1", SuperParentId = 1 });
+            memoryRepository.Insert(new SampleChildEntity() { Id = 1, Name = "Child '1 1' 1", ParentId = 1 });
 
             memoryRepository.Insert(new SampleSuperParentEntity() { Id = 2, Name = "SuperParent 2" });
-                memoryRepository.Insert(new SampleParentEntity() { Id = 2, Name = "Parent 2 1", SuperParentId = 2 });
-                    memoryRepository.Insert(new SampleChildEntity() { Id = 2, Name = "Child '2 1' 1", ParentId = 2 });
-                memoryRepository.Insert(new SampleParentEntity() { Id = 3, Name = "Parent 2 2", SuperParentId = 2 });
-                    memoryRepository.Insert(new SampleChildEntity() { Id = 3, Name = "Child '2 2' 1", ParentId = 3 });
-                    memoryRepository.Insert(new SampleChildEntity() { Id = 4, Name = "Child '2 2' 2", ParentId = 3 });
+            memoryRepository.Insert(new SampleParentEntity() { Id = 2, Name = "Parent 2 1", SuperParentId = 2 });
+            memoryRepository.Insert(new SampleChildEntity() { Id = 2, Name = "Child '2 1' 1", ParentId = 2 });
+            memoryRepository.Insert(new SampleParentEntity() { Id = 3, Name = "Parent 2 2", SuperParentId = 2 });
+            memoryRepository.Insert(new SampleChildEntity() { Id = 3, Name = "Child '2 2' 1", ParentId = 3 });
+            memoryRepository.Insert(new SampleChildEntity() { Id = 4, Name = "Child '2 2' 2", ParentId = 3 });
 
             return memoryRepository;
         }
