@@ -32,7 +32,7 @@ namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel.Extensions
         /// <returns>
         /// <c>true</c> if the specified entity is sample; otherwise, <c>false</c>.
         /// </returns>
-        [Expression(typeof(SampleEntityExpressions))]
+        [ExpandWithExpression(typeof(SampleEntityExpressions))]
         public static bool IsSample(this SampleEntity entity)
         {
             throw new InvalidOperationException("Entity extensions should be used in queries only.");

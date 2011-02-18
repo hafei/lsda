@@ -47,13 +47,13 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             if ((e.MethodCall.Method.IsStatic && e.MethodCall.Arguments.Count == 1)
                 || (!e.MethodCall.Method.IsStatic && e.MethodCall.Arguments.Count == 0))
             {
-                var expressionAttribute = (ExpressionAttribute) e.MethodCall.Method.GetCustomAttributes(typeof(ExpressionAttribute), false).SingleOrDefault();
+                var expressionAttribute = (ExpandWithExpressionAttribute) e.MethodCall.Method.GetCustomAttributes(typeof(ExpandWithExpressionAttribute), false).SingleOrDefault();
 
                 if (expressionAttribute == null)
                 {
                     throw new InvalidOperationException(String.Format(
                         CultureInfo.InvariantCulture, 
-                        "Method '{0}' in '{1}' class has no Expression attribute.", 
+                        "Method '{0}' in '{1}' class has no ExpandWithExpression attribute.", 
                         e.MethodCall.Method.Name, 
                         e.MethodCall.Method.DeclaringType.Name));
                 }
@@ -63,13 +63,13 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 
                 var expressionMethodInfo = declaringType.GetMethod(
                     methodName, 
-                    BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+                    BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
                 if (expressionMethodInfo == null)
                 {
                     throw new ArgumentException(String.Format(
                         CultureInfo.InvariantCulture, 
-                        "Method specified in Expression attribute of '{0}' method in '{1}' class is not found.", 
+                        "Method specified in ExpandWithExpression attribute of '{0}' method in '{1}' class is not found.", 
                         e.MethodCall.Method.Name, 
                         e.MethodCall.Method.DeclaringType.Name));
                 }

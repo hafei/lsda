@@ -49,7 +49,7 @@ namespace LogicSoftware.DataAccess.Repository.Tests.SampleModel
         /// <returns>
         /// <c>true</c> if this instance is sample; otherwise, <c>false</c>.
         /// </returns>
-        [Expression(typeof(SampleEntityExpressions), "IsSample")]
+        [ExpandWithExpression(typeof(SampleEntityExpressions), "IsSample")]
         [InterceptVisit(typeof(ExpressionExpanderQueryInterceptor))]
         public bool IsSampleInstance()
         {

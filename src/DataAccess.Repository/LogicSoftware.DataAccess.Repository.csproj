@@ -76,11 +76,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extended\Attributes\InterceptAttribute.cs" />
-    <Compile Include="Extended\Interceptors\Common\Attributes\ExpressionAttribute.cs" />
+    <Compile Include="Extended\Interceptors\Common\Attributes\ExpandWithExpressionAttribute.cs" />
     <Compile Include="Extended\Interceptors\Common\Attributes\OrderByAttribute.cs" />
     <Compile Include="Extended\Interceptors\Common\Attributes\OrderByDescendingAttribute.cs" />
     <Compile Include="Extended\Interceptors\Common\Attributes\ProjectionMemberAttribute.cs" />
-    <Compile Include="Extended\Interceptors\Common\Attributes\PropertyAttribute.cs" />
     <Compile Include="Extended\Interceptors\Common\Attributes\ProjectionAttribute.cs" />
     <Compile Include="Extended\Events\OperationEventArgs.cs" />
     <Compile Include="Extended\Events\QueryCreatingEventArgs.cs" />

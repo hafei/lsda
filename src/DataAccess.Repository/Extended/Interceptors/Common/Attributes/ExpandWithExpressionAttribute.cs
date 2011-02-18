@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ExpressionAttribute.cs" company="Logic Software">
+// <copyright file="ExpandWithExpressionAttribute.cs" company="Logic Software">
 //   (c) Logic Software
 // </copyright>
 // <summary>
-//   The custom expression attribute.
+//   The expand with expression attribute.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,15 +12,15 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.Attri
     using System;
 
     /// <summary>
-    /// The custom expression attribute.
+    /// The expand with expression attribute.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    public sealed class ExpressionAttribute : Attribute
+    public sealed class ExpandWithExpressionAttribute : Attribute
     {
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExpressionAttribute"/> class.
+        /// Initializes a new instance of the <see cref="ExpandWithExpressionAttribute"/> class.
         /// </summary>
         /// <param name="declaringType">
         /// The declaring Type.
@@ -28,30 +28,30 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.Attri
         /// <param name="methodName">
         /// The name of the method.
         /// </param>
-        public ExpressionAttribute(Type declaringType, string methodName)
+        public ExpandWithExpressionAttribute(Type declaringType, string methodName)
         {
             this.DeclaringType = declaringType;
             this.MethodName = methodName;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExpressionAttribute"/> class.
+        /// Initializes a new instance of the <see cref="ExpandWithExpressionAttribute"/> class.
         /// </summary>
         /// <param name="methodName">
         /// The name of the method.
         /// </param>
-        public ExpressionAttribute(string methodName)
+        public ExpandWithExpressionAttribute(string methodName)
         {
             this.MethodName = methodName;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExpressionAttribute"/> class.
+        /// Initializes a new instance of the <see cref="ExpandWithExpressionAttribute"/> class.
         /// </summary>
         /// <param name="declaringType">
         /// The declaring type.
         /// </param>
-        public ExpressionAttribute(Type declaringType)
+        public ExpandWithExpressionAttribute(Type declaringType)
         {
             this.DeclaringType = declaringType;
         }
