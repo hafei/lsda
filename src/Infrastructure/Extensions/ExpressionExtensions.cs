@@ -718,6 +718,28 @@ namespace LogicSoftware.Infrastructure.Extensions
         }
 
         /// <summary>
+        /// Non-typed SingleOrDefault method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source sequence expression.
+        /// </param>
+        /// <returns>
+        /// New sequence with SingleOrDefault method call.
+        /// </returns>
+        public static MethodCallExpression SingleOrDefault(this Expression source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            // todo: add cache?
+            MethodInfo singleOrDefaultMethod = TypeSystem.FindExtensionMethod("SingleOrDefault", source.Type, null, null);
+
+            return Expression.Call(singleOrDefaultMethod, source);
+        }
+
+        /// <summary>
         /// Non-typed StartsWith method call.
         /// </summary>
         /// <param name="source">
