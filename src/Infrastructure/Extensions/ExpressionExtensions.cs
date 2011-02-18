@@ -357,7 +357,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             var resultType = resultSelector.Body.Type;
 
             // todo: add cache?
-            MethodInfo groupByMethod = TypeSystem.FindExtensionMethod("GroupBy", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType), typeof(Func<,>).MakeGenericType(keyType, typeof(IEnumerable<>).MakeGenericType(elementType), resultType) }, new[] { keyType, resultType });
+            MethodInfo groupByMethod = TypeSystem.FindExtensionMethod("GroupBy", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType), typeof(Func<,,>).MakeGenericType(keyType, typeof(IEnumerable<>).MakeGenericType(elementType), resultType) }, new[] { keyType, resultType });
 
             return Expression.Call(
                 groupByMethod, 
