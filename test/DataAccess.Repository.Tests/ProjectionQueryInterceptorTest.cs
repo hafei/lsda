@@ -83,6 +83,80 @@ namespace LogicSoftware.DataAccess.Repository.Tests
         }
 
         /// <summary>
+        /// The instance_methods_should_be_ignored_if_calling_without_projection_instance.
+        /// </summary>
+        [TestMethod]
+        public void Instance_methods_should_be_ignored_if_calling_without_projection_instance()
+        {
+            // Arrange
+            var repository = CreateSampleEntityRepository();
+            this.Container.RegisterInstance<IRepository>(repository);
+
+            var extendedRepository = this.Container.Resolve<IExtendedRepository>();
+
+            // Act
+            var instanceProjectionResult = extendedRepository.All<SampleParentEntity>()
+                .Select(AdvancedParentEntityProjection.WithPatternAndTake("arent 1", 1))
+                .ToList();
+
+            var staticProjectionResult = extendedRepository.All<SampleParentEntity>()
+                .Select<AdvancedParentEntityProjection>()
+                .ToList();
+
+            var instanceQueryResult = extendedRepository.All<SampleParentEntity>()
+                .Where(u => u.Name.Contains("arent 1"))
+                .OrderByDescending(u => u.Name)
+                .Skip(1)
+                .Take(1)
+                .Select(e => new AdvancedParentEntityProjection
+                    {
+                        Id = e.Id, 
+                        Name = e.Name, 
+                        SuperParent = new AdvancedParentEntityProjection.SuperParentProjection
+                            {
+                                Id = e.SuperParent.Id, 
+                                Name = e.SuperParent.Name
+                            }, 
+                        Children = e.Children
+                            .OrderByDescending(c => c.Name)
+                            .Select(c => new AdvancedParentEntityProjection.ChildProjection
+                                {
+                                    Id = c.Id, 
+                                    Name = c.Name
+                                })
+                            .ToList()
+                    })
+                .ToList();
+
+            var staticQueryResult = extendedRepository.All<SampleParentEntity>()
+                .OrderByDescending(u => u.Name)
+                .Skip(1)
+                .Select(e => new AdvancedParentEntityProjection
+                    {
+                        Id = e.Id, 
+                        Name = e.Name, 
+                        SuperParent = new AdvancedParentEntityProjection.SuperParentProjection
+                            {
+                                Id = e.SuperParent.Id, 
+                                Name = e.SuperParent.Name
+                            }, 
+                        Children = e.Children
+                            .OrderByDescending(c => c.Name)
+                            .Select(c => new AdvancedParentEntityProjection.ChildProjection
+                                {
+                                    Id = c.Id, 
+                                    Name = c.Name
+                                })
+                            .ToList()
+                    })
+                .ToList();
+
+            // Assert
+            Assert.IsTrue(Compare(instanceProjectionResult, instanceQueryResult), "Projection result differs from direct query.");
+            Assert.IsTrue(Compare(staticProjectionResult, staticQueryResult), "Projection result differs from direct query.");
+        }
+
+        /// <summary>
         /// The lift_to_null_should_be_supported_in_binding.
         /// </summary>
         [TestMethod]

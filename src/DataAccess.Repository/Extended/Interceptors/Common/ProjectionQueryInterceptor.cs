@@ -32,6 +32,21 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         #region Constants and Fields
 
         /// <summary>
+        /// The method instance binding flags.
+        /// </summary>
+        private const BindingFlags MethodInstanceBindingFlags = MethodStaticBindingFlags | BindingFlags.Instance;
+
+        /// <summary>
+        /// The method static binding flags.
+        /// </summary>
+        private const BindingFlags MethodStaticBindingFlags = BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy;
+
+        /// <summary>
+        /// The property binding flags.
+        /// </summary>
+        private const BindingFlags PropertyBindingFlags = BindingFlags.Public | BindingFlags.Instance;
+
+        /// <summary>
         /// The member types.
         /// </summary>
         private static readonly Dictionary<Type, ProjectionMemberType> MemberTypes = new Dictionary<Type, ProjectionMemberType>
@@ -156,7 +171,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// </returns>
         private static object InvokeMethod(object obj, MethodInfo method, params object[] args)
         {
-            // todo: remove hack that allows no parameters in method
+            // note: hack that allows no parameters in method
             if (method.GetParameters().Length == 0)
             {
                 args = new object[0];
@@ -165,6 +180,30 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             // todo: performance issues (replace with compiled expressions and cache)
             // todo: rewrite to allow overriding (eg. Scope support in inheritor) 
             return method.IsStatic ? method.Invoke(null, args) : method.Invoke(obj, args);
+        }
+
+        /// <summary>
+        /// Validates the type of the projection.
+        /// </summary>
+        /// <param name="sourceType">
+        /// Type of the source.
+        /// </param>
+        /// <param name="projectionType">
+        /// Type of the projection.
+        /// </param>
+        private static void ValidateProjectionType(Type sourceType, Type projectionType)
+        {
+            var projectionAttribute = (ProjectionAttribute) projectionType.GetCustomAttributes(typeof(ProjectionAttribute), true).SingleOrDefault();
+
+            if (projectionAttribute == null)
+            {
+                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Type {0} has no projection attribute.", projectionType));
+            }
+
+            if (projectionAttribute.RootType != sourceType)
+            {
+                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Type {0} has wrong RootType in projection attribute. Expected: {1}, actual: {2}.", projectionType, sourceType, projectionAttribute.RootType));
+            }
         }
 
         /// <summary>
@@ -184,24 +223,10 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// </returns>
         private Expression ApplyObjectProjection(Expression sourceExpression, Type projectionType, object projectionConfig)
         {
-            // checking projection attribute validity (integrity check, may be removed)
-            var projectionAttribute = (ProjectionAttribute) projectionType.GetCustomAttributes(typeof(ProjectionAttribute), true).SingleOrDefault();
-
-            if (projectionAttribute == null)
-            {
-                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Type {0} has no projection attribute.", projectionType));
-            }
-
-            if (projectionAttribute.RootType != sourceExpression.Type)
-            {
-                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Type {0} has wrong RootType in projection attribute. Expected: {1}, actual: {2}.", projectionType, sourceExpression.Type, projectionAttribute.RootType));
-            }
+            ValidateProjectionType(sourceExpression.Type, projectionType);
 
             // todo: add cache
-            var projectionMembers = projectionType.GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-                .Where(member => member.IsDefined(typeof(ProjectionMemberAttribute), true)) // note: skipping members without attributes, can be replaced with null check later
-                .Select(member => new ProjectionMemberMetadata(member, (ProjectionMemberAttribute) member.GetCustomAttributes(typeof(ProjectionMemberAttribute), true).SingleOrDefault()))
-                .ToLookup(memberMetadata => MemberTypes[memberMetadata.MemberAttribute.GetType()]);
+            var projectionMembers = GetProjectionMembers(projectionType, projectionConfig);
 
             // validating sub-projection
             if (projectionMembers.Any(memberGroup => memberGroup.Key != ProjectionMemberType.Select))
@@ -310,28 +335,15 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         {
             var sourceElementType = TypeSystem.GetElementType(sourceSequenceExpression.Type);
 
-            // checking projection attribute validity (integrity check, may be removed)
-            var projectionAttribute = (ProjectionAttribute) projectionType.GetCustomAttributes(typeof(ProjectionAttribute), true).SingleOrDefault();
-
-            if (projectionAttribute == null)
-            {
-                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Type {0} has no projection attribute.", projectionType));
-            }
-
-            if (projectionAttribute.RootType != sourceElementType)
-            {
-                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Type {0} has wrong RootType in projection attribute. Expected: {1}, actual: {2}.", projectionType, sourceElementType, projectionAttribute.RootType));
-            }
+            ValidateProjectionType(sourceElementType, projectionType);
 
             // todo: add cache
-            var resultSequenceExpression = projectionType.GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-                .Where(member => member.IsDefined(typeof(ProjectionMemberAttribute), true)) // note: skipping members without attributes, can be replaced with null check later
-                .Select(member => new ProjectionMemberMetadata(member, (ProjectionMemberAttribute) member.GetCustomAttributes(typeof(ProjectionMemberAttribute), true).SingleOrDefault()))
-                .GroupBy(memberMetadata => MemberTypes[memberMetadata.MemberAttribute.GetType()])
+            // todo: encapsulate this logic somewhere outside
+            var resultSequenceExpression = GetProjectionMembers(projectionType, projectionConfig)
                 .OrderBy(memberGroup => memberGroup.Key) // note: ordering by enum underlying int values, order is significant
                 .Aggregate(
-                sourceSequenceExpression, 
-                (previous, memberGroup) => this.MemberTypeHandlers[memberGroup.Key](previous, projectionType, projectionConfig, memberGroup));
+                    sourceSequenceExpression, 
+                    (previous, memberGroup) => this.MemberTypeHandlers[memberGroup.Key](previous, projectionType, projectionConfig, memberGroup));
 
             return resultSequenceExpression;
         }
@@ -429,6 +441,22 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             }
 
             return sourceSequenceExpression;
+        }
+
+        /// <summary>
+        /// Gets the projection members.
+        /// </summary>
+        /// <param name="projectionType">Type of the projection.</param>
+        /// <param name="projectionConfig">The projection config.</param>
+        /// <returns>The projection members lookup.</returns>
+        private static ILookup<ProjectionMemberType, ProjectionMemberMetadata> GetProjectionMembers(Type projectionType, object projectionConfig)
+        {
+            return Enumerable.Empty<MemberInfo>()
+                .Concat(projectionType.GetProperties(PropertyBindingFlags)) // public instance properties
+                .Concat(projectionType.GetMethods(projectionConfig == null ? MethodStaticBindingFlags : MethodInstanceBindingFlags)) // public static or all methods
+                .Where(member => member.IsDefined(typeof(ProjectionMemberAttribute), true)) // note: skipping members without attributes, can be replaced with null check later
+                .Select(member => new ProjectionMemberMetadata(member, (ProjectionMemberAttribute) member.GetCustomAttributes(typeof(ProjectionMemberAttribute), true).SingleOrDefault()))
+                .ToLookup(memberMetadata => MemberTypes[memberMetadata.MemberAttribute.GetType()]);
         }
 
         /// <summary>
