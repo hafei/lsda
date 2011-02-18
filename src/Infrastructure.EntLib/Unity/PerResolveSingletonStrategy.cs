@@ -29,10 +29,9 @@ namespace LogicSoftware.Infrastructure.EntLib.Unity
         /// </param>
         public override void PostBuildUp(IBuilderContext context)
         {
-            // this strategy will execute before LifetimeStrategy during PostBuildUp stage, so all we need to do here is to remove local perresolve added during PreBuildUp
-            // this will leave original lifetime manager on top and LifetimeStrategy will successfully provide built object to it
-            // note: this method will not be called without PreBuildUp method being called first, so we can just remove local lifetime policy
-            context.Policies.Clear<ILifetimePolicy>(context.BuildKey);
+            // this strategy will execute before LifetimeStrategy during PostBuildUp stage which will try to pass created object to current lifetime manager,
+            // but our local perresolve lifetime manager now hides the real persistent one, so we have to dublicate LifetimeStrategy's logic for persistent lifetime manager here
+            context.PersistentPolicies.Get<ILifetimePolicy>(context.BuildKey).SetValue(context.Existing);
         }
 
         /// <summary>
