@@ -15,6 +15,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
     using System.Data.SqlClient;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using System.Linq;
     using System.Transactions;
 
     using IsolationLevel = System.Transactions.IsolationLevel;
@@ -46,7 +47,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         {
             this.ConnectionString = connectionString;
 
-            this.CreatedConnections = new List<SqlConnection>();
+            this.OpenedConnections = new List<SqlConnection>();
         }
 
         #endregion
@@ -59,9 +60,9 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         public IConnectionString ConnectionString { get; set; }
 
         /// <summary>
-        /// Gets or sets CreatedConnections.
+        /// Gets or sets a list of opened connections.
         /// </summary>
-        private List<SqlConnection> CreatedConnections { get; set; }
+        private List<SqlConnection> OpenedConnections { get; set; }
 
         #endregion
 
@@ -116,7 +117,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         {
             if (disposing)
             {
-                foreach (var connection in this.CreatedConnections)
+                foreach (var connection in this.OpenedConnections)
                 {
                     if (connection != null && connection.State != ConnectionState.Closed)
                     {
@@ -124,7 +125,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
                     }
                 }
 
-                this.CreatedConnections.Clear();
+                this.OpenedConnections.Clear();
             }
         }
 
@@ -186,12 +187,29 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         {
             var connection = new SqlConnection(this.ConnectionString.ConnectionString);
 
-            lock (this.CreatedConnections)
-            {
-                this.CreatedConnections.Add(connection);
-            }
+            connection.StateChange += new StateChangeEventHandler(this.Connection_StateChange);
 
             return connection;
+        }
+
+        /// <summary>
+        /// Handles the StateChange event of the Connection. Adds Connection to opened connections list.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Data.StateChangeEventArgs"/> instance containing the event data.</param>
+        private void Connection_StateChange(object sender, StateChangeEventArgs e)
+        {
+            SqlConnection connection = (SqlConnection)sender;
+            lock (this.OpenedConnections)
+            {
+                this.OpenedConnections.Remove(connection);
+
+                if (e.CurrentState != ConnectionState.Broken && e.CurrentState != ConnectionState.Closed &&
+                    (e.OriginalState == ConnectionState.Closed || e.OriginalState == ConnectionState.Broken))
+                {
+                    this.OpenedConnections.Add(connection);
+                }
+            }
         }
 
         /// <summary>
