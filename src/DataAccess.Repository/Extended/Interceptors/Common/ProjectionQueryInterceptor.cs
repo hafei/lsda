@@ -124,6 +124,10 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                             sourceElementParameter)
                             .Visit(customBindingExpression.Body);
 
+                        // fixing up collection type if needed
+                        // todo: maybe better logic, more checks
+                        localizedCustomBindingExpression = localizedCustomBindingExpression.FixupCollectionType(resultProperty.PropertyType);
+
                         resultMemberBindings.Add(Expression.Bind(resultProperty, localizedCustomBindingExpression));
                     }
                 }
