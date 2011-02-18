@@ -349,6 +349,140 @@
             An extension context for the created child container.
             </summary>
         </member>
+        <member name="T:Microsoft.Practices.Unity.GenericParameterBase">
+            <summary>
+            Base class for <see cref="T:Microsoft.Practices.Unity.InjectionParameterValue"/> subclasses that let you specify that
+            an instance of a generic type parameter should be resolved.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Unity.InjectionParameterValue">
+            <summary>
+            Base type for objects that are used to configure parameters for
+            constructor or method injection, or for getting the value to
+            be injected into a property.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InjectionParameterValue.MatchesType(System.Type)">
+            <summary>
+            Test to see if this parameter value has a matching type for the given type.
+            </summary>
+            <param name="t">Type to check.</param>
+            <returns>True if this parameter value is compatible with type <paramref name="t"/>,
+            false if not.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InjectionParameterValue.GetResolverPolicy(System.Type)">
+            <summary>
+            Return a <see cref="T:Microsoft.Practices.ObjectBuilder2.IDependencyResolverPolicy"/> instance that will
+            return this types value for the parameter.
+            </summary>
+            <param name="typeToBuild">Type that contains the member that needs this parameter. Used
+            to resolve open generic parameters.</param>
+            <returns>The <see cref="T:Microsoft.Practices.ObjectBuilder2.IDependencyResolverPolicy"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InjectionParameterValue.ToParameters(System.Object[])">
+            <summary>
+            Convert the given set of arbitrary values to a sequence of InjectionParameterValue
+            objects. The rules are: If it's already an InjectionParameterValue, return it. If
+            it's a Type, return a ResolvedParameter object for that type. Otherwise return
+            an InjectionParameter object for that value.
+            </summary>
+            <param name="values">The values to build the sequence from.</param>
+            <returns>The resulting converted sequence.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InjectionParameterValue.ToParameter(System.Object)">
+            <summary>
+            Convert an arbitrary value to an InjectionParameterValue object. The rules are: 
+            If it's already an InjectionParameterValue, return it. If it's a Type, return a
+            ResolvedParameter object for that type. Otherwise return an InjectionParameter
+            object for that value.
+            </summary>
+            <param name="value">The value to convert.</param>
+            <returns>The resulting <see cref="T:Microsoft.Practices.Unity.InjectionParameterValue"/>.</returns>
+        </member>
+        <member name="P:Microsoft.Practices.Unity.InjectionParameterValue.ParameterTypeName">
+            <summary>
+            Name for the type represented by this <see cref="T:Microsoft.Practices.Unity.InjectionParameterValue"/>.
+            This may be an actual type name or a generic argument name.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.GenericParameterBase.#ctor(System.String)">
+            <summary>
+            Create a new <see cref="T:Microsoft.Practices.Unity.GenericParameter"/> instance that specifies
+            that the given named generic parameter should be resolved.
+            </summary>
+            <param name="genericParameterName">The generic parameter name to resolve.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.GenericParameterBase.#ctor(System.String,System.String)">
+            <summary>
+            Create a new <see cref="T:Microsoft.Practices.Unity.GenericParameter"/> instance that specifies
+            that the given named generic parameter should be resolved.
+            </summary>
+            <param name="genericParameterName">The generic parameter name to resolve.</param>
+            <param name="resolutionKey">name to use when looking up in the container.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.GenericParameterBase.MatchesType(System.Type)">
+            <summary>
+            Test to see if this parameter value has a matching type for the given type.
+            </summary>
+            <param name="t">Type to check.</param>
+            <returns>True if this parameter value is compatible with type <paramref name="t"/>,
+            false if not.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.GenericParameterBase.GetResolverPolicy(System.Type)">
+            <summary>
+            Return a <see cref="T:Microsoft.Practices.ObjectBuilder2.IDependencyResolverPolicy"/> instance that will
+            return this types value for the parameter.
+            </summary>
+            <param name="typeToBuild">Type that contains the member that needs this parameter. Used
+            to resolve open generic parameters.</param>
+            <returns>The <see cref="T:Microsoft.Practices.ObjectBuilder2.IDependencyResolverPolicy"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.GenericParameterBase.DoGetResolverPolicy(System.Type,System.String)">
+            <summary>
+            Return a <see cref="T:Microsoft.Practices.ObjectBuilder2.IDependencyResolverPolicy"/> instance that will
+            return this types value for the parameter.
+            </summary>
+            <param name="typeToResolve">The actual type to resolve.</param>
+            <param name="resolutionKey">The resolution key.</param>
+            <returns>The <see cref="T:Microsoft.Practices.ObjectBuilder2.IDependencyResolverPolicy"/>.</returns>
+        </member>
+        <member name="P:Microsoft.Practices.Unity.GenericParameterBase.ParameterTypeName">
+            <summary>
+            Name for the type represented by this <see cref="T:Microsoft.Practices.Unity.InjectionParameterValue"/>.
+            This may be an actual type name or a generic argument name.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Unity.OptionalGenericParameter">
+            <summary>
+            A <see cref="T:Microsoft.Practices.Unity.InjectionParameterValue"/> that lets you specify that
+            an instance of a generic type parameter should be resolved, providing the <see langword="null"/>
+            value if resolving fails.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.OptionalGenericParameter.#ctor(System.String)">
+            <summary>
+            Create a new <see cref="T:Microsoft.Practices.Unity.GenericParameter"/> instance that specifies
+            that the given named generic parameter should be resolved.
+            </summary>
+            <param name="genericParameterName">The generic parameter name to resolve.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.OptionalGenericParameter.#ctor(System.String,System.String)">
+            <summary>
+            Create a new <see cref="T:Microsoft.Practices.Unity.GenericParameter"/> instance that specifies
+            that the given named generic parameter should be resolved.
+            </summary>
+            <param name="genericParameterName">The generic parameter name to resolve.</param>
+            <param name="resolutionKey">name to use when looking up in the container.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.OptionalGenericParameter.DoGetResolverPolicy(System.Type,System.String)">
+            <summary>
+            Return a <see cref="T:Microsoft.Practices.ObjectBuilder2.IDependencyResolverPolicy"/> instance that will
+            return this types value for the parameter.
+            </summary>
+            <param name="typeToResolve">The actual type to resolve.</param>
+            <param name="resolutionKey">The resolution key.</param>
+            <returns>The <see cref="T:Microsoft.Practices.ObjectBuilder2.IDependencyResolverPolicy"/>.</returns>
+        </member>
         <member name="T:Microsoft.Practices.Unity.InjectionFactory">
             <summary>
             A class that lets you specify a factory method the container
@@ -418,56 +552,6 @@
             <summary>
             A base class for implementing <see cref="T:Microsoft.Practices.Unity.InjectionParameterValue"/> classes
             that deal in explicit types.
-            </summary>
-        </member>
-        <member name="T:Microsoft.Practices.Unity.InjectionParameterValue">
-            <summary>
-            Base type for objects that are used to configure parameters for
-            constructor or method injection, or for getting the value to
-            be injected into a property.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Practices.Unity.InjectionParameterValue.MatchesType(System.Type)">
-            <summary>
-            Test to see if this parameter value has a matching type for the given type.
-            </summary>
-            <param name="t">Type to check.</param>
-            <returns>True if this parameter value is compatible with type <paramref name="t"/>,
-            false if not.</returns>
-        </member>
-        <member name="M:Microsoft.Practices.Unity.InjectionParameterValue.GetResolverPolicy(System.Type)">
-            <summary>
-            Return a <see cref="T:Microsoft.Practices.ObjectBuilder2.IDependencyResolverPolicy"/> instance that will
-            return this types value for the parameter.
-            </summary>
-            <param name="typeToBuild">Type that contains the member that needs this parameter. Used
-            to resolve open generic parameters.</param>
-            <returns>The <see cref="T:Microsoft.Practices.ObjectBuilder2.IDependencyResolverPolicy"/>.</returns>
-        </member>
-        <member name="M:Microsoft.Practices.Unity.InjectionParameterValue.ToParameters(System.Object[])">
-            <summary>
-            Convert the given set of arbitrary values to a sequence of InjectionParameterValue
-            objects. The rules are: If it's already an InjectionParameterValue, return it. If
-            it's a Type, return a ResolvedParameter object for that type. Otherwise return
-            an InjectionParameter object for that value.
-            </summary>
-            <param name="values">The values to build the sequence from.</param>
-            <returns>The resulting converted sequence.</returns>
-        </member>
-        <member name="M:Microsoft.Practices.Unity.InjectionParameterValue.ToParameter(System.Object)">
-            <summary>
-            Convert an arbitrary value to an InjectionParameterValue object. The rules are: 
-            If it's already an InjectionParameterValue, return it. If it's a Type, return a
-            ResolvedParameter object for that type. Otherwise return an InjectionParameter
-            object for that value.
-            </summary>
-            <param name="value">The value to convert.</param>
-            <returns>The resulting <see cref="T:Microsoft.Practices.Unity.InjectionParameterValue"/>.</returns>
-        </member>
-        <member name="P:Microsoft.Practices.Unity.InjectionParameterValue.ParameterTypeName">
-            <summary>
-            Name for the type represented by this <see cref="T:Microsoft.Practices.Unity.InjectionParameterValue"/>.
-            This may be an actual type name or a generic argument name.
             </summary>
         </member>
         <member name="M:Microsoft.Practices.Unity.TypedInjectionValue.#ctor(System.Type)">
@@ -644,7 +728,7 @@
             <remarks>
             Don't do anything that could throw in this method,
             it will cause later recover operations to get skipped
-            and play real havok with the stack trace.
+            and play real havoc with the stack trace.
             </remarks>
         </member>
         <member name="M:Microsoft.Practices.Unity.SynchronizedLifetimeManager.GetValue">
@@ -693,7 +777,7 @@
             <remarks>
             Don't do anything that could throw in this method,
             it will cause later recover operations to get skipped
-            and play real havok with the stack trace.
+            and play real havoc with the stack trace.
             </remarks>
         </member>
         <member name="M:Microsoft.Practices.Unity.ContainerControlledLifetimeManager.SynchronizedGetValue">
@@ -3896,7 +3980,7 @@
             Creates a new extension object and adds it to the container.
             </summary>
             <typeparam name="TExtension">Type of <see cref="T:Microsoft.Practices.Unity.UnityContainerExtension"/> to add. The extension type
-            must have a zero-argument public constructor.</typeparam>
+            will be resolved from within the supplied <paramref name="container"/>.</typeparam>
             <param name="container">Container to add the extension to.</param>
             <returns>The <see cref="T:Microsoft.Practices.Unity.UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         </member>
@@ -4148,28 +4232,14 @@
             <param name="genericParameterName">The generic parameter name to resolve.</param>
             <param name="resolutionKey">name to use when looking up in the container.</param>
         </member>
-        <member name="M:Microsoft.Practices.Unity.GenericParameter.MatchesType(System.Type)">
-            <summary>
-            Test to see if this parameter value has a matching type for the given type.
-            </summary>
-            <param name="t">Type to check.</param>
-            <returns>True if this parameter value is compatible with type <paramref name="t"/>,
-            false if not.</returns>
-        </member>
-        <member name="M:Microsoft.Practices.Unity.GenericParameter.GetResolverPolicy(System.Type)">
+        <member name="M:Microsoft.Practices.Unity.GenericParameter.DoGetResolverPolicy(System.Type,System.String)">
             <summary>
             Return a <see cref="T:Microsoft.Practices.ObjectBuilder2.IDependencyResolverPolicy"/> instance that will
             return this types value for the parameter.
             </summary>
-            <param name="typeToBuild">Type that contains the member that needs this parameter. Used
-            to resolve open generic parameters.</param>
+            <param name="typeToResolve">The actual type to resolve.</param>
+            <param name="resolutionKey">The resolution key.</param>
             <returns>The <see cref="T:Microsoft.Practices.ObjectBuilder2.IDependencyResolverPolicy"/>.</returns>
-        </member>
-        <member name="P:Microsoft.Practices.Unity.GenericParameter.ParameterTypeName">
-            <summary>
-            Name for the type represented by this <see cref="T:Microsoft.Practices.Unity.InjectionParameterValue"/>.
-            This may be an actual type name or a generic argument name.
-            </summary>
         </member>
         <member name="T:Microsoft.Practices.Unity.GenericResolvedArrayParameter">
             <summary>
@@ -5740,8 +5810,8 @@
         <member name="M:Microsoft.Practices.Unity.Utility.ReflectionHelper.GetNamedGenericParameter(System.String)">
             <summary>
             Given a generic argument name, return the corresponding type for this
-            closed type. For example, if the current type is Foo&lt;User&gt;, and the
-            corresponding definition was Foo&lt;TSomething&gt;, calling this method
+            closed type. For example, if the current type is SomeType&lt;User&gt;, and the
+            corresponding definition was SomeType&lt;TSomething&gt;, calling this method
             and passing "TSomething" will return typeof(User).
             </summary>
             <param name="parameterName">Name of the generic parameter.</param>
@@ -5794,7 +5864,7 @@
         <member name="M:Microsoft.Practices.Unity.Utility.StaticReflection.GetMethodInfo(System.Linq.Expressions.Expression{System.Action})">
             <summary>
             Pull out a <see cref="T:System.Reflection.MethodInfo"/> object from an expression of the form
-            () =&gt; SomeClass.Foo()
+            () =&gt; SomeClass.SomeMethod()
             </summary>
             <param name="expression">Expression describing the method to call.</param>
             <returns>Corresponding <see cref="T:System.Reflection.MethodInfo"/>.</returns>
@@ -5802,7 +5872,7 @@
         <member name="M:Microsoft.Practices.Unity.Utility.StaticReflection.GetMethodInfo``1(System.Linq.Expressions.Expression{System.Action{``0}})">
             <summary>
             Pull out a <see cref="T:System.Reflection.MethodInfo"/> object from an expression of the form
-            x =&gt; x.Foo()
+            x =&gt; x.SomeMethod()
             </summary>
             <typeparam name="T">The type where the method is defined.</typeparam>
             <param name="expression">Expression describing the method to call.</param>
@@ -5811,7 +5881,7 @@
         <member name="M:Microsoft.Practices.Unity.Utility.StaticReflection.GetPropertyGetMethodInfo``2(System.Linq.Expressions.Expression{System.Func{``0,``1}})">
             <summary>
             Pull out a <see cref="T:System.Reflection.MethodInfo"/> object for the get method from an expression of the form
-            x =&gt; x.Foo
+            x =&gt; x.SomeProperty
             </summary>
             <typeparam name="T">The type where the method is defined.</typeparam>
             <typeparam name="TProperty">The type for the property.</typeparam>
@@ -5821,7 +5891,7 @@
         <member name="M:Microsoft.Practices.Unity.Utility.StaticReflection.GetPropertySetMethodInfo``2(System.Linq.Expressions.Expression{System.Func{``0,``1}})">
             <summary>
             Pull out a <see cref="T:System.Reflection.MethodInfo"/> object for the set method from an expression of the form
-            x =&gt; x.Foo
+            x =&gt; x.SomeProperty
             </summary>
             <typeparam name="T">The type where the method is defined.</typeparam>
             <typeparam name="TProperty">The type for the property.</typeparam>
