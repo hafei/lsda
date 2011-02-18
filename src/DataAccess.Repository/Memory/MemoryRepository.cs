@@ -245,7 +245,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         /// Executes the specified query.
         /// </summary>
         /// <typeparam name="TResult">
-        /// The type of the result.
+        /// The type of the element of the result sequence.
         /// </typeparam>
         /// <param name="query">
         /// The query expression.
@@ -253,7 +253,21 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         /// <returns>
         /// The result of the query execution.
         /// </returns>
-        public TResult Execute<TResult>(Expression query)
+        public IEnumerable<TResult> Execute<TResult>(Expression query)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Executes the specified query.
+        /// </summary>
+        /// <param name="query">
+        /// The query expression.
+        /// </param>
+        /// <returns>
+        /// The result of the query execution.
+        /// </returns>
+        public int Execute(Expression query)
         {
             throw new NotImplementedException();
         }

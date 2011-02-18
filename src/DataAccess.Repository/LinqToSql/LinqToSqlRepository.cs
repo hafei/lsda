@@ -21,8 +21,6 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
 
     using Basic;
 
-    using Infrastructure.Helpers;
-
     using Mapping;
 
     /// <summary>
@@ -192,7 +190,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         /// Executes the specified query.
         /// </summary>
         /// <typeparam name="TResult">
-        /// The type of the result.
+        /// The type of the element of the result sequence.
         /// </typeparam>
         /// <param name="query">
         /// The query expression.
@@ -200,61 +198,35 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         /// <returns>
         /// The result of the query execution.
         /// </returns>
-        public TResult Execute<TResult>(Expression query)
+        public IEnumerable<TResult> Execute<TResult>(Expression query)
         {
-            // hacks, hacks, hacks
-            var methodCall = query as MethodCallExpression;
+            object[] parameters;
+            var command = GetCommandText(query as MethodCallExpression, out parameters);
 
-            if (methodCall == null)
+            // note: because of deferred loading context is not disposed here
+            var context = this.CreateReadOnlyDataContext(new LoadOptions());
+
+            return context.ExecuteQuery<TResult>(command, parameters);
+        }
+
+        /// <summary>
+        /// Executes the specified query.
+        /// </summary>
+        /// <param name="query">
+        /// The query expression.
+        /// </param>
+        /// <returns>
+        /// The result of the query execution.
+        /// </returns>
+        public int Execute(Expression query)
+        {
+            object[] parameters;
+            var command = GetCommandText(query as MethodCallExpression, out parameters);
+
+            using (var context = this.CreateReadOnlyDataContext(new LoadOptions()))
             {
-                throw new InvalidOperationException("Unknown query provided for Execute method. Only method call expressions supported.");
+                return context.ExecuteCommand(command, parameters);
             }
-
-            if (!methodCall.Method.IsStatic || methodCall.Method.GetParameters().Length < 1)
-            {
-                throw new InvalidOperationException("Only static extension methods are supported for Execute method.");
-            }
-
-            var procedureName = methodCall.Method.Name;
-            var parameters = methodCall.Method.GetParameters().Skip(1).ToArray();
-            var parameterValues = methodCall.Arguments.Skip(1).Cast<ConstantExpression>().Select(constant => constant.Value).ToArray();
-            var notNullParameterValues = parameterValues.Where(parameterValue => parameterValue != null).ToArray();
-
-            var command = new StringBuilder("exec " + procedureName);
-
-            for (int i = 0, j = 0; i < parameters.Length; i++)
-            {
-                if (j > 0)
-                {
-                    command.Append(",");
-                }
-
-                if (parameterValues[i] != null)
-                {
-                    command.AppendFormat(CultureInfo.InvariantCulture, " @{0} = {{{1}}}", parameters[i].Name, j++);
-                }                                                                           
-            }
-
-            // special case of RowsAffected result
-            if (typeof(TResult) == typeof(int))
-            {
-                using (var context = this.CreateReadOnlyDataContext(new LoadOptions()))
-                {
-                    return (TResult)((object)context.ExecuteCommand(command.ToString(), notNullParameterValues));
-                }
-            }
-            
-            // special case of IEnumerable result
-            if (typeof(TResult).IsGenericType && typeof(TResult).GetGenericTypeDefinition() == typeof(IEnumerable<>))
-            {
-                var elementType = typeof(TResult).GetGenericArguments().Single();
-
-                var context = this.CreateReadOnlyDataContext(new LoadOptions());
-
-                return (TResult)context.ExecuteQuery(elementType, command.ToString(), notNullParameterValues);
-            }
-
-            throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Unknown result type {0} when calling Execute. Only int and generic enumerable are supported.", typeof(TResult)));
         }
 
         /// <summary>
@@ -448,6 +420,54 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
             this.ApplyLoadOptions(dataContextLoadOptions, loadOptions);
 
             return dataContextLoadOptions;
+        }
+
+        /// <summary>
+        /// Gets the command text for query.
+        /// </summary>
+        /// <param name="methodCall">
+        /// The method call.
+        /// </param>
+        /// <param name="parameters">
+        /// The parameters.
+        /// </param>
+        /// <returns>
+        /// The command text for query.
+        /// </returns>
+        private static string GetCommandText(MethodCallExpression methodCall, out object[] parameters)
+        {
+            if (methodCall == null)
+            {
+                throw new ArgumentNullException("methodCall");
+            }
+
+            // todo: add additional checks
+            if (!methodCall.Method.IsStatic || methodCall.Method.GetParameters().Length < 1)
+            {
+                throw new InvalidOperationException("Only static extension methods are supported for Execute method.");
+            }
+
+            var methodParameters = methodCall.Method.GetParameters().Skip(1).ToArray();
+            var parameterValues = methodCall.Arguments.Skip(1).Cast<ConstantExpression>().Select(constant => constant.Value).ToArray();
+
+            var command = new StringBuilder("exec " + methodCall.Method.Name);
+
+            for (int i = 0, j = 0; i < methodParameters.Length; i++)
+            {
+                if (j > 0)
+                {
+                    command.Append(",");
+                }
+
+                if (parameterValues[i] != null)
+                {
+                    command.AppendFormat(CultureInfo.InvariantCulture, " @{0} = {{{1}}}", methodParameters[i].Name, j++);
+                }
+            }
+
+            parameters = parameterValues.Where(parameterValue => parameterValue != null).ToArray();
+
+            return command.ToString();
         }
 
         #endregion

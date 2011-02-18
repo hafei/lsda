@@ -10,6 +10,7 @@
 namespace LogicSoftware.DataAccess.Repository.Extended
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
@@ -128,13 +129,34 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// <summary>
         /// Executes the specified query.
         /// </summary>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
-        /// <param name="query">The query expression.</param>
-        /// <returns>The result of the query execution.</returns>
-        public TResult Execute<TResult>(Expression query)
+        /// <typeparam name="TResult">
+        /// The type of the element of the result sequence.
+        /// </typeparam>
+        /// <param name="query">
+        /// The query expression.
+        /// </param>
+        /// <returns>
+        /// The result of the query execution.
+        /// </returns>
+        public IEnumerable<TResult> Execute<TResult>(Expression query)
         {
             // simple redirect for now
             return this.InnerRepository.Execute<TResult>(query);
+        }
+
+        /// <summary>
+        /// Executes the specified query.
+        /// </summary>
+        /// <param name="query">
+        /// The query expression.
+        /// </param>
+        /// <returns>
+        /// The result of the query execution.
+        /// </returns>
+        public int Execute(Expression query)
+        {           
+            // simple redirect for now
+            return this.InnerRepository.Execute(query);
         }
 
         /// <summary>
