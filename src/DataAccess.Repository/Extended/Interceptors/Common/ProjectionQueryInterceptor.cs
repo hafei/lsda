@@ -155,6 +155,28 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         #region Methods
 
         /// <summary>
+        /// Gets the projection members.
+        /// </summary>
+        /// <param name="projectionType">
+        /// Type of the projection.
+        /// </param>
+        /// <param name="projectionConfig">
+        /// The projection config.
+        /// </param>
+        /// <returns>
+        /// The projection members lookup.
+        /// </returns>
+        private static ILookup<ProjectionMemberType, ProjectionMemberMetadata> GetProjectionMembers(Type projectionType, object projectionConfig)
+        {
+            return Enumerable.Empty<MemberInfo>()
+                .Concat(projectionType.GetProperties(PropertyBindingFlags)) // public instance properties
+                .Concat(projectionType.GetMethods(projectionConfig == null ? MethodStaticBindingFlags : MethodInstanceBindingFlags)) // public static or all methods
+                .Where(member => member.IsDefined(typeof(ProjectionMemberAttribute), true)) // note: skipping members without attributes, can be replaced with null check later
+                .Select(member => new ProjectionMemberMetadata(member, (ProjectionMemberAttribute) member.GetCustomAttributes(typeof(ProjectionMemberAttribute), true).SingleOrDefault()))
+                .ToLookup(memberMetadata => MemberTypes[memberMetadata.MemberAttribute.GetType()]);
+        }
+
+        /// <summary>
         /// Invokes the method.
         /// </summary>
         /// <param name="obj">
@@ -342,8 +364,8 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             var resultSequenceExpression = GetProjectionMembers(projectionType, projectionConfig)
                 .OrderBy(memberGroup => memberGroup.Key) // note: ordering by enum underlying int values, order is significant
                 .Aggregate(
-                    sourceSequenceExpression, 
-                    (previous, memberGroup) => this.MemberTypeHandlers[memberGroup.Key](previous, projectionType, projectionConfig, memberGroup));
+                sourceSequenceExpression, 
+                (previous, memberGroup) => this.MemberTypeHandlers[memberGroup.Key](previous, projectionType, projectionConfig, memberGroup));
 
             return resultSequenceExpression;
         }
@@ -441,22 +463,6 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             }
 
             return sourceSequenceExpression;
-        }
-
-        /// <summary>
-        /// Gets the projection members.
-        /// </summary>
-        /// <param name="projectionType">Type of the projection.</param>
-        /// <param name="projectionConfig">The projection config.</param>
-        /// <returns>The projection members lookup.</returns>
-        private static ILookup<ProjectionMemberType, ProjectionMemberMetadata> GetProjectionMembers(Type projectionType, object projectionConfig)
-        {
-            return Enumerable.Empty<MemberInfo>()
-                .Concat(projectionType.GetProperties(PropertyBindingFlags)) // public instance properties
-                .Concat(projectionType.GetMethods(projectionConfig == null ? MethodStaticBindingFlags : MethodInstanceBindingFlags)) // public static or all methods
-                .Where(member => member.IsDefined(typeof(ProjectionMemberAttribute), true)) // note: skipping members without attributes, can be replaced with null check later
-                .Select(member => new ProjectionMemberMetadata(member, (ProjectionMemberAttribute) member.GetCustomAttributes(typeof(ProjectionMemberAttribute), true).SingleOrDefault()))
-                .ToLookup(memberMetadata => MemberTypes[memberMetadata.MemberAttribute.GetType()]);
         }
 
         /// <summary>
