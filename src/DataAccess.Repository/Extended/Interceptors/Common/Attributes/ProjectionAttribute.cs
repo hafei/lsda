@@ -14,7 +14,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common.Attri
     /// <summary>
     /// The projection attribute.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public sealed class ProjectionAttribute : Attribute
     {
         #region Constructors and Destructors
