@@ -271,7 +271,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             }
 
             // todo: add cache
-            var resultSequenceExpression = projectionType.GetMembers()
+            var resultSequenceExpression = projectionType.GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy)
                 .Where(member => member.IsDefined(typeof(ProjectionMemberAttribute), true)) // note: skipping members without attributes, can be replaced with null check later
                 .Select(member => new ProjectionMemberMetadata(member, (ProjectionMemberAttribute) member.GetCustomAttributes(typeof(ProjectionMemberAttribute), true).SingleOrDefault()))
                 .GroupBy(memberMetadata => MemberTypes[memberMetadata.MemberAttribute.GetType()])
@@ -414,7 +414,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 
                     var expressionMethod = declaringType.GetMethod(
                         methodName, 
-                        BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+                        BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
                     if (expressionMethod == null)
                     {
@@ -435,7 +435,6 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                         .Visit(customBindingExpression.Body);
 
                     // fixing up collection type if needed
-                    // todo: maybe better logic, more checks
                     localizedCustomBindingExpression = localizedCustomBindingExpression.FixupCollectionType(resultProperty.PropertyType);
 
                     resultMemberBindings.Add(Expression.Bind(resultProperty, localizedCustomBindingExpression));
@@ -512,7 +511,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             }
 
             // todo: add cache
-            var projectionMembers = projectionType.GetMembers()
+            var projectionMembers = projectionType.GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy)
                 .Where(member => member.IsDefined(typeof(ProjectionMemberAttribute), true)) // note: skipping members without attributes, can be replaced with null check later
                 .Select(member => new ProjectionMemberMetadata(member, (ProjectionMemberAttribute) member.GetCustomAttributes(typeof(ProjectionMemberAttribute), true).SingleOrDefault()))
                 .ToLookup(memberMetadata => MemberTypes[memberMetadata.MemberAttribute.GetType()]);
