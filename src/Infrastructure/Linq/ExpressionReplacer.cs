@@ -71,8 +71,13 @@ namespace LogicSoftware.Infrastructure.Linq
         /// </returns>
         public override Expression Visit(Expression exp)
         {
+            if (exp == null)
+            {
+                return base.Visit(exp);
+            }
+
             Expression replacement;
-            return (exp != null) && this.ReplacementDictionary.TryGetValue(exp, out replacement)
+            return this.ReplacementDictionary.TryGetValue(exp, out replacement)
                        ? replacement
                        : base.Visit(exp);
         }

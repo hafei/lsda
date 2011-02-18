@@ -11,7 +11,6 @@ namespace LogicSoftware.Infrastructure.Extensions
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -74,6 +73,23 @@ namespace LogicSoftware.Infrastructure.Extensions
 
                 return current;
             }
+        }
+
+        /// <summary>
+        /// Returns empty sequence if specified sequence is null.
+        /// </summary>
+        /// <typeparam name="T">
+        /// Type of the element.
+        /// </typeparam>
+        /// <param name="enumerable">
+        /// The original sequence.
+        /// </param>
+        /// <returns>
+        /// Empty sequence if specified sequence is null.
+        /// </returns>
+        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable ?? new T[0];
         }
 
         /// <summary>
