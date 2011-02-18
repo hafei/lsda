@@ -186,7 +186,10 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         {
             var connection = new SqlConnection(this.ConnectionString.ConnectionString);
 
-            this.CreatedConnections.Add(connection);
+            lock (this.CreatedConnections)
+            {
+                this.CreatedConnections.Add(connection);
+            }
 
             return connection;
         }
