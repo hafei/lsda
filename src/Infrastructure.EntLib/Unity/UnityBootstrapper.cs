@@ -9,8 +9,6 @@
 
 namespace LogicSoftware.Infrastructure.EntLib.Unity
 {
-    using System.Configuration;
-
     using Microsoft.Practices.Unity;
     using Microsoft.Practices.Unity.Configuration;
 
@@ -29,12 +27,10 @@ namespace LogicSoftware.Infrastructure.EntLib.Unity
         /// </returns>
         public static IUnityContainer Bootstrap()
         {
-            IUnityContainer container = new UnityContainer();
-
-            UnityConfigurationSection configuration = (UnityConfigurationSection) ConfigurationManager.GetSection("unity");
-            configuration.Configure(container);
-
-            return container;
+            // container configuration is read from "unity" configuration section
+            return new UnityContainer()
+                .LoadConfiguration()
+                .AddNewExtension<ArrayResolutionStrategyOverridingUnityExtension>();
         }
 
         #endregion
