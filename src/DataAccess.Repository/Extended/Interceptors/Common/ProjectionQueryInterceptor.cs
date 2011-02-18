@@ -306,25 +306,30 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// </returns>
         private Expression ApplyOrder(Expression sourceSequenceExpression, Type projectionType, object projectionConfig, IEnumerable<ProjectionMemberMetadata> projectionMemberMetadatas)
         {
-            foreach (var orderMemberMetadata in projectionMemberMetadatas
+            // todo: make static
+            var firstOrderingMethod = new Dictionary<Type, Func<Expression, LambdaExpression, Expression>>
+                {
+                    { typeof(OrderByAttribute), ExpressionExtensions.OrderBy },
+                    { typeof(OrderByDescendingAttribute), ExpressionExtensions.OrderByDescending },
+                };
+            var secondOrderingMethod = new Dictionary<Type, Func<Expression, LambdaExpression, Expression>>
+                {
+                    { typeof(OrderByAttribute), ExpressionExtensions.ThenBy },
+                    { typeof(OrderByDescendingAttribute), ExpressionExtensions.ThenByDescending },
+                };
+
+            return projectionMemberMetadatas
                 .OrderBy(memberInfo => memberInfo.MemberAttribute is OrderByAttribute
                                            ? ((OrderByAttribute) memberInfo.MemberAttribute).Order
-                                           : ((OrderByDescendingAttribute) memberInfo.MemberAttribute).Order))
-            {
-                var orderMethod = (MethodInfo) orderMemberMetadata.Member;
-                var orderExpression = (LambdaExpression) InvokeMethod(projectionConfig, orderMethod, this.Scope);
-
-                if (orderMemberMetadata.MemberAttribute is OrderByAttribute)
-                {
-                    sourceSequenceExpression = sourceSequenceExpression.OrderBy(orderExpression);
-                }
-                else if (orderMemberMetadata.MemberAttribute is OrderByDescendingAttribute)
-                {
-                    sourceSequenceExpression = sourceSequenceExpression.OrderByDescending(orderExpression);
-                }
-            }
-
-            return sourceSequenceExpression;
+                                           : ((OrderByDescendingAttribute) memberInfo.MemberAttribute).Order)
+                .Select(orderMemberMetadata => new
+                    {
+                        OrderMemberAttributeType = orderMemberMetadata.MemberAttribute.GetType(),
+                        OrderExpression = (LambdaExpression) InvokeMethod(projectionConfig, (MethodInfo) orderMemberMetadata.Member, this.Scope)
+                    })
+                .Aggregate(
+                    orderMember => firstOrderingMethod[orderMember.OrderMemberAttributeType](sourceSequenceExpression /* note: closure here */, orderMember.OrderExpression),
+                    (expr, orderMember) => secondOrderingMethod[orderMember.OrderMemberAttributeType](expr, orderMember.OrderExpression));
         }
 
         /// <summary>
