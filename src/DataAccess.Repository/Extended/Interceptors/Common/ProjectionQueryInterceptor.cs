@@ -207,6 +207,25 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// <summary>
         /// Validates the type of the projection.
         /// </summary>
+        /// <param name="projectionType">
+        /// Type of the projection.
+        /// </param>
+        /// <param name="sourceType">
+        /// Type of the source.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the specified projection type is projection for specified source type; otherwise, <c>false</c>.
+        /// </returns>
+        private static bool IsProjectionFor(Type projectionType, Type sourceType)
+        {
+            var projectionAttribute = (ProjectionAttribute) projectionType.GetCustomAttributes(typeof(ProjectionAttribute), true).SingleOrDefault();
+
+            return projectionAttribute != null && projectionAttribute.RootType == sourceType;
+        }
+
+        /// <summary>
+        /// Validates the type of the projection.
+        /// </summary>
         /// <param name="sourceType">
         /// Type of the source.
         /// </param>
@@ -485,6 +504,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// </returns>
         private Expression GetSelectExpression(Expression sourceExpression, Type projectionType, object projectionConfig, IEnumerable<ProjectionMemberMetadata> projectionMemberMetadatas)
         {
+            // todo: performance issues
             var resultMemberBindings = new List<MemberBinding>();
 
             foreach (var selectMemberMetadata in projectionMemberMetadatas)
@@ -495,7 +515,6 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                 var expressionAttribute = selectMemberMetadata.MemberAttribute as SelectExpressionAttribute;
                 if (expressionAttribute != null)
                 {
-                    // todo: performance issues
                     var declaringType = expressionAttribute.DeclaringType ?? projectionType;
                     var methodName = expressionAttribute.MethodName ?? resultProperty.Name;
 
@@ -527,7 +546,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                     resultMemberBindings.Add(Expression.Bind(resultProperty, localizedCustomBindingExpression));
                 }
 
-                // for SelectProperty there may be variants: 1. simple bind, 2. bind with convert (eg. lift to null)?, 3. bind via sequence projection, 4. bind via object projection
+                // for SelectProperty there may be variants
                 var propertyAttribute = selectMemberMetadata.MemberAttribute as SelectPropertyAttribute;
                 if (propertyAttribute != null)
                 {
@@ -537,43 +556,68 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                     var sourcePropertyElementType = TypeSystem.GetElementType(sourcePropertyExpression.Type);
                     var resultPropertyElementType = TypeSystem.GetElementType(resultProperty.PropertyType);
 
-                    // 1. simple bind if types are equal
-                    if (resultProperty.PropertyType == sourcePropertyExpression.Type)
+                    // note: trying to do as much as it is possible
+                    // todo: maybe do less? eg. no blind converts
+                    if (sourcePropertyExpression.Type == resultProperty.PropertyType)
                     {
+                        // 1. simple bind if types are equal
                         resultMemberBindings.Add(Expression.Bind(resultProperty, sourcePropertyExpression));
-
-                        continue;
                     }
-
-                    // 2. bind with lift to null if needed
-                    if (TypeSystem.GetNonNullableType(resultProperty.PropertyType) == sourcePropertyExpression.Type)
+                    else if (resultProperty.PropertyType.IsAssignableFrom(sourcePropertyExpression.Type))
                     {
+                        // 2. if types are assignable then assign with cast (which is crucial for eg. lift to null)
+                        // this will cover lift to nulls (int -> int?), List<int> -> IEnumerable<int>, and some other situations
+                        // but will not cover eg. some element types conversions (eg. int -> decimal)
                         var resultPropertyBindingExpression = Expression.Convert(sourcePropertyExpression, resultProperty.PropertyType);
 
                         resultMemberBindings.Add(Expression.Bind(resultProperty, resultPropertyBindingExpression));
-
-                        continue;
                     }
-
-                    // 3. bind via sequence projection if both properties are sequence types and element types are differ
-                    if (((sourcePropertyElementType != null) && (resultPropertyElementType != null))
-                        && (sourcePropertyElementType != resultPropertyElementType))
+                    else if (((sourcePropertyElementType == null) && (resultPropertyElementType == null))
+                             && (sourcePropertyExpression.Type != resultProperty.PropertyType))
                     {
-                        var resultPropertyBindingExpression = this.ApplySequenceProjection(sourcePropertyExpression, resultPropertyElementType, null /* note: no projectionConfig here */)
-                            .FixupCollectionType(resultProperty.PropertyType);
+                        // 4-5. if both properties are not sequence types and property types are differ then it is probably an object projection or simple convert
+                        if (IsProjectionFor(resultProperty.PropertyType, sourcePropertyExpression.Type))
+                        {
+                            // 4. object projection    
+                            var resultPropertyBindingExpression = this.ApplyObjectProjection(sourcePropertyExpression, resultProperty.PropertyType, null /* note: no projectionConfig here */);
 
-                        resultMemberBindings.Add(Expression.Bind(resultProperty, resultPropertyBindingExpression));
+                            resultMemberBindings.Add(Expression.Bind(resultProperty, resultPropertyBindingExpression));
+                        }
+                        else
+                        {
+                            // 5. simple convert
+                            var resultPropertyBindingExpression = Expression.Convert(sourcePropertyExpression, resultProperty.PropertyType);
 
-                        continue;
+                            resultMemberBindings.Add(Expression.Bind(resultProperty, resultPropertyBindingExpression));
+                        }
                     }
-
-                    // 4. bind via object projection if both properties are not sequence types and element types are differ
-                    if (((sourcePropertyElementType == null) && (resultPropertyElementType == null))
-                        && (sourcePropertyExpression.Type != resultProperty.PropertyType))
+                    else if (((sourcePropertyElementType != null) && (resultPropertyElementType != null))
+                             && (sourcePropertyElementType != resultPropertyElementType))
                     {
-                        var resultPropertyBindingExpression = this.ApplyObjectProjection(sourcePropertyExpression, resultProperty.PropertyType, null /* note: no projectionConfig here */);
+                        // 6-7. if both properties are sequence types and element types are differ then it is probably a sequence projection or sequence convert
+                        if (IsProjectionFor(resultPropertyElementType, sourcePropertyElementType))
+                        {
+                            // 6. sequence projection
+                            var resultPropertyBindingExpression = this.ApplySequenceProjection(sourcePropertyExpression, resultPropertyElementType, null /* note: no projectionConfig here */)
+                                .FixupCollectionType(resultProperty.PropertyType);
 
-                        resultMemberBindings.Add(Expression.Bind(resultProperty, resultPropertyBindingExpression));
+                            resultMemberBindings.Add(Expression.Bind(resultProperty, resultPropertyBindingExpression));
+                        }
+                        else
+                        {
+                            // 7. sequence convert: sequence.Select(element => (type) element)
+                            var sourceElementParameter = Expression.Parameter(sourcePropertyElementType, sourcePropertyElementType.Name);
+                            var sourceElementConvertedExpression = Expression.Convert(sourceElementParameter, resultPropertyElementType);
+
+                            var resultPropertyBindingExpression = sourcePropertyExpression.Select(sourceElementParameter.ToLambda(sourceElementConvertedExpression))
+                                .FixupCollectionType(resultProperty.PropertyType);
+
+                            resultMemberBindings.Add(Expression.Bind(resultProperty, resultPropertyBindingExpression));
+                        }
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Unknown binding of projection property. Projection {0}, property {1}.", projectionType, selectMemberMetadata.Member));
                     }
                 }
             }
