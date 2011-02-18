@@ -311,7 +311,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// <returns>
         /// Created query interceptor.
         /// </returns>
-        private IQueryInterceptor AddInterceptorToContext(Type interceptorType, QueryContext context)
+        protected virtual IQueryInterceptor AddInterceptorToContext(Type interceptorType, QueryContext context)
         {
             IQueryInterceptor interceptor = this.InterceptorFactory.CreateQueryInterceptor(interceptorType);
 
