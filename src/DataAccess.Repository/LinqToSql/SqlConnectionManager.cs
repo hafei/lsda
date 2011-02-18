@@ -204,8 +204,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
             {
                 this.OpenedConnections.Remove(connection);
 
-                if (e.CurrentState != ConnectionState.Broken && e.CurrentState != ConnectionState.Closed &&
-                    (e.OriginalState == ConnectionState.Closed || e.OriginalState == ConnectionState.Broken))
+                if (e.CurrentState == ConnectionState.Open)
                 {
                     this.OpenedConnections.Add(connection);
                 }
