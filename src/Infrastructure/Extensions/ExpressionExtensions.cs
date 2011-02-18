@@ -288,27 +288,27 @@ namespace LogicSoftware.Infrastructure.Extensions
         /// <param name="source">
         /// The source sequence expression.
         /// </param>
-        /// <param name="predicate">
-        /// The predicate.
+        /// <param name="keySelector">
+        /// The key selector.
         /// </param>
         /// <returns>
         /// New sequence with GroupBy method call.
         /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "GroupBy() MethodCall requires lambda as predicate.")]
-        public static MethodCallExpression GroupBy(this Expression source, LambdaExpression predicate)
+        public static MethodCallExpression GroupBy(this Expression source, LambdaExpression keySelector)
         {
             if (source == null)
             {
                 throw new ArgumentNullException("source");
             }
 
-            if (predicate == null)
+            if (keySelector == null)
             {
-                throw new ArgumentNullException("predicate");
+                throw new ArgumentNullException("keySelector");
             }
 
             var elementType = TypeSystem.GetElementType(source.Type);
-            var keyType = predicate.Body.Type;
+            var keyType = keySelector.Body.Type;
 
             // todo: add cache?
             MethodInfo groupByMethod = TypeSystem.FindExtensionMethod("GroupBy", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType) }, new[] { keyType });
@@ -316,7 +316,54 @@ namespace LogicSoftware.Infrastructure.Extensions
             return Expression.Call(
                 groupByMethod, 
                 source, 
-                TypeSystem.IsQueryableExtension(groupByMethod) ? (Expression)Expression.Quote(predicate) : predicate);
+                TypeSystem.IsQueryableExtension(groupByMethod) ? (Expression)Expression.Quote(keySelector) : keySelector);
+        }
+
+        /// <summary>
+        /// Non-typed GroupBy method call.
+        /// </summary>
+        /// <param name="source">
+        /// The source sequence expression.
+        /// </param>
+        /// <param name="keySelector">
+        /// The key selector.
+        /// </param>
+        /// <param name="resultSelector">
+        /// The result selector.
+        /// </param>
+        /// <returns>
+        /// New sequence with GroupBy method call.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "GroupBy() MethodCall requires lambda as predicate.")]
+        public static MethodCallExpression GroupBy(this Expression source, LambdaExpression keySelector, LambdaExpression resultSelector)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            if (keySelector == null)
+            {
+                throw new ArgumentNullException("keySelector");
+            }
+
+            if (resultSelector == null)
+            {
+                throw new ArgumentNullException("resultSelector");
+            }
+
+            var elementType = TypeSystem.GetElementType(source.Type);
+            var keyType = keySelector.Body.Type;
+            var resultType = resultSelector.Body.Type;
+
+            // todo: add cache?
+            MethodInfo groupByMethod = TypeSystem.FindExtensionMethod("GroupBy", source.Type, new[] { typeof(Func<,>).MakeGenericType(elementType, keyType), typeof(Func<,>).MakeGenericType(keyType, typeof(IEnumerable<>).MakeGenericType(elementType), resultType) }, new[] { keyType, resultType });
+
+            return Expression.Call(
+                groupByMethod, 
+                source, 
+                TypeSystem.IsQueryableExtension(groupByMethod) ? (Expression)Expression.Quote(keySelector) : keySelector, 
+                TypeSystem.IsQueryableExtension(groupByMethod) ? (Expression)Expression.Quote(resultSelector) : resultSelector);
         }
 
         /// <summary>
