@@ -77,15 +77,123 @@ namespace LogicSoftware.DataAccess.Repository.Tests
                     })
                 .ToList();
 
+            // Assert
             Assert.IsTrue(Compare(projectionResult, queryResult), "Projection result differs from direct query.");
         }
 
         /// <summary>
+        /// The projections_should_support_deep_level_properties.
+        /// </summary>
+        [TestMethod]
+        public void Projections_should_support_deep_level_properties()
+        {
+            // Arrange
+            var repository = CreateSampleEntityRepository();
+            this.Container.RegisterInstance<IRepository>(repository);
+
+            var extendedRepository = this.Container.Resolve<IExtendedRepository>();
+
+            // Act
+            var projectionResult = extendedRepository.All<SampleChildEntity>()
+                .Select<SampleChildEntityView>()
+                .ToList();
+
+            var queryResult = extendedRepository.All<SampleChildEntity>()
+                .Select(e => new SampleChildEntityView
+                    {
+                        Name = e.Name, 
+                        EntityName = e.Name, 
+                        ParentName = e.Parent.Name, 
+                        SuperParentName = e.Parent.SuperParent.Name
+                    })
+                .ToList();
+
+            // Assert
+            Assert.IsTrue(Compare(projectionResult, queryResult), "Projection result differs from direct query.");
+        }
+
+        /// <summary>
+        /// The projections_should_support_expressions.
+        /// </summary>
+        [TestMethod]
+        public void Projections_should_support_expressions()
+        {
+            // Arrange
+            var repository = CreateSampleEntityRepository();
+            this.Container.RegisterInstance<IRepository>(repository);
+
+            var extendedRepository = this.Container.Resolve<IExtendedRepository>();
+
+            // Act
+            var projectionResult = extendedRepository.All<SampleParentEntity>()
+                .Select<SampleParentEntityExpressionView>()
+                .ToList();
+
+            var queryResult = extendedRepository.All<SampleParentEntity>()
+                .Select(e => new SampleParentEntityExpressionView
+                    {
+                        Name = e.Name, 
+                        Children = e.Children.Where(c => c.Name.EndsWith("1")).ToList()
+                    })
+                .ToList();
+
+            // Assert
+            Assert.IsTrue(Compare(projectionResult, queryResult), "Projection result differs from direct query.");
+        }
+
+        /// <summary>
+        /// The projections_should_support_sub_projections.
+        /// </summary>
+        [TestMethod]
+        public void Projections_should_support_sub_projections()
+        {
+            // Arrange
+            var repository = CreateSampleEntityRepository();
+            this.Container.RegisterInstance<IRepository>(repository);
+
+            var extendedRepository = this.Container.Resolve<IExtendedRepository>();
+
+            // Act
+            var projectionResult = extendedRepository.All<SampleParentEntity>()
+                .Select<SampleParentEntitySubProjectionView>()
+                .ToList();
+
+            var queryResult = extendedRepository.All<SampleParentEntity>()
+                .Select(e => new SampleParentEntitySubProjectionView
+                    {
+                        Name = e.Name, 
+                        ChildrenViews = e.Children
+                            .Select(c => new SampleChildEntityView
+                                {
+                                    Name = c.Name, 
+                                    EntityName = c.Name, 
+                                    ParentName = c.Parent.Name, 
+                                    SuperParentName = c.Parent.SuperParent.Name
+                                })
+                            .ToList()
+                    })
+                .ToList();
+
+            // Assert
+            Assert.IsTrue(Compare(projectionResult, queryResult), "Projection result differs from direct query.");
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
         /// Compares the specified obj1 with obj2 via xml serialization.
         /// </summary>
-        /// <param name="obj1">The object 1.</param>
-        /// <param name="obj2">The object 2.</param>
-        /// <returns>True if objects are equal.</returns>
+        /// <param name="obj1">
+        /// The object 1.
+        /// </param>
+        /// <param name="obj2">
+        /// The object 2.
+        /// </param>
+        /// <returns>
+        /// True if objects are equal.
+        /// </returns>
         private static bool Compare(object obj1, object obj2)
         {
             if (obj1 == null && obj2 == null)
@@ -112,89 +220,6 @@ namespace LogicSoftware.DataAccess.Repository.Tests
                 return sw1.ToString() == sw2.ToString();
             }
         }
-
-        /// <summary>
-        /// The projections_should_support_deep_level_properties.
-        /// </summary>
-        [TestMethod]
-        public void Projections_should_support_deep_level_properties()
-        {
-            // Arrange
-            var repository = CreateSampleEntityRepository();
-            this.Container.RegisterInstance<IRepository>(repository);
-
-            var extendedRepository = this.Container.Resolve<IExtendedRepository>();
-
-            // Act
-            var result = extendedRepository.All<SampleChildEntity>().Select<SampleChildEntityView>().ToList();
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(4, result.Count);
-
-            // todo: here we suppose that order of entities is preserved
-            Assert.AreEqual("Child '2 1' 1", result[1].Name);
-            Assert.AreEqual("Child '2 1' 1", result[1].EntityName);
-            Assert.AreEqual("Parent 2 1", result[1].ParentName);
-            Assert.AreEqual("SuperParent 2", result[1].SuperParentName);
-        }
-
-        /// <summary>
-        /// The projections_should_support_expressions.
-        /// </summary>
-        [TestMethod]
-        public void Projections_should_support_expressions()
-        {
-            // Arrange
-            var repository = CreateSampleEntityRepository();
-            this.Container.RegisterInstance<IRepository>(repository);
-
-            var extendedRepository = this.Container.Resolve<IExtendedRepository>();
-
-            // Act
-            var result = extendedRepository.All<SampleParentEntity>().Select<SampleParentEntityExpressionView>().ToList();
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(3, result.Count);
-
-            foreach (var parentEntityView in result)
-            {
-                Assert.AreEqual(1, parentEntityView.Children.Count);
-            }
-        }
-
-        /// <summary>
-        /// The projections_should_support_sub_projections.
-        /// </summary>
-        [TestMethod]
-        public void Projections_should_support_sub_projections()
-        {
-            // Arrange
-            var repository = CreateSampleEntityRepository();
-            this.Container.RegisterInstance<IRepository>(repository);
-
-            var extendedRepository = this.Container.Resolve<IExtendedRepository>();
-
-            // Act
-            var result = extendedRepository.All<SampleParentEntity>().Select<SampleParentEntitySubProjectionView>().ToList();
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(3, result.Count);
-
-            foreach (var parentEntityView in result)
-            {
-                foreach (var childEntityView in parentEntityView.ChildrenViews)
-                {
-                    Assert.AreEqual(parentEntityView.Name, childEntityView.ParentName);
-                }
-            }
-        }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Creates the sample entity repository mock.
