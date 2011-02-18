@@ -14,9 +14,14 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
     using System.Data.Linq;
     using System.Data.Linq.Mapping;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Linq;
+    using System.Linq.Expressions;
+    using System.Text;
 
     using Basic;
+
+    using Infrastructure.Helpers;
 
     using Mapping;
 
@@ -184,6 +189,75 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         }
 
         /// <summary>
+        /// Executes the specified query.
+        /// </summary>
+        /// <typeparam name="TResult">
+        /// The type of the result.
+        /// </typeparam>
+        /// <param name="query">
+        /// The query expression.
+        /// </param>
+        /// <returns>
+        /// The result of the query execution.
+        /// </returns>
+        public TResult Execute<TResult>(Expression query)
+        {
+            // hacks, hacks, hacks
+            var methodCall = query as MethodCallExpression;
+
+            if (methodCall == null)
+            {
+                throw new InvalidOperationException("Unknown query provided for Execute method. Only method call expressions supported.");
+            }
+
+            if (!methodCall.Method.IsStatic || methodCall.Method.GetParameters().Length < 1)
+            {
+                throw new InvalidOperationException("Only static extension methods are supported for Execute method.");
+            }
+
+            var procedureName = methodCall.Method.Name;
+            var parameters = methodCall.Method.GetParameters().Skip(1).ToArray();
+            var parameterValues = methodCall.Arguments.Skip(1).Cast<ConstantExpression>().Select(constant => constant.Value).ToArray();
+            var notNullParameterValues = parameterValues.Where(parameterValue => parameterValue != null).ToArray();
+
+            var command = new StringBuilder("exec " + procedureName);
+
+            for (int i = 0, j = 0; i < parameters.Length; i++)
+            {
+                if (j > 0)
+                {
+                    command.Append(",");
+                }
+
+                if (parameterValues[i] != null)
+                {
+                    command.AppendFormat(CultureInfo.InvariantCulture, " @{0} = {{{1}}}", parameters[i].Name, j++);
+                }                                                                           
+            }
+
+            // special case of RowsAffected result
+            if (typeof(TResult) == typeof(int))
+            {
+                using (var context = this.CreateReadOnlyDataContext(new LoadOptions()))
+                {
+                    return (TResult)((object)context.ExecuteCommand(command.ToString(), notNullParameterValues));
+                }
+            }
+            
+            // special case of IEnumerable result
+            if (typeof(TResult).IsGenericType && typeof(TResult).GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                var elementType = typeof(TResult).GetGenericArguments().Single();
+
+                var context = this.CreateReadOnlyDataContext(new LoadOptions());
+
+                return (TResult)context.ExecuteQuery(elementType, command.ToString(), notNullParameterValues);
+            }
+
+            throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Unknown result type {0} when calling Execute. Only int and generic enumerable are supported.", typeof(TResult)));
+        }
+
+        /// <summary>
         /// Inserts the specified entity.
         /// </summary>
         /// <typeparam name="T">
@@ -347,7 +421,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
                 foreach (var dataContextReference in this.CreatedDataContexts)
                 {
                     var dataContext = dataContextReference.Target as DataContext;
-                    
+
                     if (dataContext != null)
                     {
                         dataContext.Dispose();

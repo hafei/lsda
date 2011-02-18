@@ -242,6 +242,23 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         }
 
         /// <summary>
+        /// Executes the specified query.
+        /// </summary>
+        /// <typeparam name="TResult">
+        /// The type of the result.
+        /// </typeparam>
+        /// <param name="query">
+        /// The query expression.
+        /// </param>
+        /// <returns>
+        /// The result of the query execution.
+        /// </returns>
+        public TResult Execute<TResult>(Expression query)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Inserts the specified entity.
         /// </summary>
         /// <typeparam name="T">

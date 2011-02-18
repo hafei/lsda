@@ -12,6 +12,7 @@ namespace LogicSoftware.DataAccess.Repository.Basic
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Entities Repository Interface
@@ -84,6 +85,20 @@ namespace LogicSoftware.DataAccess.Repository.Basic
         /// The entity.
         /// </param>
         void Delete<T>(T entity) where T : class;
+
+        /// <summary>
+        /// Executes the specified query.
+        /// </summary>
+        /// <typeparam name="TResult">
+        /// The type of the result.
+        /// </typeparam>
+        /// <param name="query">
+        /// The query expression.
+        /// </param>
+        /// <returns>
+        /// The result of the query execution.
+        /// </returns>
+        TResult Execute<TResult>(Expression query);
 
         /// <summary>
         /// Inserts the specified entity.

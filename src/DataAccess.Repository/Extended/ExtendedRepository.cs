@@ -12,6 +12,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Linq.Expressions;
 
     using Basic;
 
@@ -122,6 +123,18 @@ namespace LogicSoftware.DataAccess.Repository.Extended
                 x => x.OnDeleting, 
                 e => this.InnerRepository.Delete(e), 
                 x => x.OnDeleted);
+        }
+
+        /// <summary>
+        /// Executes the specified query.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
+        /// <param name="query">The query expression.</param>
+        /// <returns>The result of the query execution.</returns>
+        public TResult Execute<TResult>(Expression query)
+        {
+            // simple redirect for now
+            return this.InnerRepository.Execute<TResult>(query);
         }
 
         /// <summary>
