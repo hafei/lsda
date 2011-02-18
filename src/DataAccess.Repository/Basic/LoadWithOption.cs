@@ -10,11 +10,10 @@
 namespace LogicSoftware.DataAccess.Repository.Basic
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-
-    using Infrastructure.Linq;
 
     /// <summary>
     /// The load with option.
@@ -59,15 +58,15 @@ namespace LogicSoftware.DataAccess.Repository.Basic
         #region Properties
 
         /// <summary>
-        /// Gets or sets the full association lambda.
-        /// Eg. project => project.Tasks.Where(...).
+        ///   Gets or sets the full association lambda.
+        ///   Eg. project => project.Tasks.Where(...).
         /// </summary>
         /// <value>The member.</value>
         public LambdaExpression Association { get; set; }
 
         /// <summary>
-        /// Gets or sets the member lambda only.
-        /// Eg. project => project.Tasks.
+        ///   Gets or sets the member lambda only.
+        ///   Eg. project => project.Tasks.
         /// </summary>
         /// <value>The member.</value>
         public LambdaExpression Member { get; set; }
@@ -84,17 +83,17 @@ namespace LogicSoftware.DataAccess.Repository.Basic
             #region Constants and Fields
 
             /// <summary>
-            /// The as enumerable method.
+            ///   The as enumerable method.
             /// </summary>
             private static readonly MethodInfo AsEnumerableMethod = typeof(Enumerable).GetMethod("AsEnumerable", BindingFlags.Public | BindingFlags.Static);
 
             /// <summary>
-            /// The to array method.
+            ///   The to array method.
             /// </summary>
             private static readonly MethodInfo ToArrayMethod = typeof(Enumerable).GetMethod("ToArray", BindingFlags.Public | BindingFlags.Static);
 
             /// <summary>
-            /// The to list method.
+            ///   The to list method.
             /// </summary>
             private static readonly MethodInfo ToListMethod = typeof(Enumerable).GetMethod("ToList", BindingFlags.Public | BindingFlags.Static);
 
@@ -103,17 +102,17 @@ namespace LogicSoftware.DataAccess.Repository.Basic
             #region Properties
 
             /// <summary>
-            /// Gets association expression.
+            ///   Gets association expression.
             /// </summary>
             public LambdaExpression AssociationExpression { get; private set; }
 
             /// <summary>
-            /// Gets the member expression.
+            ///   Gets the member expression.
             /// </summary>
             public LambdaExpression MemberExpression { get; private set; }
 
             /// <summary>
-            /// Gets or sets EntityParameter.
+            ///   Gets or sets EntityParameter.
             /// </summary>
             private ParameterExpression EntityParameter { get; set; }
 
@@ -133,7 +132,7 @@ namespace LogicSoftware.DataAccess.Repository.Basic
             public void Visit(Expression expression, ParameterExpression entityParameter)
             {
                 this.EntityParameter = entityParameter;
-                this.AssociationExpression = (LambdaExpression) this.Visit(expression);
+                this.AssociationExpression = (LambdaExpression)this.Visit(expression);
             }
 
             #endregion
@@ -142,7 +141,7 @@ namespace LogicSoftware.DataAccess.Repository.Basic
 
             /// <summary>
             /// Analyzes the member access expression provided as parameter and
-            /// returns an appropiated member access.
+            ///   returns an appropiated member access.
             /// </summary>
             /// <param name="member">
             /// The member access to analyze.
@@ -150,7 +149,9 @@ namespace LogicSoftware.DataAccess.Repository.Basic
             /// <returns>
             /// A System.Linq.Expressions.Expression.
             /// </returns>
-            protected override Expression VisitMemberAccess(MemberExpression member)
+            [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "MemberExpression", Justification = "Spelling is ok here.")]
+            [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "LoadWith", Justification = "Spelling is ok here.")]
+            protected override Expression VisitMember(MemberExpression member)
             {
                 if (member == null)
                 {
@@ -168,12 +169,12 @@ namespace LogicSoftware.DataAccess.Repository.Basic
                     this.MemberExpression = Expression.Lambda(member, this.EntityParameter);
                 }
 
-                return base.VisitMemberAccess(member);
+                return base.VisitMember(member);
             }
 
             /// <summary>
             /// Analyzes the method call expression provided as parameter and
-            /// returns an appropiated member access.
+            ///   returns an appropiated member access.
             /// </summary>
             /// <param name="methodCall">
             /// The method call to analyze.

@@ -11,10 +11,9 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors
 {
     using System;
     using System.Globalization;
+    using System.Linq.Expressions;
 
     using Events;
-
-    using Infrastructure.Linq;
 
     /// <summary>
     /// Base abstract class for interceptors that does nothing.
@@ -28,13 +27,13 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors
         #region Properties
 
         /// <summary>
-        /// Gets or sets the context of the query.
+        ///   Gets or sets the context of the query.
         /// </summary>
         /// <value>The context of the query.</value>
         protected QueryContext QueryContext { get; set; }
 
         /// <summary>
-        /// Gets or sets the scope.
+        ///   Gets or sets the scope.
         /// </summary>
         /// <value>The scope.</value>
         protected TScope Scope { get; set; }
@@ -70,7 +69,20 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors
             }
 
             this.QueryContext = queryContext;
-            this.Scope = (TScope) scope;
+            this.Scope = (TScope)scope;
+        }
+
+        /// <summary>
+        /// The LoadOptionsCreating stage handler.
+        /// </summary>
+        /// <param name="e">
+        /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs"/> instance containing the event data.
+        /// </param>
+        /// <remarks>
+        /// Base implementation is empty.
+        /// </remarks>
+        public virtual void OnLoadOptionsCreating(LoadOptionsCreatingEventArgs e)
+        {
         }
 
         /// <summary>
@@ -100,19 +112,6 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors
         }
 
         /// <summary>
-        /// The QueryCreating stage handler.
-        /// </summary>
-        /// <param name="e">
-        /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs"/> instance containing the event data.
-        /// </param>
-        /// <remarks>
-        /// Base implementation is empty.
-        /// </remarks>
-        public virtual void OnQueryCreating(QueryCreatingEventArgs e)
-        {
-        }
-
-        /// <summary>
         /// The QueryCreated stage handler.
         /// </summary>
         /// <param name="e">
@@ -126,15 +125,15 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors
         }
 
         /// <summary>
-        /// The LoadOptionsCreating stage handler.
+        /// The QueryCreating stage handler.
         /// </summary>
         /// <param name="e">
-        /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.LoadOptionsCreatingEventArgs"/> instance containing the event data.
+        /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.QueryCreatingEventArgs"/> instance containing the event data.
         /// </param>
         /// <remarks>
         /// Base implementation is empty.
         /// </remarks>
-        public virtual void OnLoadOptionsCreating(LoadOptionsCreatingEventArgs e)
+        public virtual void OnQueryCreating(QueryCreatingEventArgs e)
         {
         }
 

@@ -20,8 +20,8 @@ namespace LogicSoftware.Infrastructure.Linq
 
     /// <summary>
     /// Base for the expression tree visitor pattern implementation.
-    /// ExpressionVisitor is part of System.Query namespace, but is marked as internal,
-    /// so this implementation was extracted using Reflector.
+    ///   ExpressionVisitor is part of System.Query namespace, but is marked as internal,
+    ///   so this implementation was extracted using Reflector.
     /// </summary>
     public abstract class ExpressionVisitor
     {
@@ -29,7 +29,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes the expression and returns it converted to the
-        /// appropiated type.
+        ///   appropiated type.
         /// </summary>
         /// <param name="exp">
         /// The expression to be analyzed.
@@ -71,7 +71,7 @@ namespace LogicSoftware.Infrastructure.Linq
                 case ExpressionType.RightShift:
                 case ExpressionType.Subtract:
                 case ExpressionType.SubtractChecked:
-                    return this.VisitBinary((BinaryExpression) exp);
+                    return this.VisitBinary((BinaryExpression)exp);
 
                 case ExpressionType.ArrayLength:
                 case ExpressionType.Convert:
@@ -82,44 +82,44 @@ namespace LogicSoftware.Infrastructure.Linq
                 case ExpressionType.Not:
                 case ExpressionType.Quote:
                 case ExpressionType.TypeAs:
-                    return this.VisitUnary((UnaryExpression) exp);
+                    return this.VisitUnary((UnaryExpression)exp);
 
                 case ExpressionType.Call:
-                    return this.VisitMethodCall((MethodCallExpression) exp);
+                    return this.VisitMethodCall((MethodCallExpression)exp);
 
                 case ExpressionType.Conditional:
-                    return this.VisitConditional((ConditionalExpression) exp);
+                    return this.VisitConditional((ConditionalExpression)exp);
 
                 case ExpressionType.Constant:
-                    return this.VisitConstant((ConstantExpression) exp);
+                    return this.VisitConstant((ConstantExpression)exp);
 
                 case ExpressionType.Invoke:
-                    return this.VisitInvocation((InvocationExpression) exp);
+                    return this.VisitInvocation((InvocationExpression)exp);
 
                 case ExpressionType.Lambda:
-                    return this.VisitLambda((LambdaExpression) exp);
+                    return this.VisitLambda((LambdaExpression)exp);
 
                 case ExpressionType.ListInit:
-                    return this.VisitListInit((ListInitExpression) exp);
+                    return this.VisitListInit((ListInitExpression)exp);
 
                 case ExpressionType.MemberAccess:
-                    return this.VisitMemberAccess((MemberExpression) exp);
+                    return this.VisitMemberAccess((MemberExpression)exp);
 
                 case ExpressionType.MemberInit:
-                    return this.VisitMemberInit((MemberInitExpression) exp);
+                    return this.VisitMemberInit((MemberInitExpression)exp);
 
                 case ExpressionType.New:
-                    return this.VisitNew((NewExpression) exp);
+                    return this.VisitNew((NewExpression)exp);
 
                 case ExpressionType.NewArrayInit:
                 case ExpressionType.NewArrayBounds:
-                    return this.VisitNewArray((NewArrayExpression) exp);
+                    return this.VisitNewArray((NewArrayExpression)exp);
 
                 case ExpressionType.Parameter:
-                    return this.VisitParameter((ParameterExpression) exp);
+                    return this.VisitParameter((ParameterExpression)exp);
 
                 case ExpressionType.TypeIs:
-                    return this.VisitTypeIs((TypeBinaryExpression) exp);
+                    return this.VisitTypeIs((TypeBinaryExpression)exp);
 
                 default:
                     throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Unhandled expression type: '{0}'", exp.NodeType));
@@ -132,7 +132,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes the binary expression provided as parameter and
-        /// returns an appropiated binary expression.
+        ///   returns an appropiated binary expression.
         /// </summary>
         /// <param name="binary">
         /// The binary expression to analyze.
@@ -166,7 +166,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes the member binding provided as parameter and calls
-        /// the appropiated visitor according to the definition type.
+        ///   the appropiated visitor according to the definition type.
         /// </summary>
         /// <param name="binding">
         /// The binding to analyze.
@@ -184,13 +184,13 @@ namespace LogicSoftware.Infrastructure.Linq
             switch (binding.BindingType)
             {
                 case MemberBindingType.Assignment:
-                    return this.VisitMemberAssignment((MemberAssignment) binding);
+                    return this.VisitMemberAssignment((MemberAssignment)binding);
 
                 case MemberBindingType.MemberBinding:
-                    return this.VisitMemberMemberBinding((MemberMemberBinding) binding);
+                    return this.VisitMemberMemberBinding((MemberMemberBinding)binding);
 
                 case MemberBindingType.ListBinding:
-                    return this.VisitMemberListBinding((MemberListBinding) binding);
+                    return this.VisitMemberListBinding((MemberListBinding)binding);
 
                 default:
                     throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Unhandled binding type '{0}'", binding.BindingType));
@@ -199,7 +199,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes the binding expression list provided as parameter and returns
-        /// the analyzed expressions.
+        ///   the analyzed expressions.
         /// </summary>
         /// <param name="original">
         /// The expression to analyze.
@@ -247,7 +247,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes the conditional expression provided as parameter and
-        /// returns an appropiated binary expression.
+        ///   returns an appropiated binary expression.
         /// </summary>
         /// <param name="conditional">
         /// The conditional expression to analyze.
@@ -276,7 +276,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes the constant expression provided as parameter and
-        /// returns an appropiated constant expression.
+        ///   returns an appropiated constant expression.
         /// </summary>
         /// <param name="constant">
         /// The constant expression to analyze.
@@ -291,7 +291,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes the element initializer provided as parameter and calls
-        /// the appropiated visitor according to the definition type.
+        ///   the appropiated visitor according to the definition type.
         /// </summary>
         /// <param name="initializer">
         /// The initializer to analyze.
@@ -318,7 +318,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes element initializer list expression provided as parameter and returns
-        /// the analyzed expression.
+        ///   the analyzed expression.
         /// </summary>
         /// <param name="original">
         /// The expression to analyze.
@@ -366,7 +366,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes many expressions provided as parameter and returns
-        /// the collection of the analyzed expressions.
+        ///   the collection of the analyzed expressions.
         /// </summary>
         /// <param name="original">
         /// The expressions to analyze.
@@ -414,7 +414,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes invocation expression provided as parameter and returns
-        /// the analyzed expression.
+        ///   the analyzed expression.
         /// </summary>
         /// <param name="iv">
         /// The expression to analyze.
@@ -442,7 +442,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes labda expression expression provided as parameter and returns
-        /// the analyzed expression.
+        ///   the analyzed expression.
         /// </summary>
         /// <param name="lambda">
         /// The expression to analyze.
@@ -469,7 +469,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes list initialization expression provided as parameter and returns
-        /// the analyzed expression.
+        ///   the analyzed expression.
         /// </summary>
         /// <param name="init">
         /// The expression to analyze.
@@ -497,7 +497,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes the member access expression provided as parameter and
-        /// returns an appropiated member access.
+        ///   returns an appropiated member access.
         /// </summary>
         /// <param name="member">
         /// The member access to analyze.
@@ -524,7 +524,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes member assignment expression provided as parameter and returns
-        /// the analyzed expression.
+        ///   the analyzed expression.
         /// </summary>
         /// <param name="assignment">
         /// The expression to analyze.
@@ -551,7 +551,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes member initialization expression provided as parameter and returns
-        /// the analyzed expression.
+        ///   the analyzed expression.
         /// </summary>
         /// <param name="init">
         /// The expression to analyze.
@@ -579,7 +579,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes member binding expressions provided as parameter and returns
-        /// the analyzed expressions.
+        ///   the analyzed expressions.
         /// </summary>
         /// <param name="binding">
         /// The expression to analyze.
@@ -606,7 +606,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes member member binding expression provided as parameter and returns
-        /// the analyzed expression.
+        ///   the analyzed expression.
         /// </summary>
         /// <param name="binding">
         /// The expression to analyze.
@@ -633,7 +633,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes the method call expression provided as parameter and
-        /// returns an appropiated member access.
+        ///   returns an appropiated member access.
         /// </summary>
         /// <param name="methodCall">
         /// The method call to analyze.
@@ -661,7 +661,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes new expression provided as parameter and returns
-        /// the analyzed expression.
+        ///   the analyzed expression.
         /// </summary>
         /// <param name="newExpression">
         /// The expression to analyze.
@@ -694,7 +694,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes new array expression provided as parameter and returns
-        /// the analyzed expression.
+        ///   the analyzed expression.
         /// </summary>
         /// <param name="na">
         /// The expression to analyze.
@@ -726,7 +726,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes the parameter expression provided as parameter and
-        /// returns an appropiated parameter expression.
+        ///   returns an appropiated parameter expression.
         /// </summary>
         /// <param name="parameter">
         /// The parameter expression to analyze.
@@ -741,7 +741,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes the type binary expression provided as parameter and
-        /// returns an appropiated type binary expression.
+        ///   returns an appropiated type binary expression.
         /// </summary>
         /// <param name="typeBinary">
         /// The type binary expression to analyze.
@@ -768,7 +768,7 @@ namespace LogicSoftware.Infrastructure.Linq
 
         /// <summary>
         /// Analyzes the unary expression provided as parameter and
-        /// returns an appropiated unariy expression.
+        ///   returns an appropiated unariy expression.
         /// </summary>
         /// <param name="unary">
         /// The unary expression to analyze.

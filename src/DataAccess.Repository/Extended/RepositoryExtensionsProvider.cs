@@ -313,6 +313,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// </returns>
         protected virtual IQueryInterceptor AddInterceptorToContext(Type interceptorType, QueryContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             IQueryInterceptor interceptor = this.InterceptorFactory.CreateQueryInterceptor(interceptorType);
 
             // initializing interceptor with query context and object scope

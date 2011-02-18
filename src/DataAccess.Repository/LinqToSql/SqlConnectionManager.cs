@@ -15,7 +15,6 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
     using System.Data.SqlClient;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
-    using System.Linq;
     using System.Transactions;
 
     using IsolationLevel = System.Transactions.IsolationLevel;
@@ -29,7 +28,7 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         #region Constants and Fields
 
         /// <summary>
-        /// The transaction enlistments map.
+        ///   The transaction enlistments map.
         /// </summary>
         private static readonly Dictionary<string, SqlConnectionEnlistment> TransactionEnlistmentsMap = new Dictionary<string, SqlConnectionEnlistment>();
 
@@ -55,12 +54,12 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         #region Properties
 
         /// <summary>
-        /// Gets or sets ConnectionString.
+        ///   Gets or sets ConnectionString.
         /// </summary>
         public IConnectionString ConnectionString { get; set; }
 
         /// <summary>
-        /// Gets or sets a list of opened connections.
+        ///   Gets or sets a list of opened connections.
         /// </summary>
         private List<SqlConnection> OpenedConnections { get; set; }
 
@@ -178,25 +177,14 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
         }
 
         /// <summary>
-        /// Creates the sql connection.
-        /// </summary>
-        /// <returns>
-        /// New sql connection.
-        /// </returns>
-        private SqlConnection CreateConnection()
-        {
-            var connection = new SqlConnection(this.ConnectionString.ConnectionString);
-
-            connection.StateChange += new StateChangeEventHandler(this.Connection_StateChange);
-
-            return connection;
-        }
-
-        /// <summary>
         /// Handles the StateChange event of the Connection. Adds Connection to opened connections list.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.Data.StateChangeEventArgs"/> instance containing the event data.</param>
+        /// <param name="sender">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.Data.StateChangeEventArgs"/> instance containing the event data.
+        /// </param>
         private void Connection_StateChange(object sender, StateChangeEventArgs e)
         {
             SqlConnection connection = (SqlConnection)sender;
@@ -209,6 +197,22 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
                     this.OpenedConnections.Add(connection);
                 }
             }
+        }
+
+        /// <summary>
+        /// Creates the sql connection.
+        /// </summary>
+        /// <returns>
+        /// New sql connection.
+        /// </returns>
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Connections are closed on manager disposing.")]
+        private SqlConnection CreateConnection()
+        {
+            var connection = new SqlConnection(this.ConnectionString.ConnectionString);
+
+            connection.StateChange += this.Connection_StateChange;
+
+            return connection;
         }
 
         /// <summary>
@@ -295,17 +299,17 @@ namespace LogicSoftware.DataAccess.Repository.LinqToSql
             #region Properties
 
             /// <summary>
-            /// Gets the sql connection.
+            ///   Gets the sql connection.
             /// </summary>
             public SqlConnection SqlConnection { get; private set; }
 
             /// <summary>
-            /// Gets the sql transaction.
+            ///   Gets the sql transaction.
             /// </summary>
             public SqlTransaction SqlTransaction { get; private set; }
 
             /// <summary>
-            /// Gets the transaction local identifier.
+            ///   Gets the transaction local identifier.
             /// </summary>
             public string TransactionLocalIdentifier { get; private set; }
 

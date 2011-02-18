@@ -13,12 +13,9 @@ namespace LogicSoftware.DataAccess.Repository.Memory
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Reflection;
 
     using Basic;
-
-    using Infrastructure.Extensions;
 
     /// <summary>
     /// Indexes Cache for Memory Repository explicit joins
@@ -114,7 +111,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
             object cache;
             if (this.TableIndexesCaches.TryGetValue(typeof(T), out cache))
             {
-                return (TableIndexes<T>) cache;
+                return (TableIndexes<T>)cache;
             }
             else
             {

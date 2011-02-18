@@ -17,7 +17,6 @@ namespace LogicSoftware.DataAccess.Repository.Memory
     using System.Reflection;
 
     using Infrastructure.Helpers;
-    using Infrastructure.Linq;
 
     /// <summary>
     /// Query provider for memory repository results
@@ -105,7 +104,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                 throw new ArgumentException("Invalid type expression", "expression");
             }
 
-            return (IQueryable) Activator.CreateInstance(typeof(MemoryQueryable<>).MakeGenericType(elementType), new object[] { this, expression });
+            return (IQueryable)Activator.CreateInstance(typeof(MemoryQueryable<>).MakeGenericType(elementType), new object[] { this, expression });
         }
 
         /// <summary>
@@ -219,7 +218,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         /// <returns>
         /// A System.Linq.Expressions.Expression.
         /// </returns>
-        protected override Expression VisitMemberAccess(MemberExpression member)
+        protected override Expression VisitMember(MemberExpression member)
         {
             if (member == null)
             {
@@ -269,7 +268,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                 }
             }
 
-            return base.VisitMemberAccess(member);
+            return base.VisitMember(member);
         }
 
         /// <summary>

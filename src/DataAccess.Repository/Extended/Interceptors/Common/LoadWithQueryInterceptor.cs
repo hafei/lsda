@@ -25,7 +25,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         #region Constants and Fields
 
         /// <summary>
-        /// The load with method.
+        ///   The load with method.
         /// </summary>
         private static readonly MethodInfo LoadWithMethod = typeof(QueryableExtensions).GetMethods(BindingFlags.Static | BindingFlags.Public)
             .Where(m => m.Name == "LoadWith")
@@ -33,7 +33,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             .Single();
 
         /// <summary>
-        /// The load with parent method.
+        ///   The load with parent method.
         /// </summary>
         private static readonly MethodInfo LoadWithParentMethod = typeof(QueryableExtensions).GetMethods(BindingFlags.Static | BindingFlags.Public)
             .Where(m => m.Name == "LoadWith")
@@ -45,7 +45,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoadWithQueryInterceptor"/> class.
+        ///   Initializes a new instance of the <see cref = "LoadWithQueryInterceptor" /> class.
         /// </summary>
         public LoadWithQueryInterceptor()
         {
@@ -57,7 +57,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         #region Properties
 
         /// <summary>
-        /// Gets or sets the load with expressions.
+        ///   Gets or sets the load with expressions.
         /// </summary>
         /// <value>The load with expressions.</value>
         private List<LambdaExpression> LoadWithExpressions { get; set; }
@@ -94,33 +94,33 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 
         /// <summary>
         /// Analyzes the method call expression provided as parameter and
-        /// returns an appropiated member access.
+        ///   returns an appropiated member access.
         /// </summary>
-        /// <param name="methodCall">
+        /// <param name="node">
         /// The method call to analyze.
         /// </param>
         /// <returns>
         /// A System.Linq.Expressions.Expression.
         /// </returns>
-        protected override Expression VisitMethodCall(MethodCallExpression methodCall)
+        protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            if (methodCall == null)
+            if (node == null)
             {
-                throw new ArgumentNullException("methodCall");
+                throw new ArgumentNullException("node");
             }
 
-            if (methodCall.Method.IsGenericMethod && 
-                (methodCall.Method.GetGenericMethodDefinition() == LoadWithMethod ||
-                 methodCall.Method.GetGenericMethodDefinition() == LoadWithParentMethod))
+            if (node.Method.IsGenericMethod &&
+                (node.Method.GetGenericMethodDefinition() == LoadWithMethod ||
+                 node.Method.GetGenericMethodDefinition() == LoadWithParentMethod))
             {
                 // saving LoadWith expression
-                this.LoadWithExpressions.Add((LambdaExpression)((UnaryExpression) methodCall.Arguments[1]).Operand);
+                this.LoadWithExpressions.Add((LambdaExpression)((UnaryExpression)node.Arguments[1]).Operand);
 
                 // removing MethodCall from tree
-                return this.Visit(methodCall.Arguments.First());
+                return this.Visit(node.Arguments.First());
             }
 
-            return base.VisitMethodCall(methodCall);
+            return base.VisitMethodCall(node);
         }
 
         #endregion

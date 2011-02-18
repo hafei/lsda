@@ -65,6 +65,11 @@ namespace LogicSoftware.DataAccess.Repository.Extensions.Tests
         /// </param>
         public QueryInfo(object internalValue)
         {
+            if (internalValue == null)
+            {
+                throw new ArgumentNullException("internalValue");
+            }
+
             if (!QueryInfoType.IsAssignableFrom(internalValue.GetType()))
             {
                 throw new ArgumentException("Wrong object provided.");

@@ -11,6 +11,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
@@ -32,22 +33,22 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         #region Constants and Fields
 
         /// <summary>
-        /// The method instance binding flags.
+        ///   The method instance binding flags.
         /// </summary>
         private const BindingFlags MethodInstanceBindingFlags = MethodStaticBindingFlags | BindingFlags.Instance;
 
         /// <summary>
-        /// The method static binding flags.
+        ///   The method static binding flags.
         /// </summary>
         private const BindingFlags MethodStaticBindingFlags = BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy;
 
         /// <summary>
-        /// The property binding flags.
+        ///   The property binding flags.
         /// </summary>
         private const BindingFlags PropertyBindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
         /// <summary>
-        /// The member types.
+        ///   The member types.
         /// </summary>
         private static readonly Dictionary<Type, ProjectionMemberType> MemberTypes = new Dictionary<Type, ProjectionMemberType>
             {
@@ -61,7 +62,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             };
 
         /// <summary>
-        /// The member type handlers.
+        ///   The member type handlers.
         /// </summary>
         private readonly Dictionary<ProjectionMemberType, Func<Expression, Type, object, IEnumerable<ProjectionMemberMetadata>, Expression>> MemberTypeHandlers;
 
@@ -70,7 +71,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProjectionQueryInterceptor"/> class.
+        ///   Initializes a new instance of the <see cref = "ProjectionQueryInterceptor" /> class.
         /// </summary>
         public ProjectionQueryInterceptor()
         {
@@ -94,27 +95,27 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         private enum ProjectionMemberType
         {
             /// <summary>
-            /// The where member.
+            ///   The where member.
             /// </summary>
             Where, 
 
             /// <summary>
-            /// The order member.
+            ///   The order member.
             /// </summary>
             Order, 
 
             /// <summary>
-            /// The skip member.
+            ///   The skip member.
             /// </summary>
             Skip, 
 
             /// <summary>
-            /// The take member.
+            ///   The take member.
             /// </summary>
             Take, 
 
             /// <summary>
-            /// The select member.
+            ///   The select member.
             /// </summary>
             Select
         }
@@ -140,7 +141,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             {
                 var sourceQueryExpression = e.MethodCall.Arguments.First();
                 var projectionConfig = e.MethodCall.Arguments.Count == 2
-                                           ? ((ConstantExpression) e.MethodCall.Arguments.Last()).Value
+                                           ? ((ConstantExpression)e.MethodCall.Arguments.Last()).Value
                                            : null;
                 var projectionType = projectionConfig != null
                                          ? projectionConfig.GetType()
@@ -172,7 +173,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                 .Concat(projectionType.GetProperties(PropertyBindingFlags)) // public instance properties
                 .Concat(projectionType.GetMethods(projectionConfig == null ? MethodStaticBindingFlags : MethodInstanceBindingFlags)) // public static or all methods
                 .Where(member => member.IsDefined(typeof(ProjectionMemberAttribute), true)) // note: skipping members without attributes, can be replaced with null check later
-                .Select(member => new ProjectionMemberMetadata(member, (ProjectionMemberAttribute) member.GetCustomAttributes(typeof(ProjectionMemberAttribute), true).SingleOrDefault()))
+                .Select(member => new ProjectionMemberMetadata(member, (ProjectionMemberAttribute)member.GetCustomAttributes(typeof(ProjectionMemberAttribute), true).SingleOrDefault()))
                 .ToLookup(memberMetadata => MemberTypes[memberMetadata.MemberAttribute.GetType()]);
         }
 
@@ -218,7 +219,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// </returns>
         private static bool IsProjectionFor(Type projectionType, Type sourceType)
         {
-            var projectionAttribute = (ProjectionAttribute) projectionType.GetCustomAttributes(typeof(ProjectionAttribute), true).SingleOrDefault();
+            var projectionAttribute = (ProjectionAttribute)projectionType.GetCustomAttributes(typeof(ProjectionAttribute), true).SingleOrDefault();
 
             return projectionAttribute != null && projectionAttribute.RootType == sourceType;
         }
@@ -232,9 +233,10 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// <param name="projectionType">
         /// Type of the projection.
         /// </param>
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "RootType", Justification = "Spelling is ok here.")]
         private static void ValidateProjectionType(Type sourceType, Type projectionType)
         {
-            var projectionAttribute = (ProjectionAttribute) projectionType.GetCustomAttributes(typeof(ProjectionAttribute), true).SingleOrDefault();
+            var projectionAttribute = (ProjectionAttribute)projectionType.GetCustomAttributes(typeof(ProjectionAttribute), true).SingleOrDefault();
 
             if (projectionAttribute == null)
             {
@@ -309,26 +311,26 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             // todo: make static
             var firstOrderingMethod = new Dictionary<Type, Func<Expression, LambdaExpression, Expression>>
                 {
-                    { typeof(OrderByAttribute), ExpressionExtensions.OrderBy },
-                    { typeof(OrderByDescendingAttribute), ExpressionExtensions.OrderByDescending },
+                    { typeof(OrderByAttribute), ExpressionExtensions.OrderBy }, 
+                    { typeof(OrderByDescendingAttribute), ExpressionExtensions.OrderByDescending }, 
                 };
             var secondOrderingMethod = new Dictionary<Type, Func<Expression, LambdaExpression, Expression>>
                 {
-                    { typeof(OrderByAttribute), ExpressionExtensions.ThenBy },
-                    { typeof(OrderByDescendingAttribute), ExpressionExtensions.ThenByDescending },
+                    { typeof(OrderByAttribute), ExpressionExtensions.ThenBy }, 
+                    { typeof(OrderByDescendingAttribute), ExpressionExtensions.ThenByDescending }, 
                 };
 
             return projectionMemberMetadatas
                 .OrderBy(memberInfo => memberInfo.MemberAttribute is OrderByAttribute
-                                           ? ((OrderByAttribute) memberInfo.MemberAttribute).Order
-                                           : ((OrderByDescendingAttribute) memberInfo.MemberAttribute).Order)
+                                           ? ((OrderByAttribute)memberInfo.MemberAttribute).Order
+                                           : ((OrderByDescendingAttribute)memberInfo.MemberAttribute).Order)
                 .Select(orderMemberMetadata => new
                     {
-                        OrderMemberAttributeType = orderMemberMetadata.MemberAttribute.GetType(),
-                        OrderExpression = (LambdaExpression) InvokeMethod(projectionConfig, (MethodInfo) orderMemberMetadata.Member, this.Scope)
+                        OrderMemberAttributeType = orderMemberMetadata.MemberAttribute.GetType(), 
+                        OrderExpression = (LambdaExpression)InvokeMethod(projectionConfig, (MethodInfo)orderMemberMetadata.Member, this.Scope)
                     })
                 .Aggregate(
-                    orderMember => firstOrderingMethod[orderMember.OrderMemberAttributeType](sourceSequenceExpression /* note: closure here */, orderMember.OrderExpression),
+                    orderMember => firstOrderingMethod[orderMember.OrderMemberAttributeType](sourceSequenceExpression /* note: closure here */, orderMember.OrderExpression), 
                     (expr, orderMember) => secondOrderingMethod[orderMember.OrderMemberAttributeType](expr, orderMember.OrderExpression));
         }
 
@@ -388,8 +390,8 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             var resultSequenceExpression = GetProjectionMembers(projectionType, projectionConfig)
                 .OrderBy(memberGroup => memberGroup.Key) // note: ordering by enum underlying int values, order is significant
                 .Aggregate(
-                sourceSequenceExpression, 
-                (previous, memberGroup) => this.MemberTypeHandlers[memberGroup.Key](previous, projectionType, projectionConfig, memberGroup));
+                    sourceSequenceExpression, 
+                    (previous, memberGroup) => this.MemberTypeHandlers[memberGroup.Key](previous, projectionType, projectionConfig, memberGroup));
 
             return resultSequenceExpression;
         }
@@ -417,8 +419,8 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             var skipMemberMetadata = projectionMemberMetadatas.SingleOrDefault();
             if (skipMemberMetadata != null)
             {
-                var skipMethod = (MethodInfo) skipMemberMetadata.Member;
-                var skipCount = (int) InvokeMethod(projectionConfig, skipMethod, this.Scope);
+                var skipMethod = (MethodInfo)skipMemberMetadata.Member;
+                var skipCount = (int)InvokeMethod(projectionConfig, skipMethod, this.Scope);
 
                 return sourceSequenceExpression.Skip(skipCount);
             }
@@ -449,8 +451,8 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             var takeMemberMetadata = projectionMemberMetadatas.SingleOrDefault();
             if (takeMemberMetadata != null)
             {
-                var takeMethod = (MethodInfo) takeMemberMetadata.Member;
-                var takeCount = (int) InvokeMethod(projectionConfig, takeMethod, this.Scope);
+                var takeMethod = (MethodInfo)takeMemberMetadata.Member;
+                var takeCount = (int)InvokeMethod(projectionConfig, takeMethod, this.Scope);
 
                 return sourceSequenceExpression.Take(takeCount);
             }
@@ -480,8 +482,8 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         {
             foreach (var whereMemberMetadata in projectionMemberMetadatas)
             {
-                var whereMethod = (MethodInfo) whereMemberMetadata.Member;
-                var whereExpression = (LambdaExpression) InvokeMethod(projectionConfig, whereMethod, this.Scope);
+                var whereMethod = (MethodInfo)whereMemberMetadata.Member;
+                var whereExpression = (LambdaExpression)InvokeMethod(projectionConfig, whereMethod, this.Scope);
 
                 sourceSequenceExpression = sourceSequenceExpression.Where(whereExpression);
             }
@@ -514,7 +516,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 
             foreach (var selectMemberMetadata in projectionMemberMetadatas)
             {
-                var resultProperty = (PropertyInfo) selectMemberMetadata.Member;
+                var resultProperty = (PropertyInfo)selectMemberMetadata.Member;
 
                 // for SelectExpression simply bind property to expression
                 var expressionAttribute = selectMemberMetadata.MemberAttribute as SelectExpressionAttribute;
@@ -537,7 +539,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                     }
 
                     // todo: rewrite (projectionConfig is passed inside even if DeclaringType is another, works because with static methods in another DeclaringTypes projectionConfig is not used)
-                    var customBindingExpression = (LambdaExpression) InvokeMethod(projectionConfig, expressionMethod, this.Scope);
+                    var customBindingExpression = (LambdaExpression)InvokeMethod(projectionConfig, expressionMethod, this.Scope);
 
                     // localize expression (replace its parameter with local sourceExpression)
                     var localizedCustomBindingExpression = new ExpressionParameterReplacer(
@@ -556,7 +558,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                 if (propertyAttribute != null)
                 {
                     var sourcePropertyPath = propertyAttribute.Path ?? resultProperty.Name;
-                    var sourcePropertyExpression = (Expression) sourceExpression.PropertyPath(sourcePropertyPath);
+                    var sourcePropertyExpression = (Expression)sourceExpression.PropertyPath(sourcePropertyPath);
 
                     var sourcePropertyElementType = TypeSystem.GetElementType(sourcePropertyExpression.Type);
                     var resultPropertyElementType = TypeSystem.GetElementType(resultProperty.PropertyType);
@@ -663,13 +665,13 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             #region Properties
 
             /// <summary>
-            /// Gets the member.
+            ///   Gets the member.
             /// </summary>
             /// <value>The member.</value>
             public MemberInfo Member { get; private set; }
 
             /// <summary>
-            /// Gets the member attribute.
+            ///   Gets the member attribute.
             /// </summary>
             /// <value>The member attribute.</value>
             public ProjectionMemberAttribute MemberAttribute { get; private set; }

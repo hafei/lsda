@@ -15,7 +15,7 @@ namespace LogicSoftware.Infrastructure.Helpers
     using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
     using System.Runtime.InteropServices;
-    
+
     /// <summary>
     /// The meta position.
     /// </summary>
@@ -23,12 +23,12 @@ namespace LogicSoftware.Infrastructure.Helpers
     public struct MetaPosition : IEqualityComparer<MetaPosition>, IEqualityComparer
     {
         /// <summary>
-        /// The metadata token.
+        ///   The metadata token.
         /// </summary>
         private readonly int metadataToken;
 
         /// <summary>
-        /// The assembly.
+        ///   The assembly.
         /// </summary>
         private readonly Assembly assembly;
 
@@ -60,16 +60,16 @@ namespace LogicSoftware.Infrastructure.Helpers
         }
 
         /// <summary>
-        /// Implements the operator ==.
+        ///   Implements the operator ==.
         /// </summary>
-        /// <param name="x">
-        /// The first object.
+        /// <param name = "x">
+        ///   The first object.
         /// </param>
-        /// <param name="y">
-        /// The second object.
+        /// <param name = "y">
+        ///   The second object.
         /// </param>
         /// <returns>
-        /// The result of the operator.
+        ///   The result of the operator.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "By design.")]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y", Justification = "By design.")]
@@ -79,16 +79,16 @@ namespace LogicSoftware.Infrastructure.Helpers
         }
 
         /// <summary>
-        /// Implements the operator !=.
+        ///   Implements the operator !=.
         /// </summary>
-        /// <param name="x">
-        /// The first object.
+        /// <param name = "x">
+        ///   The first object.
         /// </param>
-        /// <param name="y">
-        /// The second object.
+        /// <param name = "y">
+        ///   The second object.
         /// </param>
         /// <returns>
-        /// The result of the operator.
+        ///   The result of the operator.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y", Justification = "By design.")]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "By design.")]
@@ -147,7 +147,7 @@ namespace LogicSoftware.Infrastructure.Helpers
                 return false;
             }
 
-            return AreEqual(this, (MetaPosition) obj);
+            return AreEqual(this, (MetaPosition)obj);
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace LogicSoftware.Infrastructure.Helpers
         /// </exception>
         bool IEqualityComparer.Equals(object x, object y)
         {
-            return this.Equals((MetaPosition) x, (MetaPosition) y);
+            return this.Equals((MetaPosition)x, (MetaPosition)y);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace LogicSoftware.Infrastructure.Helpers
         /// </exception>
         int IEqualityComparer.GetHashCode(object obj)
         {
-            return this.GetHashCode((MetaPosition) obj);
+            return this.GetHashCode((MetaPosition)obj);
         }
 
         /// <summary>

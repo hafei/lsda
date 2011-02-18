@@ -12,7 +12,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors
     using System;
     using System.Globalization;
 
-    using LogicSoftware.DataAccess.Repository.Extended.Events;
+    using Events;
 
     /// <summary>
     /// Base abstract class for interceptors that does nothing.
@@ -26,7 +26,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors
         #region Properties
 
         /// <summary>
-        /// Gets or sets the scope.
+        ///   Gets or sets the scope.
         /// </summary>
         /// <value>The scope.</value>
         protected TScope Scope { get; set; }
@@ -58,7 +58,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors
                 throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "Argument scope is expected to be of type {0}, but was of type {1}.", typeof(TScope).Name, scope.GetType().Name), "scope");
             }
 
-            this.Scope = (TScope) scope;
+            this.Scope = (TScope)scope;
         }
 
         /// <summary>

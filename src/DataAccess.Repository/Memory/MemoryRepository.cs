@@ -39,12 +39,12 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         #region Constants and Fields
 
         /// <summary>
-        /// The all method.
+        ///   The all method.
         /// </summary>
         private static readonly MethodInfo AllMethod = typeof(MemoryRepository).GetMethod("All", new[] { typeof(LoadOptions) });
 
         /// <summary>
-        /// The data lock object.
+        ///   The data lock object.
         /// </summary>
         private readonly object DataLockObject = new object();
 
@@ -70,8 +70,8 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         }
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="MemoryRepository"/> class from being created. 
-        /// Initializes a new instance of the <see cref="MemoryRepository"/> class.
+        ///   Prevents a default instance of the <see cref = "MemoryRepository" /> class from being created. 
+        ///   Initializes a new instance of the <see cref = "MemoryRepository" /> class.
         /// </summary>
         private MemoryRepository()
         {
@@ -84,42 +84,42 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         #region Events
 
         /// <summary>
-        /// Occurs when [deleted].
+        ///   Occurs when [deleted].
         /// </summary>
         public event EventHandler<MemoryRepositoryStatusEventArgs> Deleted;
 
         /// <summary>
-        /// Occurs when [deleting].
+        ///   Occurs when [deleting].
         /// </summary>
         public event EventHandler<MemoryRepositoryMethodEventArgs> Deleting;
 
         /// <summary>
-        /// Occurs when [inserted].
+        ///   Occurs when [inserted].
         /// </summary>
         public event EventHandler<MemoryRepositoryStatusEventArgs> Inserted;
 
         /// <summary>
-        /// Occurs when [inserting].
+        ///   Occurs when [inserting].
         /// </summary>
         public event EventHandler<MemoryRepositoryMethodEventArgs> Inserting;
 
         /// <summary>
-        /// Occurs when [selected].
+        ///   Occurs when [selected].
         /// </summary>
         public event EventHandler<MemoryRepositoryStatusEventArgs> Selected;
 
         /// <summary>
-        /// Occurs when [selecting].
+        ///   Occurs when [selecting].
         /// </summary>
         public event EventHandler<MemoryRepositorySelectingEventArgs> Selecting;
 
         /// <summary>
-        /// Occurs when [updated].
+        ///   Occurs when [updated].
         /// </summary>
         public event EventHandler<MemoryRepositoryStatusEventArgs> Updated;
 
         /// <summary>
-        /// Occurs when [updating].
+        ///   Occurs when [updating].
         /// </summary>
         public event EventHandler<MemoryRepositoryMethodEventArgs> Updating;
 
@@ -128,13 +128,13 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         #region Properties
 
         /// <summary>
-        /// Gets or sets the data.
+        ///   Gets or sets the data.
         /// </summary>
         /// <value>The dataset with repository data.</value>
         public DataSet Data { get; set; }
 
         /// <summary>
-        /// Gets MappingSource.
+        ///   Gets MappingSource.
         /// </summary>
         /// <value>The mapping source.</value>
         public MappingSource MappingSource { get; private set; }
@@ -162,7 +162,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
 
         /// <summary>
         /// Returns query for all entities of type T.
-        /// Non-generic overload.
+        ///   Non-generic overload.
         /// </summary>
         /// <param name="entityType">
         /// Type of the entity.
@@ -209,7 +209,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
 
         /// <summary>
         /// Returns query for all entities of type T with specified load options.
-        /// Non-generic overload.
+        ///   Non-generic overload.
         /// </summary>
         /// <param name="entityType">
         /// Type of the entity.
@@ -224,7 +224,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         {
             var allMethodGeneric = AllMethod.MakeGenericMethod(entityType);
 
-            return (IQueryable) allMethodGeneric.Invoke(this, new[] { loadOptions });
+            return (IQueryable)allMethodGeneric.Invoke(this, new[] { loadOptions });
         }
 
         /// <summary>
@@ -374,7 +374,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
             }
             else if (type == typeof(Binary))
             {
-                convertedValue = new Binary((byte[]) rawValue);
+                convertedValue = new Binary((byte[])rawValue);
             }
             else
             {
@@ -419,7 +419,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
 
             if (valueType == typeof(Binary))
             {
-                return ((Binary) value).ToArray();
+                return ((Binary)value).ToArray();
             }
             else
             {
@@ -482,7 +482,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                 filterLambda = Expression.Lambda(equalityExpression, objectParameter);
             }
 
-            var predicate = (Expression<Func<T, bool>>) filterLambda;
+            var predicate = (Expression<Func<T, bool>>)filterLambda;
 
             return entities.Where(predicate);
         }
@@ -689,7 +689,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                     if (member.Type == typeof(Guid))
                     {
                         // GUID generation should keep existing values
-                        Guid existingValue = (Guid) member.StorageAccessor.GetBoxedValue(obj);
+                        Guid existingValue = (Guid)member.StorageAccessor.GetBoxedValue(obj);
 
                         if (existingValue == Guid.Empty)
                         {
@@ -857,7 +857,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
         {
             var typeTLoadOptions = loadOptions.LoadWithOptions
                 .Where(lo => lo.Member.Parameters.Single().Type == typeof(T))
-                .Select(lo => new { LoadOption = lo, Member = ((MemberExpression) lo.Member.Body).Member });
+                .Select(lo => new { LoadOption = lo, Member = ((MemberExpression)lo.Member.Body).Member });
 
             foreach (var loadOption in typeTLoadOptions)
             {
@@ -1057,7 +1057,7 @@ namespace LogicSoftware.DataAccess.Repository.Memory
                 member.StorageAccessor.SetBoxedValue(ref obj, convertedValue);
             }
 
-            return (T) obj;
+            return (T)obj;
         }
 
         /// <summary>

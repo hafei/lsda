@@ -52,19 +52,19 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         #region Properties
 
         /// <summary>
-        /// Gets or sets the inner repository.
+        ///   Gets or sets the inner repository.
         /// </summary>
         /// <value>The inner repository.</value>
         private IRepository InnerRepository { get; set; }
 
         /// <summary>
-        /// Gets or sets the query executor.
+        ///   Gets or sets the query executor.
         /// </summary>
         /// <value>The query executor.</value>
         private IExtendedQueryExecutor QueryExecutor { get; set; }
 
         /// <summary>
-        /// Gets or sets the repository extensions provider.
+        ///   Gets or sets the repository extensions provider.
         /// </summary>
         /// <value>The repository extensions provider.</value>
         private IRepositoryExtensionsProvider RepositoryExtensionsProvider { get; set; }
@@ -101,9 +101,9 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// </returns>
         public IQueryable All(Type entityType)
         {
-            return (IQueryable) Activator.CreateInstance(
-                                    typeof(ExtendedQuery<>).MakeGenericType(entityType), 
-                                    new object[] { this.QueryExecutor });
+            return (IQueryable)Activator.CreateInstance(
+                typeof(ExtendedQuery<>).MakeGenericType(entityType), 
+                new object[] { this.QueryExecutor });
         }
 
         /// <summary>

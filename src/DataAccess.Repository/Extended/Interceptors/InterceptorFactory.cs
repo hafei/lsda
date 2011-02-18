@@ -32,7 +32,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors
         public IOperationInterceptor CreateOperationInterceptor(Type type)
         {
             // todo: add cache? Expression.New -> Compile
-            return (IOperationInterceptor) Activator.CreateInstance(type);
+            return (IOperationInterceptor)Activator.CreateInstance(type);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors
         public IQueryInterceptor CreateQueryInterceptor(Type type)
         {
             // todo: add cache? Expression.New -> Compile
-            return (IQueryInterceptor) Activator.CreateInstance(type);
+            return (IQueryInterceptor)Activator.CreateInstance(type);
         }
 
         #endregion

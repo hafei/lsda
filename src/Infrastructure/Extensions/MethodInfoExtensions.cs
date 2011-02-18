@@ -70,11 +70,10 @@ namespace LogicSoftware.Infrastructure.Extensions
             //// {
             ////     throw new InvalidOperationException("only for generic methods");
             //// }
-
             return
                 query.Provider.CreateQuery<TNew>(
                     Expression.Call(
-                        ((MethodInfo) methodBase).MakeGenericMethod(typeof(TNew)), 
+                        ((MethodInfo)methodBase).MakeGenericMethod(typeof(TNew)), 
                         (new[] { query.Expression }).Concat(arguments).ToArray()));
         }
 
@@ -124,11 +123,10 @@ namespace LogicSoftware.Infrastructure.Extensions
             //// {
             ////     throw new InvalidOperationException("only for generic methods");
             //// }
-
             return
                 query.Provider.CreateQuery<T>(
                     Expression.Call(
-                        ((MethodInfo) methodBase).MakeGenericMethod(typeof(T)), 
+                        ((MethodInfo)methodBase).MakeGenericMethod(typeof(T)), 
                         (new[] { query.Expression }).Concat(arguments).ToArray()));
         }
 
@@ -183,11 +181,10 @@ namespace LogicSoftware.Infrastructure.Extensions
             //// {
             ////     throw new InvalidOperationException("only for generic methods");
             //// }
-
             return
                 query.Provider.CreateQuery<T>(
                     Expression.Call(
-                        ((MethodInfo) methodBase).MakeGenericMethod(typeof(T), typeof(TOther)), 
+                        ((MethodInfo)methodBase).MakeGenericMethod(typeof(T), typeof(TOther)), 
                         (new[] { query.Expression }).Concat(arguments).ToArray()));
         }
 

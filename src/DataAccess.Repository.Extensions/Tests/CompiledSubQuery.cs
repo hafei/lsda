@@ -61,6 +61,11 @@ namespace LogicSoftware.DataAccess.Repository.Extensions.Tests
         /// </param>
         public CompiledSubQuery(object internalValue)
         {
+            if (internalValue == null)
+            {
+                throw new ArgumentNullException("internalValue");
+            }
+
             if (!CompiledSubQueryType.IsAssignableFrom(internalValue.GetType()))
             {
                 throw new ArgumentException("Wrong object provided.");

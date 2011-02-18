@@ -1,17 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicSoftware.Infrastructure", "src\Infrastructure\LogicSoftware.Infrastructure.csproj", "{727D9AB5-49E9-44FF-B031-12AAD90371B6}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5113DE54-4E04-4C44-BD6D-A64FCA7CC207}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicSoftware.DataAccess.Repository", "src\DataAccess.Repository\LogicSoftware.DataAccess.Repository.csproj", "{0E89DF7F-0621-4D19-BF86-D95A13D43455}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicSoftware.Infrastructure.EntLib", "src\Infrastructure.EntLib\LogicSoftware.Infrastructure.EntLib.csproj", "{D1C7FE2B-B28B-4A1F-8AC6-79B18EBD2D0C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0717060D-DD10-40E3-A817-5A25B9495F05}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicSoftware.DataAccess.Repository.Tests", "test\DataAccess.Repository.Tests\LogicSoftware.DataAccess.Repository.Tests.csproj", "{22049FAA-AE04-4065-9E1B-067FD2CBE44C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EF5D23B8-01F9-4000-8442-789DA0ECF9AD}"
 	ProjectSection(SolutionItems) = preProject
@@ -19,6 +11,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LSDA.vsmdi = LSDA.vsmdi
 		test\config\nocoverage.testrunconfig = test\config\nocoverage.testrunconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicSoftware.Infrastructure", "src\Infrastructure\LogicSoftware.Infrastructure.csproj", "{727D9AB5-49E9-44FF-B031-12AAD90371B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicSoftware.DataAccess.Repository", "src\DataAccess.Repository\LogicSoftware.DataAccess.Repository.csproj", "{0E89DF7F-0621-4D19-BF86-D95A13D43455}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicSoftware.Infrastructure.EntLib", "src\Infrastructure.EntLib\LogicSoftware.Infrastructure.EntLib.csproj", "{D1C7FE2B-B28B-4A1F-8AC6-79B18EBD2D0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicSoftware.DataAccess.Repository.Tests", "test\DataAccess.Repository.Tests\LogicSoftware.DataAccess.Repository.Tests.csproj", "{22049FAA-AE04-4065-9E1B-067FD2CBE44C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicSoftware.DataAccess.Repository.Extensions", "src\DataAccess.Repository.Extensions\LogicSoftware.DataAccess.Repository.Extensions.csproj", "{FBDD7309-F91D-4273-AF62-EDB7D2182C39}"
 EndProject

@@ -62,6 +62,11 @@ namespace LogicSoftware.DataAccess.Repository.Extensions.Tests
         /// </param>
         public SqlProvider(object internalValue)
         {
+            if (internalValue == null)
+            {
+                throw new ArgumentNullException("internalValue");
+            }
+
             if (!SqlProviderType.IsAssignableFrom(internalValue.GetType()))
             {
                 throw new ArgumentException("Wrong object provided.");

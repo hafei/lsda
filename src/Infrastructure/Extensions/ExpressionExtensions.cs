@@ -69,7 +69,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             return Expression.Call(
                 anyMethod, 
                 source, 
-                TypeSystem.IsQueryableExtension(anyMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+                TypeSystem.IsQueryableExtension(anyMethod) ? (Expression)Expression.Quote(predicate) : predicate);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace LogicSoftware.Infrastructure.Extensions
 
         /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents an equality comparison.
-        /// Overload that gets value to compare to as expression.
+        ///   Overload that gets value to compare to as expression.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -150,7 +150,7 @@ namespace LogicSoftware.Infrastructure.Extensions
 
         /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents an equality comparison.
-        /// Overload that gets value to compare to as object.
+        ///   Overload that gets value to compare to as object.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -212,7 +212,7 @@ namespace LogicSoftware.Infrastructure.Extensions
 
         /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents a "greater than" numeric comparison.
-        /// Overload that gets value to compare to as object.
+        ///   Overload that gets value to compare to as object.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -230,7 +230,7 @@ namespace LogicSoftware.Infrastructure.Extensions
 
         /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents a "greater than" numeric comparison.
-        /// Overload that gets value to compare to as expression.
+        ///   Overload that gets value to compare to as expression.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -248,7 +248,7 @@ namespace LogicSoftware.Infrastructure.Extensions
 
         /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents a "greater than or equal" numeric comparison.
-        /// Overload that gets value to compare to as object.
+        ///   Overload that gets value to compare to as object.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -266,7 +266,7 @@ namespace LogicSoftware.Infrastructure.Extensions
 
         /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents a "greater than or equal" numeric comparison.
-        /// Overload that gets value to compare to as expression.
+        ///   Overload that gets value to compare to as expression.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -302,6 +302,11 @@ namespace LogicSoftware.Infrastructure.Extensions
                 throw new ArgumentNullException("source");
             }
 
+            if (predicate == null)
+            {
+                throw new ArgumentNullException("predicate");
+            }
+
             var elementType = TypeSystem.GetElementType(source.Type);
             var keyType = predicate.Body.Type;
 
@@ -311,12 +316,12 @@ namespace LogicSoftware.Infrastructure.Extensions
             return Expression.Call(
                 groupByMethod, 
                 source, 
-                TypeSystem.IsQueryableExtension(groupByMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+                TypeSystem.IsQueryableExtension(groupByMethod) ? (Expression)Expression.Quote(predicate) : predicate);
         }
 
         /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents a "less than" numeric comparison.
-        /// Overload that gets value to compare to as object.
+        ///   Overload that gets value to compare to as object.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -334,7 +339,7 @@ namespace LogicSoftware.Infrastructure.Extensions
 
         /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents a "less than" numeric comparison.
-        /// Overload that gets value to compare to as object.
+        ///   Overload that gets value to compare to as object.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -352,7 +357,7 @@ namespace LogicSoftware.Infrastructure.Extensions
 
         /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents a " less than or equal" numeric comparison.
-        /// Overload that gets value to compare to as object.
+        ///   Overload that gets value to compare to as object.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -370,7 +375,7 @@ namespace LogicSoftware.Infrastructure.Extensions
 
         /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents a " less than or equal" numeric comparison.
-        /// Overload that gets value to compare to as expression.
+        ///   Overload that gets value to compare to as expression.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -406,6 +411,11 @@ namespace LogicSoftware.Infrastructure.Extensions
                 throw new ArgumentNullException("source");
             }
 
+            if (predicate == null)
+            {
+                throw new ArgumentNullException("predicate");
+            }
+
             var elementType = TypeSystem.GetElementType(source.Type);
             var keyType = predicate.Body.Type;
 
@@ -422,7 +432,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             return Expression.Call(
                 maxMethod, 
                 source, 
-                TypeSystem.IsQueryableExtension(maxMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+                TypeSystem.IsQueryableExtension(maxMethod) ? (Expression)Expression.Quote(predicate) : predicate);
         }
 
         /// <summary>
@@ -445,6 +455,11 @@ namespace LogicSoftware.Infrastructure.Extensions
                 throw new ArgumentNullException("source");
             }
 
+            if (predicate == null)
+            {
+                throw new ArgumentNullException("predicate");
+            }
+
             var elementType = TypeSystem.GetElementType(source.Type);
             var keyType = predicate.Body.Type;
 
@@ -461,7 +476,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             return Expression.Call(
                 minMethod, 
                 source, 
-                TypeSystem.IsQueryableExtension(minMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+                TypeSystem.IsQueryableExtension(minMethod) ? (Expression)Expression.Quote(predicate) : predicate);
         }
 
         /// <summary>
@@ -480,7 +495,7 @@ namespace LogicSoftware.Infrastructure.Extensions
 
         /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents an inequality comparison.
-        /// Overload that gets value to compare to as expression.
+        ///   Overload that gets value to compare to as expression.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -498,7 +513,7 @@ namespace LogicSoftware.Infrastructure.Extensions
 
         /// <summary>
         /// Creates a System.Linq.Expressions.BinaryExpression that represents an inequality comparison.
-        /// Overload that gets value to compare to as object.
+        ///   Overload that gets value to compare to as object.
         /// </summary>
         /// <param name="expression">
         /// The expression.
@@ -551,6 +566,11 @@ namespace LogicSoftware.Infrastructure.Extensions
                 throw new ArgumentNullException("source");
             }
 
+            if (predicate == null)
+            {
+                throw new ArgumentNullException("predicate");
+            }
+
             var elementType = TypeSystem.GetElementType(source.Type);
             var keyType = predicate.Body.Type;
 
@@ -560,7 +580,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             return Expression.Call(
                 orderByMethod, 
                 source, 
-                TypeSystem.IsQueryableExtension(orderByMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+                TypeSystem.IsQueryableExtension(orderByMethod) ? (Expression)Expression.Quote(predicate) : predicate);
         }
 
         /// <summary>
@@ -583,6 +603,11 @@ namespace LogicSoftware.Infrastructure.Extensions
                 throw new ArgumentNullException("source");
             }
 
+            if (predicate == null)
+            {
+                throw new ArgumentNullException("predicate");
+            }
+
             var elementType = TypeSystem.GetElementType(source.Type);
             var keyType = predicate.Body.Type;
 
@@ -592,7 +617,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             return Expression.Call(
                 orderByDescendingMethod, 
                 source, 
-                TypeSystem.IsQueryableExtension(orderByDescendingMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+                TypeSystem.IsQueryableExtension(orderByDescendingMethod) ? (Expression)Expression.Quote(predicate) : predicate);
         }
 
         /// <summary>
@@ -656,7 +681,7 @@ namespace LogicSoftware.Infrastructure.Extensions
                 expr = expr.Property(property);
             }
 
-            return (MemberExpression) expr;
+            return (MemberExpression)expr;
         }
 
         /// <summary>
@@ -692,7 +717,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             return Expression.Call(
                 selectMethod, 
                 source, 
-                TypeSystem.IsQueryableExtension(selectMethod) ? (Expression) Expression.Quote(selector) : selector);
+                TypeSystem.IsQueryableExtension(selectMethod) ? (Expression)Expression.Quote(selector) : selector);
         }
 
         /// <summary>
@@ -817,6 +842,11 @@ namespace LogicSoftware.Infrastructure.Extensions
                 throw new ArgumentNullException("source");
             }
 
+            if (predicate == null)
+            {
+                throw new ArgumentNullException("predicate");
+            }
+
             var elementType = TypeSystem.GetElementType(source.Type);
             var keyType = predicate.Body.Type;
 
@@ -826,7 +856,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             return Expression.Call(
                 sumMethod, 
                 source, 
-                TypeSystem.IsQueryableExtension(sumMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+                TypeSystem.IsQueryableExtension(sumMethod) ? (Expression)Expression.Quote(predicate) : predicate);
         }
 
         /// <summary>
@@ -874,6 +904,11 @@ namespace LogicSoftware.Infrastructure.Extensions
                 throw new ArgumentNullException("source");
             }
 
+            if (predicate == null)
+            {
+                throw new ArgumentNullException("predicate");
+            }
+
             var elementType = TypeSystem.GetElementType(source.Type);
             var keyType = predicate.Body.Type;
 
@@ -883,7 +918,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             return Expression.Call(
                 thenByMethod, 
                 source, 
-                TypeSystem.IsQueryableExtension(thenByMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+                TypeSystem.IsQueryableExtension(thenByMethod) ? (Expression)Expression.Quote(predicate) : predicate);
         }
 
         /// <summary>
@@ -906,6 +941,11 @@ namespace LogicSoftware.Infrastructure.Extensions
                 throw new ArgumentNullException("source");
             }
 
+            if (predicate == null)
+            {
+                throw new ArgumentNullException("predicate");
+            }
+
             var elementType = TypeSystem.GetElementType(source.Type);
             var keyType = predicate.Body.Type;
 
@@ -915,7 +955,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             return Expression.Call(
                 thenByDescendingMethod, 
                 source, 
-                TypeSystem.IsQueryableExtension(thenByDescendingMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+                TypeSystem.IsQueryableExtension(thenByDescendingMethod) ? (Expression)Expression.Quote(predicate) : predicate);
         }
 
         /// <summary>
@@ -1034,7 +1074,7 @@ namespace LogicSoftware.Infrastructure.Extensions
             return Expression.Call(
                 whereMethod, 
                 source, 
-                TypeSystem.IsQueryableExtension(whereMethod) ? (Expression) Expression.Quote(predicate) : predicate);
+                TypeSystem.IsQueryableExtension(whereMethod) ? (Expression)Expression.Quote(predicate) : predicate);
         }
 
         #endregion

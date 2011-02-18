@@ -63,23 +63,23 @@ namespace LogicSoftware.Infrastructure.Linq
         /// Analyzes the expression and returns it converted to the
         /// appropiated type.
         /// </summary>
-        /// <param name="exp">
+        /// <param name="node">
         /// The expression to be analyzed.
         /// </param>
         /// <returns>
         /// A System.Linq.Expressions.Expression of the real expression type.
         /// </returns>
-        public override Expression Visit(Expression exp)
+        public override Expression Visit(Expression node)
         {
-            if (exp == null)
+            if (node == null)
             {
-                return base.Visit(exp);
+                return base.Visit(node);
             }
 
             Expression replacement;
-            return this.ReplacementDictionary.TryGetValue(exp, out replacement)
+            return this.ReplacementDictionary.TryGetValue(node, out replacement)
                        ? replacement
-                       : base.Visit(exp);
+                       : base.Visit(node);
         }
 
         #endregion

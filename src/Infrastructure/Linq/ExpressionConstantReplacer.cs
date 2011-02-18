@@ -78,29 +78,29 @@ namespace LogicSoftware.Infrastructure.Linq
         /// Analyzes the constant expression provided as parameter and
         /// returns an appropiated constant expression.
         /// </summary>
-        /// <param name="constant">
+        /// <param name="node">
         /// The constant expression to analyze.
         /// </param>
         /// <returns>
         /// A System.Linq.Expressions.Expression.
         /// </returns>
-        protected override Expression VisitConstant(ConstantExpression constant)
+        protected override Expression VisitConstant(ConstantExpression node)
         {
-            if (constant == null)
+            if (node == null)
             {
-                throw new ArgumentNullException("constant");
+                throw new ArgumentNullException("node");
             }
 
             // note: ExpressionConstantReplacer doesn't support null constants replacement (generic ExpressionReplacer can be used, or ExpressionConstantReplacer's logic can be changed)
-            if (constant.Value == null)
+            if (node.Value == null)
             {
-                return constant;
+                return node;
             }
 
             Expression replacement;
-            return this.ReplacementDictionary.TryGetValue(constant.Value, out replacement)
+            return this.ReplacementDictionary.TryGetValue(node.Value, out replacement)
                        ? replacement
-                       : base.VisitConstant(constant);
+                       : base.VisitConstant(node);
         }
 
         #endregion

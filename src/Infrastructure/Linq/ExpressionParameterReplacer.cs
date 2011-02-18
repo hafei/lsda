@@ -63,18 +63,18 @@ namespace LogicSoftware.Infrastructure.Linq
         /// Analyzes the parameter expression provided as parameter and
         /// returns an appropiated parameter expression.
         /// </summary>
-        /// <param name="parameter">
+        /// <param name="node">
         /// The parameter expression to analyze.
         /// </param>
         /// <returns>
         /// A System.Linq.Expressions.Expression.
         /// </returns>
-        protected override Expression VisitParameter(ParameterExpression parameter)
+        protected override Expression VisitParameter(ParameterExpression node)
         {
             Expression replacement;
-            return this.ReplacementDictionary.TryGetValue(parameter, out replacement)
+            return this.ReplacementDictionary.TryGetValue(node, out replacement)
                        ? replacement
-                       : base.VisitParameter(parameter);
+                       : base.VisitParameter(node);
         }
 
         #endregion

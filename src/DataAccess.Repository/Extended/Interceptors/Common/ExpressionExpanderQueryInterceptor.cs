@@ -10,6 +10,7 @@
 namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
@@ -34,6 +35,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         /// <param name="e">
         /// The <see cref="LogicSoftware.DataAccess.Repository.Extended.Events.MethodCallVisitEventArgs"/> instance containing the event data.
         /// </param>
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ExpandWithExpression", Justification = "Spelling is ok here.")]
         public override void OnMethodCallVisit(MethodCallVisitEventArgs e)
         {
             if (e == null)
@@ -47,7 +49,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             if ((e.MethodCall.Method.IsStatic && e.MethodCall.Arguments.Count == 1)
                 || (!e.MethodCall.Method.IsStatic && e.MethodCall.Arguments.Count == 0))
             {
-                var expressionAttribute = (ExpandWithExpressionAttribute) e.MethodCall.Method.GetCustomAttributes(typeof(ExpandWithExpressionAttribute), false).SingleOrDefault();
+                var expressionAttribute = (ExpandWithExpressionAttribute)e.MethodCall.Method.GetCustomAttributes(typeof(ExpandWithExpressionAttribute), false).SingleOrDefault();
 
                 if (expressionAttribute == null)
                 {
@@ -74,7 +76,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                         e.MethodCall.Method.DeclaringType.Name));
                 }
 
-                var customExpandedExpression = (LambdaExpression) expressionMethodInfo.Invoke(null, new object[] { this.Scope });
+                var customExpandedExpression = (LambdaExpression)expressionMethodInfo.Invoke(null, new object[] { this.Scope });
 
                 // parameterExpression is object in case of instance method or single (todo: first) argument in case of extension method
                 var parameterExpression = e.MethodCall.Method.IsStatic ? e.MethodCall.Arguments.Single() : e.MethodCall.Object;
@@ -92,8 +94,8 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 
                 // localize expression (replace its parameter with local object expression)
                 var localizedCustomExpandedExpression = new ExpressionParameterReplacer(
-                        customExpandedExpression.Parameters.Single(), 
-                        parameterExpression)
+                    customExpandedExpression.Parameters.Single(), 
+                    parameterExpression)
                     .Visit(customExpandedExpression.Body);
 
                 e.SubstituteExpression = localizedCustomExpandedExpression;

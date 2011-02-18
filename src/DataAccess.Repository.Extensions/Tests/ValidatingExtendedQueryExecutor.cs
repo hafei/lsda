@@ -63,9 +63,15 @@ namespace LogicSoftware.DataAccess.Repository.Extensions.Tests
         /// <returns>
         /// The result of the query.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "subqueries", Justification = "Spelling is ok here.")]
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "TResult is the type of the result of the query.")]
         protected override TResult ExecuteCore<TResult>(IQueryable query, QueryContext context, Expression expression)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             var queryAsTable = query as ITable;
             if (queryAsTable != null)
             {
@@ -76,8 +82,8 @@ namespace LogicSoftware.DataAccess.Repository.Extensions.Tests
                     throw new InvalidOperationException(String.Format(
                         CultureInfo.InvariantCulture, 
                         "Expression:\n\r'{0}'\n\ris expanded to:\n\r'{1}'\n\rwith following SQL:\n\r'{2}'\n\rand {3} subqueries with SQL:\n\r{4}.\n\rPlease rewrite the query to avoid N+1 problem.", 
-                        context.Expression.ToString(), 
-                        expression.ToString(), 
+                        context.Expression, 
+                        expression, 
                         String.Join("\n\r", compiledQuery.QueryInfos.Select(qi => qi.CommandText).ToArray()), 
                         compiledQuery.SubQueries.Count, 
                         String.Join("\n\r", compiledQuery.SubQueries.Select(sq => sq.QueryInfo.CommandText).ToArray())));

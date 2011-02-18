@@ -68,11 +68,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         #region IQueryable properties
 
         /// <summary>
-        /// Gets the type of the element(s) that are returned when the expression tree associated with this instance of <see cref="T:System.Linq.IQueryable"/> is executed.
+        ///   Gets the type of the element(s) that are returned when the expression tree associated with this instance of <see cref = "T:System.Linq.IQueryable" /> is executed.
         /// </summary>
         /// <value></value>
         /// <returns>
-        /// A <see cref="T:System.Type"/> that represents the type of the element(s) that are returned when the expression tree associated with this object is executed.
+        ///   A <see cref = "T:System.Type" /> that represents the type of the element(s) that are returned when the expression tree associated with this object is executed.
         /// </returns>
         Type IQueryable.ElementType
         {
@@ -83,11 +83,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         }
 
         /// <summary>
-        /// Gets the expression tree that is associated with the instance of <see cref="T:System.Linq.IQueryable"/>.
+        ///   Gets the expression tree that is associated with the instance of <see cref = "T:System.Linq.IQueryable" />.
         /// </summary>
         /// <value></value>
         /// <returns>
-        /// The <see cref="T:System.Linq.Expressions.Expression"/> that is associated with this instance of <see cref="T:System.Linq.IQueryable"/>.
+        ///   The <see cref = "T:System.Linq.Expressions.Expression" /> that is associated with this instance of <see cref = "T:System.Linq.IQueryable" />.
         /// </returns>
         Expression IQueryable.Expression
         {
@@ -98,11 +98,11 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         }
 
         /// <summary>
-        /// Gets the query provider that is associated with this data source.
+        ///   Gets the query provider that is associated with this data source.
         /// </summary>
         /// <value></value>
         /// <returns>
-        /// The <see cref="T:System.Linq.IQueryProvider"/> that is associated with this data source.
+        ///   The <see cref = "T:System.Linq.IQueryProvider" /> that is associated with this data source.
         /// </returns>
         IQueryProvider IQueryable.Provider
         {
@@ -119,17 +119,17 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         #region Properties
 
         /// <summary>
-        /// Gets or sets the expression of the current query.
+        ///   Gets or sets the expression of the current query.
         /// </summary>
         private Expression Expression { get; set; }
 
         /// <summary>
-        /// Gets or sets the QueryExecutor.
+        ///   Gets or sets the QueryExecutor.
         /// </summary>
         private IExtendedQueryExecutor QueryExecutor { get; set; }
 
         /// <summary>
-        /// Gets or sets the root query that came from extended repository.
+        ///   Gets or sets the root query that came from extended repository.
         /// </summary>
         private IQueryable RootQuery { get; set; }
 
@@ -145,7 +145,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// </returns>
         public IEnumerator<T> GetEnumerator()
         {
-            return ((IQueryable) this).Provider.Execute<IEnumerable<T>>(this.Expression).GetEnumerator();
+            return ((IQueryable)this).Provider.Execute<IEnumerable<T>>(this.Expression).GetEnumerator();
         }
 
         /// <summary>
@@ -221,9 +221,9 @@ namespace LogicSoftware.DataAccess.Repository.Extended
                 throw new ArgumentException("Invalid type expression", "expression");
             }
 
-            return (IQueryable) Activator.CreateInstance(
-                                    typeof(ExtendedQuery<>).MakeGenericType(elementType),
-                                    new object[] { this.QueryExecutor, this.RootQuery, expression });
+            return (IQueryable)Activator.CreateInstance(
+                typeof(ExtendedQuery<>).MakeGenericType(elementType), 
+                new object[] { this.QueryExecutor, this.RootQuery, expression });
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// </returns>
         object IQueryProvider.Execute(Expression expression)
         {
-            return ((IQueryProvider) this).Execute<object>(expression);
+            return ((IQueryProvider)this).Execute<object>(expression);
         }
 
         /// <summary>
