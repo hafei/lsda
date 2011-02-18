@@ -17,6 +17,7 @@ namespace LogicSoftware.DataAccess.Repository.Tests
 
     using Extended;
     using Extended.Interceptors.Common;
+    using Extended.Interceptors.Common.Attributes;
 
     using Memory;
 
@@ -74,6 +75,34 @@ namespace LogicSoftware.DataAccess.Repository.Tests
                                     Name = c.Name
                                 })
                             .ToList()
+                    })
+                .ToList();
+
+            // Assert
+            Assert.IsTrue(Compare(projectionResult, queryResult), "Projection result differs from direct query.");
+        }
+
+        /// <summary>
+        /// The lift_to_null_should_be_supported_in_binding.
+        /// </summary>
+        [TestMethod]
+        public void Lift_to_null_should_be_supported_in_binding()
+        {
+            // Arrange
+            var repository = CreateSampleEntityRepository();
+            this.Container.RegisterInstance<IRepository>(repository);
+
+            var extendedRepository = this.Container.Resolve<IExtendedRepository>();
+
+            // Act
+            var projectionResult = extendedRepository.All<SampleParentEntity>()
+                .Select<ProjectionWithLifting>()
+                .ToList();
+
+            var queryResult = extendedRepository.All<SampleParentEntity>()
+                .Select(e => new ProjectionWithLifting
+                    {
+                        Id = e.Id
                     })
                 .ToList();
 
@@ -246,6 +275,28 @@ namespace LogicSoftware.DataAccess.Repository.Tests
             memoryRepository.Insert(new SampleChildEntity() { Id = 6, Name = "Child '2 2' 3", ParentId = 4 });
 
             return memoryRepository;
+        }
+
+        #endregion
+
+        #region Nested classes
+
+        /// <summary>
+        /// The projection with lifting.
+        /// </summary>
+        [Projection(typeof(SampleParentEntity))]
+        public class ProjectionWithLifting
+        {
+            #region Properties
+
+            /// <summary>
+            /// Gets or sets the id.
+            /// </summary>
+            /// <value>The id of the entity.</value>
+            [SelectProperty]
+            public int? Id { get; set; }
+
+            #endregion
         }
 
         #endregion

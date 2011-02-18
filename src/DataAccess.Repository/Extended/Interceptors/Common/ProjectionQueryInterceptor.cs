@@ -168,6 +168,59 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
         }
 
         /// <summary>
+        /// Applies the object projection.
+        /// </summary>
+        /// <param name="sourceExpression">
+        /// The source expression.
+        /// </param>
+        /// <param name="projectionType">
+        /// Type of the projection.
+        /// </param>
+        /// <param name="projectionConfig">
+        /// The projection config.
+        /// </param>
+        /// <returns>
+        /// New expression with applied projection.
+        /// </returns>
+        private Expression ApplyObjectProjection(Expression sourceExpression, Type projectionType, object projectionConfig)
+        {
+            // checking projection attribute validity (integrity check, may be removed)
+            var projectionAttribute = (ProjectionAttribute) projectionType.GetCustomAttributes(typeof(ProjectionAttribute), true).SingleOrDefault();
+
+            if (projectionAttribute == null)
+            {
+                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Type {0} has no projection attribute.", projectionType));
+            }
+
+            if (projectionAttribute.RootType != sourceExpression.Type)
+            {
+                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Type {0} has wrong RootType in projection attribute. Expected: {1}, actual: {2}.", projectionType, sourceExpression.Type, projectionAttribute.RootType));
+            }
+
+            // todo: add cache
+            var projectionMembers = projectionType.GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+                .Where(member => member.IsDefined(typeof(ProjectionMemberAttribute), true)) // note: skipping members without attributes, can be replaced with null check later
+                .Select(member => new ProjectionMemberMetadata(member, (ProjectionMemberAttribute) member.GetCustomAttributes(typeof(ProjectionMemberAttribute), true).SingleOrDefault()))
+                .ToLookup(memberMetadata => MemberTypes[memberMetadata.MemberAttribute.GetType()]);
+
+            // validating sub-projection
+            if (projectionMembers.Any(memberGroup => memberGroup.Key != ProjectionMemberType.Select))
+            {
+                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Type {0} with members other than select cannot be used as sub-object-projection.", projectionType));
+            }
+
+            var selectResultExpression = this.GetSelectExpression(sourceExpression, projectionType, projectionConfig, projectionMembers[ProjectionMemberType.Select]);
+
+            // note: generating conditional expression to have nulls in result where original relationship has null too
+            var conditionalSelectResultExpression = Expression.Condition(
+                sourceExpression.Equal(Expression.Constant(null, sourceExpression.Type)), 
+                Expression.Constant(null, projectionType), 
+                selectResultExpression);
+
+            return conditionalSelectResultExpression;
+        }
+
+        /// <summary>
         /// Applies the order.
         /// </summary>
         /// <param name="sourceSequenceExpression">
@@ -277,8 +330,8 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                 .GroupBy(memberMetadata => MemberTypes[memberMetadata.MemberAttribute.GetType()])
                 .OrderBy(memberGroup => memberGroup.Key) // note: ordering by enum underlying int values, order is significant
                 .Aggregate(
-                    sourceSequenceExpression, 
-                    (previous, memberGroup) => this.MemberTypeHandlers[memberGroup.Key](previous, projectionType, projectionConfig, memberGroup));
+                sourceSequenceExpression, 
+                (previous, memberGroup) => this.MemberTypeHandlers[memberGroup.Key](previous, projectionType, projectionConfig, memberGroup));
 
             return resultSequenceExpression;
         }
@@ -430,7 +483,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
 
                     // localize expression (replace its parameter with local sourceExpression)
                     var localizedCustomBindingExpression = new ExpressionParameterReplacer(
-                        customBindingExpression.Parameters.Single(),
+                        customBindingExpression.Parameters.Single(), 
                         sourceExpression)
                         .Visit(customBindingExpression.Body);
 
@@ -451,14 +504,22 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
                     var resultPropertyElementType = TypeSystem.GetElementType(resultProperty.PropertyType);
 
                     // 1. simple bind if types are equal
-                    if (sourcePropertyExpression.Type == resultProperty.PropertyType)
+                    if (resultProperty.PropertyType == sourcePropertyExpression.Type)
                     {
                         resultMemberBindings.Add(Expression.Bind(resultProperty, sourcePropertyExpression));
 
                         continue;
                     }
 
-                    // todo: 2. bind with convert (eg. lift to null) if needed
+                    // 2. bind with lift to null if needed
+                    if (TypeSystem.GetNonNullableType(resultProperty.PropertyType) == sourcePropertyExpression.Type)
+                    {
+                        var resultPropertyBindingExpression = Expression.Convert(sourcePropertyExpression, resultProperty.PropertyType);
+
+                        resultMemberBindings.Add(Expression.Bind(resultProperty, resultPropertyBindingExpression));
+
+                        continue;
+                    }
 
                     // 3. bind via sequence projection if both properties are sequence types and element types are differ
                     if (((sourcePropertyElementType != null) && (resultPropertyElementType != null))
@@ -486,51 +547,6 @@ namespace LogicSoftware.DataAccess.Repository.Extended.Interceptors.Common
             var resultInitExpression = Expression.MemberInit(Expression.New(projectionType), resultMemberBindings);
 
             return resultInitExpression;
-        }
-
-        /// <summary>
-        /// Applies the object projection.
-        /// </summary>
-        /// <param name="sourceExpression">The source expression.</param>
-        /// <param name="projectionType">Type of the projection.</param>
-        /// <param name="projectionConfig">The projection config.</param>
-        /// <returns>New expression with applied projection.</returns>
-        private Expression ApplyObjectProjection(Expression sourceExpression, Type projectionType, object projectionConfig)
-        {
-            // checking projection attribute validity (integrity check, may be removed)
-            var projectionAttribute = (ProjectionAttribute) projectionType.GetCustomAttributes(typeof(ProjectionAttribute), true).SingleOrDefault();
-
-            if (projectionAttribute == null)
-            {
-                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Type {0} has no projection attribute.", projectionType));
-            }
-
-            if (projectionAttribute.RootType != sourceExpression.Type)
-            {
-                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Type {0} has wrong RootType in projection attribute. Expected: {1}, actual: {2}.", projectionType, sourceExpression.Type, projectionAttribute.RootType));
-            }
-
-            // todo: add cache
-            var projectionMembers = projectionType.GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-                .Where(member => member.IsDefined(typeof(ProjectionMemberAttribute), true)) // note: skipping members without attributes, can be replaced with null check later
-                .Select(member => new ProjectionMemberMetadata(member, (ProjectionMemberAttribute) member.GetCustomAttributes(typeof(ProjectionMemberAttribute), true).SingleOrDefault()))
-                .ToLookup(memberMetadata => MemberTypes[memberMetadata.MemberAttribute.GetType()]);
-
-            // validating sub-projection
-            if (projectionMembers.Any(memberGroup => memberGroup.Key != ProjectionMemberType.Select))
-            {
-                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Type {0} with members other than select cannot be used as sub-object-projection.", projectionType));
-            }
-
-            var selectResultExpression = this.GetSelectExpression(sourceExpression, projectionType, projectionConfig, projectionMembers[ProjectionMemberType.Select]);
-
-            // note: generating conditional expression to have nulls in result where original relationship has null too
-            var conditionalSelectResultExpression = Expression.Condition(
-                sourceExpression.Equal(Expression.Constant(null, sourceExpression.Type)),
-                Expression.Constant(null, projectionType),
-                selectResultExpression);
-
-            return conditionalSelectResultExpression;
         }
 
         #endregion
