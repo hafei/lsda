@@ -3,3 +3,5 @@ StyleCop.Cache
 bin
 obj
 *.suo
+*.sln.cache
+TestResults
