@@ -91,7 +91,7 @@ namespace LogicSoftware.DataAccess.Repository.Extensions.Tests
             {
                 var commandText = CommandTextProperty.GetValue(this.InternalValue, new object[0]);
 
-                return (string) commandText;
+                return (string)commandText;
             }
         }
 
@@ -117,7 +117,7 @@ namespace LogicSoftware.DataAccess.Repository.Extensions.Tests
             {
                 var resultType = ResultTypeProperty.GetValue(this.InternalValue, new object[0]);
 
-                return (Type) resultType;
+                return (Type)resultType;
             }
         }
 

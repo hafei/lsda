@@ -65,7 +65,7 @@ namespace LogicSoftware.Infrastructure.EntLib.Unity
 
                 MethodInfo resolverMethod = GenericResolveArrayMethod.MakeGenericMethod(elementType);
 
-                ArrayResolver resolver = (ArrayResolver) Delegate.CreateDelegate(typeof(ArrayResolver), resolverMethod);
+                ArrayResolver resolver = (ArrayResolver)Delegate.CreateDelegate(typeof(ArrayResolver), resolverMethod);
 
                 context.Existing = resolver(context);
                 context.BuildComplete = true;
