@@ -1,0 +1,5 @@
+syntax: glob
+StyleCop.Cache
+bin
+obj
+*.suo
