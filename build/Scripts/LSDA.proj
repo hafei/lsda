@@ -1,0 +1,135 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" >
+    <UsingTask AssemblyFile="MSBuild\TestTools\LogicSoftware.EasyProjects.TestTools.dll" TaskName="LogicSoftware.EasyProjects.TestTools.CoverageToXml" />
+    <UsingTask AssemblyFile="MSBuild\TestTools\LogicSoftware.EasyProjects.TestTools.dll" TaskName="LogicSoftware.EasyProjects.TestTools.ValidateCoverageLevel" />
+
+    <PropertyGroup>
+        <MSTestExecutable>&quot;$(VS100COMNTOOLS)..\IDE\mstest.exe&quot;</MSTestExecutable>
+        <MSBuildUseNoSolutionCache>1</MSBuildUseNoSolutionCache>
+        <TestResultsDirectory>..\..\TestResults</TestResultsDirectory>
+        <CoverageOutputDirectory>$(TestResultsDirectory)</CoverageOutputDirectory>
+        <CoverageLevelKey>LSDA</CoverageLevelKey>
+
+        <BuildPropertiesDebug>Configuration=Debug;Platform=Any Cpu;TreatWarningsAsErrors=true;StyleCopTreatErrorsAsWarnings=false;</BuildPropertiesDebug>
+        <BinariesDeploymentDirectory>..\..\deploy</BinariesDeploymentDirectory>
+        <SourceCodeDirectory>..\..\src</SourceCodeDirectory>
+
+        <AssemblyVersion>$(CCNetLabel)</AssemblyVersion>
+        <AssemblyVersion Condition="'$(AssemblyVersion)' == ''">1.0.0.0</AssemblyVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectToBuildDebug Include="..\..\LSDA.sln" />
+    </ItemGroup>
+
+    <!-- Build -->
+
+    <Target Name="PublishDebug" DependsOnTargets="UpdateAssemblyInfo;RebuildDebug;DeployBinaries">
+      
+    </Target>
+  
+    <Target Name="Check" DependsOnTargets="RebuildDebug;ValidateCodeAnalysis;Test;CleanDebug">
+    </Target>
+
+    <Target Name="CleanDebug">
+        <MSBuild Targets="Clean" Projects="@(ProjectToBuildDebug)"  />
+    </Target>
+
+    <Target Name="RebuildDebug">
+        <MSBuild Targets="Rebuild" Projects="@(ProjectToBuildDebug)" Properties="$(BuildPropertiesDebug)" />
+    </Target>
+
+    <Target Name="BuildDebug">
+        <MSBuild Targets="Build" Projects="@(ProjectToBuildDebug)" Properties="$(BuildPropertiesDebug)" />
+    </Target>
+
+    <Target Name="UpdateAssemblyInfo">
+        <ItemGroup>
+            <AssemblyInfoFiles Include="$(SourceCodeDirectory)\**\AssemblyInfo.cs" />
+        </ItemGroup>
+
+        <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyVersion="$(AssemblyVersion)" AssemblyFileVersion="$(AssemblyVersion)" AssemblyInfoFiles="@(AssemblyInfoFiles)" />
+    </Target>
+
+    <Target Name="DeployBinaries">
+      <ItemGroup>
+        <BinariesToDeploy Include="$(SourceCodeDirectory)\**\*.dll" />
+        <BinariesToDeploy Include="$(SourceCodeDirectory)\**\*.pdb" />
+        <BinariesToDeploy Include="$(SourceCodeDirectory)\**\*.xml"/>
+        
+        <BinariesToDeploy Remove ="$(SourceCodeDirectory)\**\StyleCopViolations.xml" />
+        <BinariesToDeploy Remove ="$(SourceCodeDirectory)\**\*.CodeAnalysisLog.xml" />
+      </ItemGroup>
+      <RemoveDir Directories="$(BinariesDeploymentDirectory)" />
+      <MakeDir Directories="$(BinariesDeploymentDirectory)" />
+
+      <Copy SourceFiles="@(BinariesToDeploy)" DestinationFolder="$(BinariesDeploymentDirectory)" />
+    </Target>
+
+  <!-- Tests -->
+
+    <Target Name="Test" DependsOnTargets="RebuildDebug;RunTests;ConvertCoverageToXml;ValidateCoverageMetrics">
+    </Target>
+
+    <Target Name="DeleteTestResults">
+        <RemoveDir Directories="$(TestResultsDirectory)" />
+    </Target>
+
+    <Target Name="CreateTestResultsFolder">
+        <MakeDir Directories="$(TestResultsDirectory)" />
+    </Target>
+
+    <Target Name="RunTests" DependsOnTargets="DeleteTestResults;CreateTestResultsFolder">
+        <Exec Command="$(MSTestExecutable) /testcontainer:test\DataAccess.Repository.Tests\bin\Debug\LogicSoftware.DataAccess.Repository.Tests.dll /runconfig:test\config\check.testrunconfig /resultsfile:TestResults\check.trx" WorkingDirectory="..\.." />
+    </Target>
+
+    <!-- Code coverage -->
+
+    <Target Name="ConvertCoverageToXml">
+        <PropertyGroup>
+            <TestsOutputPath>$(TestResultsDirectory)\Check\Out</TestsOutputPath>
+            <CoverageFilePath>$(CoverageOutputDirectory)\Coverage.xml</CoverageFilePath>
+            <CoverageSummaryFilePath>$(CoverageOutputDirectory)\CoverageSummary.xml</CoverageSummaryFilePath>
+        </PropertyGroup>
+
+        <ItemGroup>
+            <CoverageFile Include="$(TestResultsDirectory)\Check\**\*.coverage"/>
+        </ItemGroup>
+
+        <CoverageToXml CoverageFileName="@(CoverageFile)" ExePath="$(TestsOutputPath)" SymPath="$(TestsOutputPath)" OutputFileName="$(CoverageFilePath)"></CoverageToXml>
+    </Target>
+
+    <Target Name="ValidateCoverageMetrics">
+        <PropertyGroup>
+            <CoverageSummaryFilePath>$(CoverageOutputDirectory)\Coverage.xml</CoverageSummaryFilePath>
+        </PropertyGroup>
+
+        <ValidateCoverageLevel CoverageXmlFileName="$(CoverageSummaryFilePath)" CoverageLevelKey="$(CoverageLevelKey)"></ValidateCoverageLevel>
+    </Target>
+
+    <!-- Code Analysis -->
+
+    <Target Name="ValidateCodeAnalysis">
+        <ItemGroup>
+            <CodeAnalysisLogs Include="..\..\**\*.CodeAnalysisLog.xml" />
+        </ItemGroup>
+
+        <ReadLinesFromFile
+          File="%(CodeAnalysisLogs.FullPath)" >
+            <Output
+                TaskParameter="Lines"
+                ItemName="ItemsFromFile"/>
+        </ReadLinesFromFile>
+
+        <FindInList List="@(ItemsFromFile)" ItemSpecToFind="&lt;Rules&gt;">
+            <Output
+                TaskParameter="ItemFound"
+                ItemName="CodeAnalysisLogsWithWarnings"/>
+        </FindInList>
+
+        <CallTarget Targets="FailOnCodeAnalysisWarnings" Condition="@(CodeAnalysisLogsWithWarnings) != ''" />
+    </Target>
+
+    <Target Name="FailOnCodeAnalysisWarnings">
+        <Error Text="'Code Analysis Warnings detected.'" />
+    </Target>
+</Project>
