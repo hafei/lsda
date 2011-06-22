@@ -80,10 +80,7 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// <param name="context">
         /// The context.
         /// </param>
-        /// <returns>
-        /// <c>true</c>, if at least one interceptor has been executed, <c>false</c> otherwise.
-        /// </returns>
-        bool OnPreExecute(PreExecuteEventArgs e, QueryContext context);
+        void OnPreExecute(PreExecuteEventArgs e, QueryContext context);
 
         /// <summary>
         /// Notifies interceptors about QueryCreated stage in query execution.

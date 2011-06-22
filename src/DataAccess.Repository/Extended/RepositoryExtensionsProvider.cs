@@ -209,26 +209,15 @@ namespace LogicSoftware.DataAccess.Repository.Extended
         /// <param name="context">
         /// The context.
         /// </param>
-        /// <returns>
-        /// <c>true</c>, if at least one interceptor has been executed, <c>false</c> otherwise.
-        /// </returns>
-        public bool OnPreExecute(PreExecuteEventArgs e, QueryContext context)
+        public void OnPreExecute(PreExecuteEventArgs e, QueryContext context)
         {
             if (context == null)
             {
                 throw new ArgumentNullException("context");
             }
 
-            // no suitable interceptors found
-            if (context.Interceptors.Count == 0)
-            {
-                return false;
-            }
-
             // intercept
             context.Interceptors.ForEach(pair => pair.Value.OnPreExecute(e));
-
-            return true;
         }
 
         /// <summary>
