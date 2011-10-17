@@ -23,7 +23,7 @@
 
     <!-- Build -->
 
-    <Target Name="PublishDebug" DependsOnTargets="UpdateAssemblyInfo;RebuildDebug;DeployBinaries">
+    <Target Name="PublishDebug" DependsOnTargets="RebuildDebug;DeployBinaries">
       
     </Target>
   
