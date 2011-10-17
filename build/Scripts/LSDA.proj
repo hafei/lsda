@@ -27,7 +27,7 @@
       
     </Target>
   
-    <Target Name="Check" DependsOnTargets="RebuildDebug;ValidateCodeAnalysis;Test;CleanDebug">
+    <Target Name="Check" DependsOnTargets="RebuildDebug">
     </Target>
 
     <Target Name="CleanDebug">
