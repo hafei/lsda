@@ -1,13 +1,13 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" >
-    <UsingTask AssemblyFile="MSBuild\TestTools\LogicSoftware.EasyProjects.TestTools.dll" TaskName="LogicSoftware.EasyProjects.TestTools.CoverageToXml" />
-    <UsingTask AssemblyFile="MSBuild\TestTools\LogicSoftware.EasyProjects.TestTools.dll" TaskName="LogicSoftware.EasyProjects.TestTools.ValidateCoverageLevel" />
+    <!-- UsingTask AssemblyFile="MSBuild\TestTools\LogicSoftware.EasyProjects.TestTools.dll" TaskName="LogicSoftware.EasyProjects.TestTools.CoverageToXml" />
+    <UsingTask AssemblyFile="MSBuild\TestTools\LogicSoftware.EasyProjects.TestTools.dll" TaskName="LogicSoftware.EasyProjects.TestTools.ValidateCoverageLevel" /-->
 
     <PropertyGroup>
         <MSTestExecutable>&quot;$(VS100COMNTOOLS)..\IDE\mstest.exe&quot;</MSTestExecutable>
         <MSBuildUseNoSolutionCache>1</MSBuildUseNoSolutionCache>
         <TestResultsDirectory>..\..\TestResults</TestResultsDirectory>
-        <CoverageOutputDirectory>$(TestResultsDirectory)</CoverageOutputDirectory>
-        <CoverageLevelKey>LSDA</CoverageLevelKey>
+        <!-- CoverageOutputDirectory>$(TestResultsDirectory)</CoverageOutputDirectory -->
+        <!-- CoverageLevelKey>LSDA</CoverageLevelKey -->
 
         <BuildPropertiesDebug>Configuration=Debug;Platform=Any Cpu;TreatWarningsAsErrors=true;StyleCopTreatErrorsAsWarnings=false;</BuildPropertiesDebug>
         <BinariesDeploymentDirectory>..\..\deploy</BinariesDeploymentDirectory>
@@ -67,7 +67,7 @@
 
   <!-- Tests -->
 
-    <Target Name="Test" DependsOnTargets="RebuildDebug;RunTests;ConvertCoverageToXml;ValidateCoverageMetrics">
+    <Target Name="Test" DependsOnTargets="RebuildDebug;RunTests">
     </Target>
 
     <Target Name="DeleteTestResults">
@@ -84,7 +84,7 @@
 
     <!-- Code coverage -->
 
-    <Target Name="ConvertCoverageToXml">
+    <!-- Target Name="ConvertCoverageToXml">
         <PropertyGroup>
             <TestsOutputPath>$(TestResultsDirectory)\Check\Out</TestsOutputPath>
             <CoverageFilePath>$(CoverageOutputDirectory)\Coverage.xml</CoverageFilePath>
@@ -104,7 +104,7 @@
         </PropertyGroup>
 
         <ValidateCoverageLevel CoverageXmlFileName="$(CoverageSummaryFilePath)" CoverageLevelKey="$(CoverageLevelKey)"></ValidateCoverageLevel>
-    </Target>
+    </Target -->
 
     <!-- Code Analysis -->
 
